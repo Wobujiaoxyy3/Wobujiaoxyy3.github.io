@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta property="og:type" content="website">
@@ -158,7 +158,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2024/09/27/Rust-Hello-World/" class="post-title-link" itemprop="url">Rust-Hello, World!</a>
+            <a href="/2024/09/27/Rust-Hello-World/" class="post-title-link" itemprop="url">二、Rust基础 - 变量和可变类型</a>
         </h2>
 
         <div class="post-meta">
@@ -167,10 +167,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2024-09-27 00:17:48 / Modified: 00:40:49" itemprop="dateCreated datePublished" datetime="2024-09-27T00:17:48+01:00">2024-09-27</time>
+              <time title="Created: 2024-09-27 00:17:48" itemprop="dateCreated datePublished" datetime="2024-09-27T00:17:48+01:00">2024-09-27</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-09-28 09:28:30" itemprop="dateModified" datetime="2024-09-28T09:28:30+01:00">2024-09-28</time>
+              </span>
 
           
 
@@ -183,21 +189,18 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="Say-Hello-World"><a href="#Say-Hello-World" class="headerlink" title="Say Hello World!"></a>Say Hello World!</h2><p>首先，创建存放Rust代码的文件夹：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">mkdir</span> hello_world</span><br><span class="line">$ <span class="built_in">cd</span> hello_world</span><br></pre></td></tr></table></figure>
-<p>随后，在该文件夹中创建main.rs源文件，打开main.rs，输入以下代码：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Hello, World!&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <h2 id="可变变量和不可变变量（Mutable-Imuutable）"><a href="#可变变量和不可变变量（Mutable-Imuutable）" class="headerlink" title="可变变量和不可变变量（Mutable&amp;Imuutable）"></a>可变变量和不可变变量（Mutable&amp;Imuutable）</h2><p>Rust变量默认不可变:</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">x</span> = <span class="number">5</span>;</span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;The value of x is : &#123;&#125;&quot;</span>, x);</span><br></pre></td></tr></table></figure>
+<p>若想改变变量的值，需要通过mut关键字声明可变变量:</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">x</span> = <span class="number">5</span>;</span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;The value of x is : &#123;&#125;&quot;</span>, x);</span><br><span class="line"></span><br><span class="line">x = <span class="number">6</span>;</span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;The value of x is : &#123;&#125;&quot;</span>, x);</span><br></pre></td></tr></table></figure>
 
-<h3 id="手动编译和运行项目"><a href="#手动编译和运行项目" class="headerlink" title="手动编译和运行项目"></a>手动编译和运行项目</h3><p>在运行Rust程序前，我们需要用Rust编译器对他进行编译：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rustc main.rs</span><br></pre></td></tr></table></figure>
-<p>在编译成功之后，Rust会输出一个二进制的可执行文件：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">ls</span></span><br><span class="line">main main.rs</span><br></pre></td></tr></table></figure>
-<p>Rust是一种<strong>预编译静态类型</strong>（ahead-of-time compiled）语言，我们可以编译rust程序，并将可执行文件发送给他人，他人可以直接运行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./main.rs</span><br></pre></td></tr></table></figure>
-
-
-
-
+<h2 id="常量-Constants"><a href="#常量-Constants" class="headerlink" title="常量(Constants)"></a>常量(Constants)</h2><p>在Rust语言中我们使用const关键字来定义常量。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> NUM: <span class="type">i32</span> = <span class="number">5</span>;</span><br></pre></td></tr></table></figure>
+<p>常量可以在任意作用域（{}）内声明，包括全局作用域</p>
+<p>· 定义常量时必须显式指定数据类型<br>· 常量名一半使用大写字母，否则编译器报Warning<br>· 必须使用常量表达式进行赋值（在编译期间能够计算出来）<br>· 常量不支持重定义（遮蔽）</p>
+<h3 id="常量与不可变变量的区别"><a href="#常量与不可变变量的区别" class="headerlink" title="常量与不可变变量的区别"></a>常量与不可变变量的区别</h3><h2 id="静态变量"><a href="#静态变量" class="headerlink" title="静态变量"></a>静态变量</h2><p>在Rust语言中我们使用static关键字来定义静态变量，在编译时分配内存，并在程序运行期间一直存在。</p>
+<p>· 静态变量可以在整个程序中共享，并在多个线程之间共享<br>· 静态变量的值在程序运行期间不会改变，因而它们通常用于存储程序的全局状态</p>
+<h3 id="静态变量与常量的相似之处"><a href="#静态变量与常量的相似之处" class="headerlink" title="静态变量与常量的相似之处"></a>静态变量与常量的相似之处</h3><h3 id="静态变量与常量的不同之处"><a href="#静态变量与常量的不同之处" class="headerlink" title="静态变量与常量的不同之处"></a>静态变量与常量的不同之处</h3><h2 id="变量遮蔽（shadowing）"><a href="#变量遮蔽（shadowing）" class="headerlink" title="变量遮蔽（shadowing）"></a>变量遮蔽（shadowing）</h2>
       
     </div>
 
@@ -230,7 +233,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2024/09/25/hello-world/" class="post-title-link" itemprop="url">‘Rust介绍与安装’</a>
+            <a href="/2024/09/25/hello-world/" class="post-title-link" itemprop="url">一、Rust入门</a>
         </h2>
 
         <div class="post-meta">
@@ -247,7 +250,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-09-26 23:59:21" itemprop="dateModified" datetime="2024-09-26T23:59:21+01:00">2024-09-26</time>
+                <time title="Modified: 2024-09-28 09:28:32" itemprop="dateModified" datetime="2024-09-28T09:28:32+01:00">2024-09-28</time>
               </span>
 
           
@@ -261,9 +264,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="Rust介绍"><a href="#Rust介绍" class="headerlink" title="Rust介绍"></a>Rust介绍</h2><p>Rust 是一种系统级编程语言，专注于速度、内存安全性和并发性。它由 Mozilla Research 开发，并逐渐成为开源社区中的一个重要成员。Rust 设计用于构建可靠且高效的软件，尤其适用于需要高性能和资源控制的应用场景，如操作系统、游戏引擎、浏览器组件、文件系统和其他需要直接访问硬件的情况。</p>
+          <h1 id="Rust介绍与安装"><a href="#Rust介绍与安装" class="headerlink" title="Rust介绍与安装"></a>Rust介绍与安装</h1><h2 id="Rust介绍"><a href="#Rust介绍" class="headerlink" title="Rust介绍"></a>Rust介绍</h2><p>Rust 是一种系统级编程语言，专注于速度、内存安全性和并发性。它由 Mozilla Research 开发，并逐渐成为开源社区中的一个重要成员。Rust 设计用于构建可靠且高效的软件，尤其适用于需要高性能和资源控制的应用场景，如操作系统、游戏引擎、浏览器组件、文件系统和其他需要直接访问硬件的情况。</p>
 <h2 id="学习资料"><a href="#学习资料" class="headerlink" title="学习资料"></a>学习资料</h2><p><a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Rust语言圣经</a><br><a target="_blank" rel="noopener" href="https://www.rust-lang.org/zh-CN/learn.html">Rust官网</a><br><a target="_blank" rel="noopener" href="https://practice-zh.course.rs/why-exercise.html">Rust练习实践</a></p>
-<h2 id="相关介绍"><a href="#相关介绍" class="headerlink" title="相关介绍"></a>相关介绍</h2><h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><p>在MacOS上使用rustup安装Rust：</p>
+<h2 id="Vscode推荐插件"><a href="#Vscode推荐插件" class="headerlink" title="Vscode推荐插件"></a>Vscode推荐插件</h2><p><strong>rust-analyzer</strong><br><strong>even-better-toml</strong><br><strong>dependi</strong></p>
+<h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><p>在MacOS上使用rustup安装Rust：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl --proto <span class="string">&#x27;=https&#x27;</span> --tlsv1.2 -sSf https://sh.rustup.rs | sh</span><br></pre></td></tr></table></figure>
 
 <h3 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h3><p>要更新Rust，可以在终端执行以下命令：</p>
@@ -276,6 +280,39 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rustc -V</span><br></pre></td></tr></table></figure>
 <p>如果Rust已经成功安装，终端会输出以下格式的信息：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rustc x.y.z (abcabcabc yyyy-mm-dd)</span><br></pre></td></tr></table></figure>
+
+<h1 id="Rust-Hello-World"><a href="#Rust-Hello-World" class="headerlink" title="Rust-Hello, World!"></a>Rust-Hello, World!</h1><h2 id="Say-Hello-World"><a href="#Say-Hello-World" class="headerlink" title="Say Hello World!"></a>Say Hello World!</h2><p>首先，创建存放Rust代码的文件夹：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">mkdir</span> hello_world</span><br><span class="line">$ <span class="built_in">cd</span> hello_world</span><br></pre></td></tr></table></figure>
+<p>随后，在该文件夹中创建main.rs源文件，打开main.rs，输入以下代码：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Hello, World!&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="手动编译和运行项目"><a href="#手动编译和运行项目" class="headerlink" title="手动编译和运行项目"></a>手动编译和运行项目</h2><p>在运行Rust程序前，我们需要用Rust编译器对他进行编译：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rustc main.rs</span><br></pre></td></tr></table></figure>
+<p>在编译成功之后，Rust会输出一个二进制的可执行文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">ls</span></span><br><span class="line">main main.rs</span><br></pre></td></tr></table></figure>
+<p>Rust是一种<strong>预编译静态类型</strong>（ahead-of-time compiled）语言，我们可以编译rust程序，并将可执行文件发送给他人，他人可以直接运行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./main</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用Cargo"><a href="#使用Cargo" class="headerlink" title="使用Cargo"></a>使用Cargo</h2><p>Cargo是Rust语言的包管理工具。从项目的建立、构建到测试、运行直至部署，Cargo为Rust项目的管理提供尽可能完整的手段。<br>我们可以使用cargo new来创建一个项目：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cargo new world_hello</span><br><span class="line">$ <span class="built_in">cd</span> world_hello</span><br></pre></td></tr></table></figure>
+<p>我们可以通过tree命令来查看创建的项目结构：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ tree</span><br><span class="line">.</span><br><span class="line">├── Cargo.toml</span><br><span class="line">└── src</span><br><span class="line">    └── main.rs</span><br></pre></td></tr></table></figure>
+
+<h3 id="cargo-toml-cargo-lock"><a href="#cargo-toml-cargo-lock" class="headerlink" title="cargo.toml&amp;cargo.lock"></a>cargo.toml&amp;cargo.lock</h3><p><strong>待填坑…</strong></p>
+<h3 id="运行项目"><a href="#运行项目" class="headerlink" title="运行项目"></a>运行项目</h3><p>我们可以通过cargo run来运行项目：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ cargo run</span><br><span class="line">   Compiling world_hello v0.1.0 (/Users/wbjxyy/rust/world_hello)</span><br><span class="line">    Finished `dev` profile [unoptimized + debuginfo] target(s) <span class="keyword">in</span> 0.79s</span><br><span class="line">     Running `target/debug/world_hello`</span><br><span class="line">world, hello!</span><br></pre></td></tr></table></figure>
+<p>在上述代码中，cargo run实际上执行了编译和运行连个操作。我们也可以分开进行操作：<br><strong>编译</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cargo build</span><br><span class="line">Finished `dev` profile [unoptimized + debuginfo] target(s) <span class="keyword">in</span> 0.03s</span><br></pre></td></tr></table></figure>
+<p><strong>运行</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ ./target/debug/world_hello</span><br><span class="line">world, hello!</span><br></pre></td></tr></table></figure>
+
+<h3 id="发布构建"><a href="#发布构建" class="headerlink" title="发布构建"></a>发布构建</h3><p>当你的项目最终准备发布是，可以使用cargo build –release来编译项目：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cargo build --release</span><br></pre></td></tr></table></figure>
+<p>通过该命令，Rust会在编译时优化项目，让Rust代码运行的更快，相应的，这也需要消耗更长的编译时间。</p>
+<h3 id="cargo-check"><a href="#cargo-check" class="headerlink" title="cargo check"></a>cargo check</h3><p>当你仅仅需要快速检查代码能否编译通过时：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cargo check</span><br></pre></td></tr></table></figure>
+
+
 
 
 
