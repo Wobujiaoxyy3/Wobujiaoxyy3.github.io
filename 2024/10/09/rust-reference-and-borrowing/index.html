@@ -22,13 +22,13 @@
 
   <meta name="description" content="引用和借用上节中提到，如果仅仅支持通过转移所有权的方式获取一个值，那会让程序变得复杂。 Rust 能否像其它编程语言一样，使用某个变量的指针或者引用呢？答案是可以。 Rust通过借用(Borrowing) 这个概念来达成上述的目的，获取变量的引用（reference），称之为借用(borrowing)。 引用和解引用常规引用是一个指针类型，指向了对象存储的内存地址，因而可以在不改变所有权的情况下访">
 <meta property="og:type" content="article">
-<meta property="og:title" content="七、Rust基础-借用">
+<meta property="og:title" content="七、Rust基础-引用与借用">
 <meta property="og:url" content="http://example.com/2024/10/09/rust-reference-and-borrowing/index.html">
 <meta property="og:site_name" content="Wobujiaoxyy3">
 <meta property="og:description" content="引用和借用上节中提到，如果仅仅支持通过转移所有权的方式获取一个值，那会让程序变得复杂。 Rust 能否像其它编程语言一样，使用某个变量的指针或者引用呢？答案是可以。 Rust通过借用(Borrowing) 这个概念来达成上述的目的，获取变量的引用（reference），称之为借用(borrowing)。 引用和解引用常规引用是一个指针类型，指向了对象存储的内存地址，因而可以在不改变所有权的情况下访">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2024-10-09T16:21:50.000Z">
-<meta property="article:modified_time" content="2024-10-09T22:07:16.300Z">
+<meta property="article:modified_time" content="2024-10-12T09:46:02.671Z">
 <meta property="article:tag" content="Rust">
 <meta name="twitter:card" content="summary">
 
@@ -45,7 +45,7 @@
   };
 </script>
 
-  <title>七、Rust基础-借用 | Wobujiaoxyy3</title>
+  <title>七、Rust基础-引用与借用 | Wobujiaoxyy3</title>
   
 
 
@@ -163,7 +163,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          七、Rust基础-借用
+          七、Rust基础-引用与借用
         </h1>
 
         <div class="post-meta">
@@ -172,10 +172,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2024-10-09 17:21:50 / Modified: 23:07:16" itemprop="dateCreated datePublished" datetime="2024-10-09T17:21:50+01:00">2024-10-09</time>
+              <time title="Created: 2024-10-09 17:21:50" itemprop="dateCreated datePublished" datetime="2024-10-09T17:21:50+01:00">2024-10-09</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-10-12 10:46:02" itemprop="dateModified" datetime="2024-10-12T10:46:02+01:00">2024-10-12</time>
+              </span>
 
           
 
@@ -208,7 +214,7 @@
 <p>让我们再看如下代码，观察一下引用的作用域：</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">   <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">r1</span> = &amp;s;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">r2</span> = &amp;s;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125; and &#123;&#125;&quot;</span>, r1, r2);</span><br><span class="line">    <span class="comment">// 新编译器中，r1,r2作用域在这里结束</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">r3</span> = &amp;<span class="keyword">mut</span> s;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, r3);</span><br><span class="line">&#125; <span class="comment">// 老编译器中，r1、r2、r3作用域在这里结束</span></span><br><span class="line">  <span class="comment">// 新编译器中，r3作用域在这里结束</span></span><br></pre></td></tr></table></figure>
 <p>在早期时，引用的作用域跟变量作用域是一致的；而新版本的编译器中，引用作用域的结束位置从花括号变成最后一次使用的位置，因此<code>r1</code>借用和<code>r2</code>借用在<code>println!</code>后，就结束了，此时<code>r3</code>可以顺利借用到可变引用，而不违反引用的规则。</p>
-<h2 id="切片（Slices）"><a href="#切片（Slices）" class="headerlink" title="切片（Slices）"></a>切片（Slices）</h2><p>字符串切片和数组切片实际上都是对其本身内容的部分引用：<br>· 字符串切片：</p>
+<h2 id="借用"><a href="#借用" class="headerlink" title="借用"></a>借用</h2><h2 id="切片（Slices）"><a href="#切片（Slices）" class="headerlink" title="切片（Slices）"></a>切片（Slices）</h2><p>字符串切片和数组切片实际上都是对其本身内容的部分引用：<br>· 字符串切片：</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">s</span> = <span class="string">&quot;hello world&quot;</span>.<span class="title function_ invoke__">to_string</span>()</span><br><span class="line"><span class="keyword">let</span> <span class="variable">hello</span> = &amp;s[<span class="number">0</span>..<span class="number">5</span>];   <span class="comment">//引用“hello”</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">world</span> = &amp;s[<span class="number">6</span>..<span class="number">11</span>];  <span class="comment">//引用“world”</span></span><br></pre></td></tr></table></figure>
 <p>· 数组切片：</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">arr</span> = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line"><span class="keyword">let</span> <span class="variable">slice</span> = &amp;arr[<span class="number">0</span>..<span class="number">3</span>];     <span class="comment">//引用[1,2,3]</span></span><br></pre></td></tr></table></figure>
@@ -237,8 +243,8 @@
       <i class="fa fa-chevron-left"></i> 六、Rust基础-所有权
     </a></div>
       <div class="post-nav-item">
-    <a href="/2024/10/09/rust-array-and-slice/" rel="next" title="rust-array-and-slice">
-      rust-array-and-slice <i class="fa fa-chevron-right"></i>
+    <a href="/2024/10/09/rust-array-and-slice/" rel="next" title="八、Rust基础-数组与切片">
+      八、Rust基础-数组与切片 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -298,7 +304,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%95%E7%94%A8%E5%92%8C%E5%80%9F%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">引用和借用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E7%94%A8%E5%92%8C%E8%A7%A3%E5%BC%95%E7%94%A8"><span class="nav-number">1.1.</span> <span class="nav-text">引用和解引用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%95%E7%94%A8%E7%9A%84%E8%A7%84%E5%88%99"><span class="nav-number">1.1.1.</span> <span class="nav-text">引用的规则</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8D%E5%8F%AF%E5%8F%98%E5%BC%95%E7%94%A8"><span class="nav-number">1.2.</span> <span class="nav-text">不可变引用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%AF%E5%8F%98%E5%BC%95%E7%94%A8"><span class="nav-number">1.3.</span> <span class="nav-text">可变引用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%87%E7%89%87%EF%BC%88Slices%EF%BC%89"><span class="nav-number">1.4.</span> <span class="nav-text">切片（Slices）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%EF%BC%88Lifetimes%EF%BC%89"><span class="nav-number">1.5.</span> <span class="nav-text">生命周期（Lifetimes）</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%95%E7%94%A8%E5%92%8C%E5%80%9F%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">引用和借用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E7%94%A8%E5%92%8C%E8%A7%A3%E5%BC%95%E7%94%A8"><span class="nav-number">1.1.</span> <span class="nav-text">引用和解引用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%95%E7%94%A8%E7%9A%84%E8%A7%84%E5%88%99"><span class="nav-number">1.1.1.</span> <span class="nav-text">引用的规则</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8D%E5%8F%AF%E5%8F%98%E5%BC%95%E7%94%A8"><span class="nav-number">1.2.</span> <span class="nav-text">不可变引用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%AF%E5%8F%98%E5%BC%95%E7%94%A8"><span class="nav-number">1.3.</span> <span class="nav-text">可变引用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%80%9F%E7%94%A8"><span class="nav-number">1.4.</span> <span class="nav-text">借用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%87%E7%89%87%EF%BC%88Slices%EF%BC%89"><span class="nav-number">1.5.</span> <span class="nav-text">切片（Slices）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%EF%BC%88Lifetimes%EF%BC%89"><span class="nav-number">1.6.</span> <span class="nav-text">生命周期（Lifetimes）</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -312,7 +318,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-count">10</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
