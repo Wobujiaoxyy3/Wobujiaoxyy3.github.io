@@ -27,10 +27,12 @@
 <meta property="og:site_name" content="Wobujiaoxyy3">
 <meta property="og:description" content="匹配Option12345678910fn plus_one(x: Option&lt;i32&gt;) -&gt; Option&lt;i32&gt; &#123;    match x &#123;        None &#x3D;&gt; None,        Some(x) &#x3D;&gt; Some(x+1),    &#125;let five &#x3D; Some(5);let six &#x3D; plus">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/images/14-10.png">
 <meta property="article:published_time" content="2024-10-22T10:52:10.000Z">
-<meta property="article:modified_time" content="2024-10-22T20:20:00.341Z">
+<meta property="article:modified_time" content="2024-10-23T19:10:58.423Z">
 <meta property="article:tag" content="Rust">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/14-10.png">
 
 <link rel="canonical" href="http://example.com/2024/10/22/rust-return-value-and-error-handling/">
 
@@ -172,10 +174,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2024-10-22 11:52:10 / Modified: 21:20:00" itemprop="dateCreated datePublished" datetime="2024-10-22T11:52:10+01:00">2024-10-22</time>
+              <time title="Created: 2024-10-22 11:52:10" itemprop="dateCreated datePublished" datetime="2024-10-22T11:52:10+01:00">2024-10-22</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-10-23 20:10:58" itemprop="dateModified" datetime="2024-10-23T20:10:58+01:00">2024-10-23</time>
+              </span>
 
           
 
@@ -271,7 +279,10 @@
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">first</span>(arr: &amp;[<span class="type">i32</span>]) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;&amp;<span class="type">i32</span>&gt; &#123;</span><br><span class="line">   <span class="keyword">let</span> <span class="variable">a</span> = arr.<span class="title function_ invoke__">get</span>(<span class="number">0</span>)?;</span><br><span class="line">   <span class="title function_ invoke__">Some</span>(a)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="Option和Result的相互转换"><a href="#Option和Result的相互转换" class="headerlink" title="Option和Result的相互转换"></a>Option和Result的相互转换</h2><p>在枚举那节的笔记中就有详细介绍，这里不再赘述。</p>
-<h2 id="课后习题"><a href="#课后习题" class="headerlink" title="课后习题"></a>课后习题</h2>
+<h2 id="课后习题"><a href="#课后习题" class="headerlink" title="课后习题"></a>课后习题</h2><img src="/images/14-10.png" alt="" width="1000">
+
+<p>修改后的代码如下：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//修复calL函数的错误</span></span><br><span class="line"><span class="comment">//当b为None时，按默认值1</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">call</span>(a: <span class="type">i32</span>, b: <span class="type">i32</span>) <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;<span class="type">f64</span>, <span class="type">String</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">r</span> = <span class="title function_ invoke__">divide</span>(a,b).<span class="title function_ invoke__">unwrap_or</span>(<span class="number">1</span>);   <span class="comment">//使用unwrap_or()方法设定默认值</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">s</span> = <span class="title function_ invoke__">sqrt</span>(r).<span class="title function_ invoke__">map_err</span>(|e| <span class="punctuation">-&gt;</span> <span class="type">String</span>&#123; <span class="built_in">format!</span>(<span class="string">&quot;&#123;e&#125;&quot;</span>) &#125;)?;  <span class="comment">//使用map_err方法转换错误的类型，并使用？传播错误</span></span><br><span class="line">    <span class="title function_ invoke__">OK</span>(s)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">divide</span>(a: <span class="type">i32</span>, b: <span class="type">i32</span>) <span class="punctuation">-&gt;</span> <span class="number">0</span>ption&lt;<span class="type">f64</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> b !=<span class="number">0</span> &#123;</span><br><span class="line">        <span class="title function_ invoke__">Some</span>(a <span class="keyword">as</span> <span class="type">f64</span> / b <span class="keyword">as</span> <span class="type">f64</span>)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="literal">None</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">enum</span> <span class="title class_">MathError</span> &#123;</span><br><span class="line">    DivisionByZero,</span><br><span class="line">    NegativeSquareRoot,</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">sqrt</span>(x: <span class="type">f64</span>) <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;<span class="type">f64</span>, MathError&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> x&lt;<span class="number">0.0</span> &#123;</span><br><span class="line">        <span class="title function_ invoke__">Err</span>(MathError::NegativeSquareRoot)</span><br><span class="line">        &#125; </span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(x.<span class="title function_ invoke__">sqrt</span>())</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
     </div>
 
     
