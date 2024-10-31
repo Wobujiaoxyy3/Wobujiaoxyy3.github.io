@@ -144,6 +144,735 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/10/12/rust-enum/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wobujiaoxyy3">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/10/12/rust-enum/" class="post-title-link" itemprop="url">十、Rust-枚举Enum</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2024-10-12 15:33:00" itemprop="dateCreated datePublished" datetime="2024-10-12T15:33:00+01:00">2024-10-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-10-23 20:11:34" itemprop="dateModified" datetime="2024-10-23T20:11:34+01:00">2024-10-23</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="枚举（Enum）"><a href="#枚举（Enum）" class="headerlink" title="枚举（Enum）"></a>枚举（Enum）</h1><p>· Option<br>· Result</p>
+<h2 id="对比不同语言中的enum"><a href="#对比不同语言中的enum" class="headerlink" title="对比不同语言中的enum"></a>对比不同语言中的enum</h2><pre><code>从写法上对比一下
+</code></pre>
+<h3 id="typescript"><a href="#typescript" class="headerlink" title="typescript"></a>typescript</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Direction</span> &#123;</span><br><span class="line">    <span class="title class_">North</span>,</span><br><span class="line">    <span class="title class_">East</span>,</span><br><span class="line">    <span class="title class_">South</span>,</span><br><span class="line">    <span class="title class_">West</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Using enum</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">dir</span>: <span class="title class_">Direction</span> = <span class="title class_">Direction</span>.<span class="property">North</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="C"><a href="#C" class="headerlink" title="C++"></a>C++</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Direction</span> &#123;</span><br><span class="line">    North,</span><br><span class="line">    East,</span><br><span class="line">    South,</span><br><span class="line">    West</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// Using enum</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Direction dir:  = North;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="rust"><a href="#rust" class="headerlink" title="rust"></a>rust</h3><p>在<code>Rust</code>中，对于<code>enum</code>的定义与其他语言并无二致，我们可以通过列举可能的成员来定义一个<strong>枚举类型</strong>：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Direction</span> &#123;</span><br><span class="line">    North,</span><br><span class="line">    East,</span><br><span class="line">    South,</span><br><span class="line">    West,</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Using enum</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">dir</span>: Direction = Direction::North;</span><br></pre></td></tr></table></figure>
+<p>同时，我们也可以通过<code>::</code>操作符来访问我们创建的<code>枚举类型Direction</code>下具体的<code>枚举成员North</code></p>
+<h2 id="语法-规范"><a href="#语法-规范" class="headerlink" title="语法&amp;规范"></a>语法&amp;规范</h2><p><strong>· 语法</strong><br>    · field-less enum   &#x2F;&#x2F;只定义类型而不包含任何值的enum<br>    · unit-only enum    &#x2F;&#x2F;只包含单元类型的enum<br><strong>· 语法</strong><br>    · Pascal Case       &#x2F;&#x2F;枚举类型和枚举成员的每个单词首字母大写，中间不使用下划线和分隔符<br>    · snake_case        &#x2F;&#x2F;变量名、函数名采用小写字母和下划线分割</p>
+<p>接下来我们通过一些代码来了解具体如何使用<code>enum</code>：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">enum</span> <span class="title class_">Pets</span> &#123;</span><br><span class="line">        <span class="title function_ invoke__">Cat</span>(<span class="type">String</span>),   <span class="comment">//将数据信息直接关联在枚举成员上</span></span><br><span class="line">        Dog &#123; name: <span class="type">String</span>, age: Usize&#125;,    <span class="comment">//使用Struct结构体</span></span><br><span class="line">        Bird    <span class="comment">//Unit type</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">cat</span> = Pets::<span class="title function_ invoke__">Cat</span>(<span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;cat&quot;</span>));</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">dog</span> = Pets::Dog &#123;</span><br><span class="line">        name: <span class="string">&quot;Alen&quot;</span>.<span class="title function_ invoke__">to_string</span>()，</span><br><span class="line">        age: <span class="number">18</span>,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">我们来看上面的代码，首先我们定义了枚举类型`Pets`下面的三个枚举成员`<span class="title function_ invoke__">Cat</span>(<span class="type">String</span>)`、`Dog &#123;...&#125;`、`Bird`。随后，我们创建了枚举类型`Pets`下的两个成员实例`cat`、`dog`，它们也被称为枚举值，但他们都是货真价实的`Pets`枚举类型的。</span><br><span class="line"></span><br><span class="line">**任何类型的数据都可以放入枚举成员中**：例如字符串，数值、结构体甚至是另一个枚举。</span><br><span class="line"></span><br><span class="line">接下来我们看看如何最简单的使用一下这些枚举值，首先我们尝试打印：</span><br><span class="line">``` rust</span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;dog is &#123;&#125;&quot;</span>, dog);</span><br></pre></td></tr></table></figure>
+<p>很遗憾，此时编译器会提示我们并没有为<code>Pets</code>枚举类型实现<code>Display</code>的特性，所以我们无法直接打印。目前，我们可以通过<code>Debug</code>的方式来进行打印：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//需要在定义 enum Pets 的上面添加上 #[derive(Debug)]，否则会报没有实现 Debug</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;dog is &#123;:?&#125;&quot;</span>, dog);</span><br></pre></td></tr></table></figure>
+
+<p>那我们再来看看如何在枚举上实现一些方法呢？</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">impl</span> <span class="title class_">Pets</span> &#123;</span><br><span class="line">    <span class="comment">// methods</span></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">speak</span>(&amp;<span class="keyword">self</span>) &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;hi&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上面的代码中，我们使用<code>impl</code>为枚举类型<code>Pets</code>实现了一个方法，但我们应该怎样使用呢？</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dog.<span class="title function_ invoke__">speak</span>()</span><br></pre></td></tr></table></figure>
+<p>这样就可以啦!</p>
+<p>同时我们还可以为枚举类型实现一些关联函数：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">impl</span> <span class="title class_">Pets</span> &#123;</span><br><span class="line">    <span class="comment">// 关联函数</span></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">log</span>(name: <span class="type">String</span>) &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;name is &#123;name&#125;&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    Pets::<span class="title function_ invoke__">log</span>(<span class="string">&quot;alen&quot;</span>.<span class="title function_ invoke__">to_string</span>());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此时，控制台会输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">name is alen</span><br></pre></td></tr></table></figure>
+
+<h2 id="判别式（Discriminants）"><a href="#判别式（Discriminants）" class="headerlink" title="判别式（Discriminants）"></a>判别式（Discriminants）</h2><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">enum</span> <span class="title class_">Fieldless</span> &#123;</span><br><span class="line">        <span class="comment">//只定义类型而不包含任何值，Fieldless enum</span></span><br><span class="line">        <span class="title function_ invoke__">Tuple</span>(),</span><br><span class="line">        Struce &#123;&#125;,</span><br><span class="line">        Unit,</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    asserteq!(<span class="number">0</span>, Fieldless::<span class="title function_ invoke__">Tuple</span>() <span class="keyword">as</span> size);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">enum</span> <span class="title class_">UnitOnlyEnum</span> &#123;</span><br><span class="line">        Foo = <span class="number">0</span>,</span><br><span class="line">        Bar = <span class="number">1</span>,</span><br><span class="line">        Baz = <span class="number">2</span>,</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">enum</span> <span class="title class_">UnitOnlyEnum2</span> &#123;</span><br><span class="line">        Foo,</span><br><span class="line">        Bar,</span><br><span class="line">        Baz,</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    asserteq!(<span class="number">0</span>, UnitOnlyEnum::Foo <span class="keyword">as</span> size);</span><br><span class="line">    asserteq!(<span class="number">0</span>, UnitOnlyEnum2::Foo  <span class="keyword">as</span> size);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h2><p>· <code>match</code> vs <code>if let</code><br>· <code>match</code>必须能匹配所有条件</p>
+<p>我们接着来看下面的代码：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">enum</span> <span class="title class_">Pets</span> &#123;</span><br><span class="line">        Cat,</span><br><span class="line">        Dog,</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">cat</span> = Pets::Cat;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">dog</span> = Pets::Dog;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> cat == dog &#123;</span><br><span class="line">        <span class="comment">//</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上面的代码中，我们想要比较<code>cat</code>和<code>dog</code>两个枚举值是否相等，但是此时编译器会报错，因为我们并没有对<code>Pets</code>枚举类型实现<code>std::cmp::PartialEq</code>这个特性，因此我们无法直接使用<code>==</code>判断两个枚举值是否相等。那么，我们应该怎么办呢QAQ？</p>
+<p>首先，我们可以手动实现这一特性，只需要在定义<code>Pets</code>前加上如下代码即可：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#[dereive(PartialEq)]</span></span><br></pre></td></tr></table></figure>
+<p>除了以上方法，我们还能通过什么路径实现对两个枚举值的比较呢？</p>
+<p>这时候，就需要祭出Rust语言的大杀器<code>match</code>：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">match</span> cat &#123;</span><br><span class="line">    Pets::Cat =&gt; &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;is cat&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    Pets::Dog =&gt; &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;is dog&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在以上代码中，我们通过<code>match</code>来对枚举值<code>cat</code>进行模式匹配。但是<code>match</code>实际上非常强大，它可以对许多类型进行模式匹配：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">num</span> = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">match</span> num &#123;</span><br><span class="line">    <span class="number">0</span> =&gt; &#123;&#125;</span><br><span class="line">    <span class="number">1</span> =&gt; &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上面的代码中，我们想对变量<code>num</code>进行模式匹配，但此时编译器会报错，因为我们没有匹配<code>num</code>中的所有可能。<code>num</code>实际上是<code>i32</code>类型的，我们需要使用在<code>match</code>中遍历所有的可能：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">num</span> = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">match</span> num &#123;</span><br><span class="line">    <span class="number">0</span> =&gt; &#123;&#125;</span><br><span class="line">    <span class="number">1</span> =&gt; &#123;&#125;</span><br><span class="line">    _ =&gt; &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如上，我们使用通配符<code>_</code>来代表<code>num</code>变量除了<code>0</code>和<code>1</code>的所有可能取值。</p>
+<p>实际上，如果我们只在乎一种可能的取值，我们就可以使用<code>if let</code>语法：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">num</span> = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> <span class="variable">num</span> = <span class="number">1</span> &#123;</span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Option"><a href="#Option" class="headerlink" title="Option"></a>Option</h2><p>在其它编程语言中，往往都有一个<code>null</code>关键字，该关键字用于表明一个变量当前的值为空（不是零值，例如整型的零值是<code>0</code>），也就是不存在值。当你对这些<code>null</code>进行操作时，例如调用一个方法，就会直接抛出<code>null</code>异常，导致程序的崩溃，因此我们在编程时需要格外的小心去处理这些<code>null</code>空值。</p>
+<p>尽管如此，空值的表达依然非常有意义，因为空值表示当前时刻变量的值是缺失的。有鉴于此，Rust吸取了众多教训，决定抛弃<code>null</code>，而改为使用<code>Option</code>枚举变量来表述这种结果。</p>
+<p><code>Option</code>枚举包含两个成员，一个成员表示含有值：<code>Some(T)</code>, 另一个表示没有值：<code>None</code>，定义如下：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Option</span>&lt;T&gt; &#123;</span><br><span class="line">    <span class="title function_ invoke__">Some</span>(T),</span><br><span class="line">    <span class="literal">None</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中<code>T</code>是泛型参数，<code>Some(T)</code>表示该枚举成员的数据类型是<code>T</code>，换句话说，<code>Some</code>可以包含任何类型的数据。</p>
+<p><code>Option&lt;T&gt;</code>枚举是如此有用以至于它被包含在了<code>prelude</code>（<code>prelude</code>属于Rust标准库，Rust会将最常用的类型、函数等提前引入其中，省得我们再手动引入）之中，你不需要将其显式引入作用域。另外，它的成员<code>Some</code>和<code>None</code>也是如此，无需使用<code>Option::</code>前缀就可直接使用<code>Some</code>和<code>None</code>。</p>
+<p>再来看如下代码：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">some_number</span> = <span class="title function_ invoke__">Some</span>(<span class="number">5</span>);</span><br><span class="line"><span class="keyword">let</span> <span class="variable">some_string</span> = <span class="title function_ invoke__">Some</span>(<span class="string">&quot;a string&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="variable">absent_number</span>: <span class="type">Option</span>&lt;<span class="type">i32</span>&gt; = <span class="literal">None</span>;</span><br></pre></td></tr></table></figure>
+<p>在上面的代码实例中，我们可以发现在使用<code>Some</code>时，你无须显式的指定类型，但是对于<code>None</code>值，你需要告诉Rust<code>Option&lt;T&gt;</code>是什么类型的，因为编译器无法只通过<code>None</code>值来推断<code>Some</code>成员保存的值的类型。</p>
+<p>我们可以通过<code>match</code>来提取<code>Some</code>中的值：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">match</span> some_number &#123;</span><br><span class="line">    <span class="title function_ invoke__">Some</span>(val) =&gt; &#123;&#125;</span><br><span class="line">    <span class="literal">None</span> =&gt; &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>让我们再来看一些其他的例子：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::collections::HashMap;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">map</span>: Hashmap&lt;&amp;<span class="type">str</span>, <span class="type">usize</span>&gt; = HashMap::<span class="title function_ invoke__">new</span>();</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">a</span> = map.<span class="title function_ invoke__">get</span>(<span class="string">&quot;a&quot;</span>);   <span class="comment">//option&lt;&amp;usize&gt;</span></span><br><span class="line">    <span class="keyword">match</span> a &#123;</span><br><span class="line">        <span class="title function_ invoke__">Some</span>(val) =&gt; &#123;&#125;</span><br><span class="line">        <span class="literal">None</span> =&gt; &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">vec</span> = <span class="built_in">vec!</span>[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">last_one</span> = vec.<span class="title function_ invoke__">iter</span>().<span class="title function_ invoke__">last</span>();</span><br><span class="line">    <span class="keyword">match</span> last_one &#123;</span><br><span class="line">        <span class="title function_ invoke__">Some</span>(val) =&gt; &#123;&#125;</span><br><span class="line">        <span class="literal">None</span> =&gt; &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Result"><a href="#Result" class="headerlink" title="Result"></a>Result</h2><p>·<code>Ok&lt;T&gt;</code><br>·<code>Err&lt;E&gt;</code></p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">num</span>: <span class="type">Result</span>&lt;<span class="type">usize</span>,()&gt; = <span class="title function_ invoke__">Ok</span>(<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">match</span> num &#123;</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(val) =&gt; &#123;&#125;</span><br><span class="line">        <span class="title function_ invoke__">Err</span>(_) =&gt; &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在使用<code>Ok()</code>时需要显式的指定变量类型，理由同上。</p>
+<p>给<code>main</code>函数加上返回值<code>Result</code>:</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;(), ()&gt; &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">num</span>: <span class="type">Result</span>&lt;<span class="type">usize</span>,()&gt; = <span class="title function_ invoke__">Ok</span>(<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">match</span> num &#123;</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(val) =&gt; &#123;&#125;</span><br><span class="line">        <span class="title function_ invoke__">Err</span>(_) =&gt; &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="title function_ invoke__">Err</span>(())     <span class="comment">//Ok(())</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">其他一些需要用到`<span class="type">Result</span>`类型的示例：</span><br><span class="line">``` rust</span><br><span class="line"><span class="keyword">use</span> std::num::ParseIntError</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">len</span>: <span class="type">Result</span>&lt;<span class="type">usize</span>, ParseIntError&gt; = <span class="string">&quot;24&quot;</span>.<span class="title function_ invoke__">parse</span>();     <span class="comment">//.parse()是将字符串类型转为usize类型的方法，其返回值是Result类型</span></span><br><span class="line">    <span class="keyword">match</span> len &#123;</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(val) =&gt; &#123;&#125;</span><br><span class="line">        <span class="title function_ invoke__">Err</span>(_) =&gt; &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">file</span> = File::<span class="title function_ invoke__">open</span>(<span class="string">&quot;a.txt&quot;</span>);     <span class="comment">//File::open是打开文件，返回Result&lt;File, Error&gt;</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">tcp_connection</span> = TcpStream::<span class="title function_ invoke__">connect</span>(addr: <span class="string">&quot;127.0.0.1:3000&quot;</span>);    <span class="comment">//建立Tcp连接，返回Result&lt;TcpStream, Error&gt;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Option-Result转换"><a href="#Option-Result转换" class="headerlink" title="Option&amp;Result转换"></a>Option&amp;Result转换</h2><p> · <code>ok_or*</code><br> ·<code>ok()</code> <code>err()</code><br> ·<code>map</code></p>
+<h3 id="Option转Result"><a href="#Option转Result" class="headerlink" title="Option转Result"></a>Option转Result</h3><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">opt</span>: <span class="type">Option</span>&lt;<span class="type">i32</span>&gt; = <span class="title function_ invoke__">Some</span>(<span class="number">42</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">res</span>: <span class="type">Result</span>&lt;<span class="type">i32</span>, &amp;<span class="type">str</span>&gt; = opt.<span class="title function_ invoke__">ok_or</span>(<span class="number">42</span>);</span><br><span class="line">    <span class="built_in">assert_eq!</span>(res, <span class="title function_ invoke__">Ok</span>(<span class="number">42</span>));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">none</span>: <span class="type">Option</span>&lt;<span class="type">i32</span>&gt; = <span class="literal">None</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">res</span>: <span class="type">Result</span>&lt;<span class="type">i32</span>, &amp;<span class="type">str</span>&gt; = opt.<span class="title function_ invoke__">ok_or</span>(<span class="string">&quot;error&quot;</span>);</span><br><span class="line">    <span class="built_in">assert_eq!</span>(res, <span class="title function_ invoke__">Err</span>(<span class="string">&quot;error&quot;</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Result转Option"><a href="#Result转Option" class="headerlink" title="Result转Option"></a>Result转Option</h3><p><code>ok()</code>方法会将<code>Result&lt;T, E&gt;</code>转换为<code>Option&lt;T&gt;</code>，并且忽略错误信息。即，如果<code>Result</code>是<code>Ok(value)</code>，则返回<code>Some(value)</code>；如果是<code>Err(_)</code>，则返回<code>None</code>。</p>
+<p>使用<code>ok()</code>方法：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">res</span>: <span class="type">Result</span>&lt;<span class="type">i32</span>, &amp;<span class="type">str</span>&gt; = <span class="title function_ invoke__">Ok</span>(<span class="number">42</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">opt</span>: <span class="type">Option</span>&lt;<span class="type">i32</span>&gt; = res.<span class="title function_ invoke__">ok</span>();</span><br><span class="line">    <span class="built_in">assert_eq!</span>(res, <span class="title function_ invoke__">Ok</span>(<span class="number">42</span>));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">res</span>: <span class="type">Result</span>&lt;<span class="type">i32</span>, &amp;<span class="type">str</span>&gt; = <span class="title function_ invoke__">Err</span>(<span class="string">&quot;error&quot;</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">none</span>: <span class="type">Option</span>&lt;<span class="type">i32</span>&gt; = res.<span class="title function_ invoke__">ok</span>();</span><br><span class="line">    <span class="built_in">assert_eq!</span>(res, <span class="literal">None</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>err()</code>方法类似于<code>ok()</code>，但是它会将<code>Result&lt;T, E&gt;</code>转换为<code>Option&lt;E&gt;</code>，即提取错误信息。如果<code>Result</code>是<code>Err(error)</code>，返回<code>Some(error)</code>；如果是<code>Ok(_)</code>，则返回<code>None</code>。</p>
+<p>使用<code>error()</code>方法：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">result</span>: <span class="type">Result</span>&lt;<span class="type">i32</span>, &amp;<span class="type">str</span>&gt; = <span class="title function_ invoke__">Ok</span>(<span class="number">42</span>);</span><br><span class="line"><span class="keyword">let</span> <span class="variable">option_err</span>: <span class="type">Option</span>&lt;&amp;<span class="type">str</span>&gt; = result.<span class="title function_ invoke__">err</span>();</span><br><span class="line"><span class="built_in">assert_eq!</span>(option_err, <span class="literal">None</span>);  <span class="comment">// 没有错误，返回 None</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="variable">result_err</span>: <span class="type">Result</span>&lt;<span class="type">i32</span>, &amp;<span class="type">str</span>&gt; = <span class="title function_ invoke__">Err</span>(<span class="string">&quot;error&quot;</span>);</span><br><span class="line"><span class="keyword">let</span> <span class="variable">option_err</span>: <span class="type">Option</span>&lt;&amp;<span class="type">str</span>&gt; = result_err.<span class="title function_ invoke__">err</span>();</span><br><span class="line"><span class="built_in">assert_eq!</span>(option_err, <span class="title function_ invoke__">Some</span>(<span class="string">&quot;error&quot;</span>));  <span class="comment">// 转换为 Some 错误信息</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>如何选择何时使用<code>ok()</code>还是<code>err()</code></strong>:<br>·当你只关心<code>Result</code>的成功值，并且想忽略错误信息时，使用<code>ok()</code>。<br>·当你只关心<code>Result</code>的错误值，想忽略成功值时，使用<code>err()</code>。</p>
+<h2 id="常见操作"><a href="#常见操作" class="headerlink" title="常见操作"></a>常见操作</h2><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">option</span> = <span class="title function_ invoke__">Some</span>(<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">b</span> = option.<span class="title function_ invoke__">map</span>(|num| num+<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">c</span> = option.<span class="title function_ invoke__">and_then</span>(|val| <span class="title function_ invoke__">Some</span>((val+<span class="number">1</span>)));</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">d</span> = option.<span class="title function_ invoke__">or_else</span>(|| <span class="title function_ invoke__">Some</span>(<span class="number">1</span>));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">a</span> = option.<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">a</span> = option.<span class="title function_ invoke__">expetc</span>(<span class="string">&quot;msg&quot;</span>);</span><br><span class="line">    dbg!(a);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">result</span>: <span class="type">Result</span>&lt;<span class="type">i32</span>, ()&gt; = <span class="title function_ invoke__">Ok</span>(<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">b</span> = result.<span class="title function_ invoke__">map</span>(|num| num+<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">c</span> = result.<span class="title function_ invoke__">and_then</span>(|val| <span class="title function_ invoke__">Ok</span>((val+<span class="number">1</span>)));</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">d</span> = result.<span class="title function_ invoke__">or_else</span>(|val| <span class="title function_ invoke__">Err</span>(<span class="number">1</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="enum内存分配与占用"><a href="#enum内存分配与占用" class="headerlink" title="enum内存分配与占用"></a>enum内存分配与占用</h2><p><code>enum</code>的内存占用是由两部分决定的：最大变体size和判别式（判别式用于区分枚举的不同变体）</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">enum</span> <span class="title class_">A</span> &#123;</span><br><span class="line">        a, <span class="comment">//判别式=0</span></span><br><span class="line">        b, <span class="comment">//1</span></span><br><span class="line">        c, <span class="comment">//2</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上面的例子中，<code>enum A</code>中存储着三个单元类型的枚举成员，他们本身不占内存，但需要判别式进行区分，所以一共占用1个字节。</p>
+<h2 id="课后习题"><a href="#课后习题" class="headerlink" title="课后习题"></a>课后习题</h2><img src = "/images/10-1.png" alt = "" width = "1000">
+
+<p>解：<br>对于第一个枚举:</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">MyEnum</span> &#123;</span><br><span class="line">    <span class="title function_ invoke__">A</span>(<span class="type">u8</span>, <span class="type">u8</span>),</span><br><span class="line">    B,</span><br><span class="line">    C &#123;&#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>元组A中有两个<code>u8</code>类型，各占用1个字节，因此其大小一共为2个字节。<br>枚举成员B是空的单元变体，其中没有任何数据，它的大小是0个字节。但是它仍需占用1个字节的空间，因为它需要一个有效的大小表示。<br>同时，枚举成员C也是一个空的结构变体，同上所述，它也占用1个字节。</p>
+<p>因此该枚举中的最大变体占用2个字节，再加上需要存储三个变体的判别式的1个字节，共三个字节。打印<code>MyEnum</code>的内存大小程序如下：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::mem;</span><br><span class="line"></span><br><span class="line"><span class="meta">#[derive(Debug)]</span></span><br><span class="line"><span class="keyword">enum</span> <span class="title class_">MyEnum</span> &#123;</span><br><span class="line">    <span class="title function_ invoke__">A</span>(<span class="type">u8</span>, <span class="type">u8</span>),</span><br><span class="line">    B,</span><br><span class="line">    C &#123;&#125;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">size</span> = mem::size_of::&lt;MyEnum&gt;();</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Size of MyEnum: &#123;&#125; bytes&quot;</span>, size);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Size of MyEnum: 3 bytes</span><br></pre></td></tr></table></figure>
+
+<p>对于第二个枚举：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">EnumA</span> &#123;</span><br><span class="line">    A = <span class="number">255</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在一开始，我的看法是，判别式的值为255。因此，<code>EnumA</code>枚举需要一个内存的存储空间，但实际上，如果我们没有使用<code>#[repr(type)]</code>为枚举指定底层的存储类型时，程序打印出来的存储空间为0。</p>
+<p>而如果我们使用<code>#[repr(type)]</code>来为枚举指定底层的存储类型时，程序打印出来的存储空间就和该类型占用的存储空间相同。例如我们使用了<code>#[repr(u8)]</code>时，便打印出1个字节；当我们使用<code>#[repr(i32)]</code>时，就会打印出4个字节</p>
+<p>对于第三个枚举：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">EnumB</span> &#123;</span><br><span class="line">    A = <span class="number">255</span>,</span><br><span class="line">    B,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此时，情况又有所不同。首先我们可以肯定Rust自动将枚举成员<code>B</code>的枚举值设置为了<code>256</code>，因此，存储判别式的值就需要2个字节。而我们使用程序打印出来的值也是2个字节。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/10/10/rust-string/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wobujiaoxyy3">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/10/10/rust-string/" class="post-title-link" itemprop="url">九、Rust-字符串</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2024-10-10 13:54:49" itemprop="dateCreated datePublished" datetime="2024-10-10T13:54:49+01:00">2024-10-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-10-12 16:07:34" itemprop="dateModified" datetime="2024-10-12T16:07:34+01:00">2024-10-12</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="字符串（String）"><a href="#字符串（String）" class="headerlink" title="字符串（String）"></a>字符串（String）</h1><p>首先我们来看如下代码：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">s</span> =  <span class="string">&quot;World&quot;</span>;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, s);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">greet</span>(s: <span class="type">String</span>) &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;Hello, &#123;&#125;!&quot;</span>, s);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行该代码，可以发现编译器报错：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">error[E0308]: mismatched types</span><br><span class="line"> --&gt; src/main.rs:3:11</span><br><span class="line">  |</span><br><span class="line">3 |     greet(my_name);</span><br><span class="line">  |           ^^^^^^^</span><br><span class="line">  |           |</span><br><span class="line">  |           expected struct `std::string::String`, found `&amp;str`</span><br><span class="line">  |           help: try using a conversion method: `my_name.to_string()`</span><br><span class="line"></span><br><span class="line">error: aborting due to previous error</span><br></pre></td></tr></table></figure>
+<p>可以发现<code>greet</code>函数需要一个<code>String</code>类型的字符串，但是我们却传入了一个<code>&amp;str</code>类型的字符串。那么这两种<strong>字符串类型</strong>到底有什么区别呢？？</p>
+<h2 id="什么是字符串？"><a href="#什么是字符串？" class="headerlink" title="什么是字符串？"></a>什么是字符串？</h2><p>· 字符串是由字符组成的连续集合<br>· Rust中的字符是<code>Unicode</code>类型，每个字符占据定长的4个字节内存空间；但是字符串是<code>UTF-8</code>编码，也就是字符串中的字符所占的字节是变长字节（1-4）</p>
+<p>我们可以看下面一个“hello 中国”的字符串例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">   h    e    l    l    o   _       中            国</span><br><span class="line">[ 104  101  108  108  111  32  228,184,173  229,155,189]</span><br></pre></td></tr></table></figure>
+<h2 id="str"><a href="#str" class="headerlink" title="str"></a>str</h2><p> <code>str</code>类型，是Rust在语言级别提供<code>的唯一一种**字符串**类型，其本质是一个字节数组</code>[u8]<code>;  </code>str<code>或者</code>[u8]&#96;类型的值存放在内存某处：可能是堆，可能是栈，还可能硬编码进可执行程序</p>
+<h3 id="字符串字面值"><a href="#字符串字面值" class="headerlink" title="字符串字面值"></a>字符串字面值</h3><p>对于上面的<code>str</code>类型的变量，什么时候可能被硬编码进可执行程序内呢：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">s</span> =  <span class="string">&quot;Hello, World!&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对于上面代码中这种直接使用双引号来赋值的方式，我们把它叫做字符串字面值，对于该字面值，Rust在编译时就将字面值编译进可执行文件中，其在可执行文件中的类型就是<code>str</code>。</p>
+<p>那么对于<code>s</code>来说，它已经被编译进可执行文件中了，无法被修改，那么我们该如何访问它呢？</p>
+<p>实际上，这里的<code>s</code>以不可变引用类型<code>&amp;str</code>出现：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">s</span>: &amp;<span class="type">str</span> = <span class="string">&quot;Hello, World!&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="String"><a href="#String" class="headerlink" title="String"></a>String</h2><p>但是，有的字符串是在程序运行的过程中动态生成的，并不能在编译时就确定，我们该怎么存储它们呢？</p>
+<p>在Rsut标准库中，定义了一个新的字符串类型<code>String</code>:</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello 中国&quot;</span>)；</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;s&#125;&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>String</code>在Rust中是一个复合数据类型，定义如下：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">struct</span> <span class="title class_">String</span> &#123;</span><br><span class="line">    vec: <span class="type">Vec</span>&lt;<span class="type">u8</span>&gt;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们可以发现，<code>String</code>类型被存储在可以动态增长的<code>Vec&lt;u8&gt;</code>上，它被分配在堆上。这意味着<code>String</code>是可改变的，并且拥有所有权。</p>
+<p>除了用<code>String::from</code>来定义</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>除了<code>&amp;str</code>字符串切片和<code>String</code>类这两种最常用的字符串外，Rust的标准库还提供了其他类型的字符串，例如<code>OsString</code>、<code>OsStr</code>、<code>CsString</code>、<code>CsStr</code>等，它们可以被用于特定的场景。</p>
+<h2 id="str-VS-String"><a href="#str-VS-String" class="headerlink" title="&amp;str VS String"></a>&amp;str VS String</h2><p><code>&amp;str</code>: 字符串切片，它大小固定，并且不能改变。<br><code>String</code>: 这是一个可增长、可改变、拥有所有权、UTF-8编码的字符串类型，它通常用于需要改变或者增长字符串的情况。</p>
+<h2 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h2><h3 id="字节数组-u8-Vec-str"><a href="#字节数组-u8-Vec-str" class="headerlink" title="字节数组[u8]|Vec -&gt; &amp;str"></a>字节数组[u8]|Vec<u8> -&gt; &amp;str</h3><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::<span class="type">str</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">b</span> = [<span class="number">104</span>, <span class="number">101</span>, <span class="number">108</span>, <span class="number">108</span>, <span class="number">111</span>, <span class="number">32</span>, <span class="number">228</span>, <span class="number">184</span>, <span class="number">173</span>, <span class="number">229</span>, <span class="number">155</span>, <span class="number">189</span>];</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">s</span> = <span class="type">str</span>::from-<span class="title function_ invoke__">uft8</span>(&amp;b).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>,s);  <span class="comment">//  hello 中国</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Vec-String"><a href="#Vec-String" class="headerlink" title="Vec -&gt; String"></a>Vec<u8> -&gt; String</h3><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::<span class="type">str</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">b</span> = <span class="built_in">vec!</span>(<span class="number">104</span>, <span class="number">101</span>, <span class="number">108</span>, <span class="number">108</span>, <span class="number">111</span>, <span class="number">32</span>, <span class="number">228</span>, <span class="number">184</span>, <span class="number">173</span>, <span class="number">229</span>, <span class="number">155</span>, <span class="number">189</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">s</span> = <span class="type">String</span>::from-<span class="title function_ invoke__">uft8</span>(b).<span class="title function_ invoke__">unwrap</span>();  <span class="comment">//无需取引用</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>,s);  <span class="comment">//  hello 中国</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="str-u8-Vec"><a href="#str-u8-Vec" class="headerlink" title="&amp;str -&gt; [u8]|Vec"></a>&amp;str -&gt; [u8]|Vec<u8></h3><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::<span class="type">str</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">s</span> = <span class="string">&quot;hello 中国&quot;</span>.<span class="title function_ invoke__">as_bytes</span>();</span><br><span class="line">    dbg!(<span class="string">&quot;&#123;&#125;&quot;</span>,s);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="String-str"><a href="#String-str" class="headerlink" title="String -&gt; &amp;str"></a>String -&gt; &amp;str</h3><p>将<code>String</code>类型转换为<code>&amp;str</code>类型十分便捷而且无损，直接取引用即可。同时，Rust实现了<code>deref</code>自动解引用，在必要时<code>&amp;String</code>可以自动转换为<code>&amp;Str</code>，因而在很多函数中，如果接受的参数是字符串的引用，通常会采用<code>&amp;str</code>作为入参，以获取更好的数据兼容性。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello,world!&quot;</span>);</span><br><span class="line">    <span class="title function_ invoke__">say_hello</span>(&amp;s);          <span class="comment">//引用</span></span><br><span class="line">    <span class="title function_ invoke__">say_hello</span>(&amp;s[..]);      <span class="comment">//切片</span></span><br><span class="line">    <span class="title function_ invoke__">say_hello</span>(s.<span class="title function_ invoke__">as_str</span>());  <span class="comment">//as_str()函数</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">say_hello</span>(s: &amp;<span class="type">str</span>) &#123;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>,s);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="str-String"><a href="#str-String" class="headerlink" title="&amp;str -&gt; String"></a>&amp;str -&gt; String</h3><p>从一个<code>&amp;str</code>获得一个<code>String</code>却是低效的，因为要重新<code>malloc</code>数据，我们可以通过以下两种方式将<code>&amp;str</code>转换为<code>String</code>：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello world!&quot;</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;hello world!&quot;</span>.<span class="title function_ invoke__">to_string</span>();</span><br></pre></td></tr></table></figure>
+
+<h3 id="其他各种转换"><a href="#其他各种转换" class="headerlink" title="其他各种转换"></a>其他各种转换</h3><img src="images/9-1.png" alt="" width="750">
+
+<h2 id="字符串索引与切片"><a href="#字符串索引与切片" class="headerlink" title="字符串索引与切片"></a>字符串索引与切片</h2><p>在对字符串进行索引与切片的时候，我们需要特别注意，<strong>索引的字节需要刚好落在字符的边界上</strong>，否则就会报错</p>
+<h2 id="操作字符串"><a href="#操作字符串" class="headerlink" title="操作字符串"></a>操作字符串</h2><p>由于<code>String</code>类型是可变字符串，所以我们可以对它进行修改、添加、删除等常用方法：</p>
+<h3 id="追加（push）"><a href="#追加（push）" class="headerlink" title="追加（push）"></a>追加（push）</h3><p>在字符串尾部可以使用<code>push()</code>方法追加字符<code>char</code>，也可以使用<code>push_str()</code>方法追加字符串字面量<code>str</code>。这两个方法都是<strong>在原有的字符串上追加，并不会返回新的字符串</strong>。由于字符串追加操作要修改原来的字符串，则该字符串必须是可变的，即字符串变量必须由<code>mut</code>关键字修饰。</p>
+<p>示例代码如下：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;Hello &quot;</span>);</span><br><span class="line"></span><br><span class="line">    s.<span class="title function_ invoke__">push_str</span>(<span class="string">&quot;rust&quot;</span>);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;追加字符串 push_str() -&gt; &#123;&#125;&quot;</span>, s);</span><br><span class="line"></span><br><span class="line">    s.<span class="title function_ invoke__">push</span>(<span class="string">&#x27;!&#x27;</span>);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;追加字符 push() -&gt; &#123;&#125;&quot;</span>, s);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>代码运行结果如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">追加字符串 push_str() -&gt; Hello rust</span><br><span class="line">追加字符 push() -&gt; Hello rust!</span><br></pre></td></tr></table></figure>
+
+<h3 id="插入（insert）"><a href="#插入（insert）" class="headerlink" title="插入（insert）"></a>插入（insert）</h3><p>可以使用<code>insert()</code>方法插入单个字符<code>char</code>，也可以使用<code>insert_str()</code>方法插入字符串字面量，与<code>push()</code>方法不同，这俩方法需要传入两个参数，第一个参数是字符（串）插入位置的索引，第二个参数是要插入的字符（串），索引从<code>0</code>开始计数，如果越界则会发生错误。由于字符串插入操作要修改原来的字符串，则该字符串必须是可变的，即字符串变量必须由<code>mut</code>关键字修饰。</p>
+<p>示例代码如下：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;Hello rust!&quot;</span>);</span><br><span class="line">    s.<span class="title function_ invoke__">insert</span>(<span class="number">5</span>, <span class="string">&#x27;,&#x27;</span>);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;插入字符 insert() -&gt; &#123;&#125;&quot;</span>, s);</span><br><span class="line">    s.<span class="title function_ invoke__">insert_str</span>(<span class="number">6</span>, <span class="string">&quot; I like&quot;</span>);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;插入字符串 insert_str() -&gt; &#123;&#125;&quot;</span>, s);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>代码运行结果如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">插入字符 insert() -&gt; Hello, rust!</span><br><span class="line">插入字符串 insert_str() -&gt; Hello, I like rust!</span><br></pre></td></tr></table></figure>
+
+<h3 id="替换（replace）"><a href="#替换（replace）" class="headerlink" title="替换（replace）"></a>替换（replace）</h3><p>如果想要把字符串中的某个字符串替换成其它的字符串，那可以使用 replace() 方法。与替换有关的方法有三个。</p>
+<ol>
+<li><code>replace</code><br>该方法可适用于<code>String</code>和<code>&amp;str</code>类型。<code>replace()</code>方法接收两个参数，第一个参数是要被替换的字符串，第二个参数是新的字符串。该方法会替换所有匹配到的字符串。该方法是<strong>返回一个新的字符串，而不是操作原来的字符串</strong>，因而不需要原有的字符串用<code>mut</code>修饰。</li>
+</ol>
+<p>示例代码如下：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">string_replace</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;I like rust. Learning rust is my favorite!&quot;</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">new_string_replace</span> = string_replace.<span class="title function_ invoke__">replace</span>(<span class="string">&quot;rust&quot;</span>, <span class="string">&quot;RUST&quot;</span>);</span><br><span class="line">    dbg!(new_string_replace);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>代码运行结果如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">new_string_replace = &quot;I like RUST. Learning RUST is my favorite!&quot;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><code>replacen</code><br>该方法可适用于<code>String</code>和<code>&amp;str</code>类型。<code>replacen()</code>方法接收三个参数，前两个参数与<code>replace()</code>方法一样，第三个参数则表示替换的个数。该方法是<strong>返回一个新的字符串，而不是操作原来的字符串</strong>。</li>
+</ol>
+<p>示例代码如下：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">string_replace</span> = <span class="string">&quot;I like rust. Learning rust is my favorite!&quot;</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">new_string_replacen</span> = string_replace.<span class="title function_ invoke__">replacen</span>(<span class="string">&quot;rust&quot;</span>, <span class="string">&quot;RUST&quot;</span>, <span class="number">1</span>);</span><br><span class="line">    dbg!(new_string_replacen);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>代码运行结果如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">new_string_replacen = &quot;I like RUST. Learning rust is my favorite!&quot;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><code>replace_range</code><br>该方法仅适用于<code>String</code>类型。<code>replace_range</code>接收两个参数，第一个参数是要替换字符串的范围（Range），第二个参数是新的字符串。该方法是<strong>直接操作原来的字符串，不会返回新的字符串</strong>。该方法需要使用<code>mut</code>关键字修饰。</li>
+</ol>
+<p>示例代码如下：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">string_replace_range</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;I like rust!&quot;</span>);</span><br><span class="line">    string_replace_range.<span class="title function_ invoke__">replace_range</span>(<span class="number">7</span>..<span class="number">8</span>, <span class="string">&quot;R&quot;</span>);</span><br><span class="line">    dbg!(string_replace_range);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>代码运行结果如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">string_replace_range = &quot;I like Rust!&quot;</span><br></pre></td></tr></table></figure>
+<p>值得注意的是，如果<code>range</code>参数小于新的字符串长度，替换后整个字符串的长度就会增加，反之减少。</p>
+<p>举例如下：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">string_replace_range</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;I like rust!&quot;</span>);</span><br><span class="line">    string_replace_range.<span class="title function_ invoke__">replace_range</span>(<span class="number">7</span>..<span class="number">8</span>, <span class="string">&quot;RUST&quot;</span>);</span><br><span class="line">    dbg!(string_replace_range);     <span class="comment">// I like RUSTust!</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>同时还需要注意我们的<code>range</code>必须落在字符的边界上。</p>
+<h3 id="删除（delete）"><a href="#删除（delete）" class="headerlink" title="删除（delete）"></a>删除（delete）</h3><p>与字符串删除相关的方法有4个，他们分别是<code>pop()</code>，<code>remove()</code>，<code>truncate()</code>，<code>clear()</code>。这四个方法仅适用于<code>String</code>类型。</p>
+<ol>
+<li><p><code>pop</code> —— 删除并返回字符串的最后一个字符<br>该方法是<strong>直接操作原来的字符串</strong>。但是存在返回值，其返回值是一个<code>Option</code>类型，<strong>有值就返回字符</strong>；如果字符串为空，则返回<code>None</code>。示例代码如下：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">string_pop</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;rust pop 中文!&quot;</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">p1</span> = string_pop.<span class="title function_ invoke__">pop</span>();</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">p2</span> = string_pop.<span class="title function_ invoke__">pop</span>();</span><br><span class="line">    dbg!(p1);</span><br><span class="line">    dbg!(p2);</span><br><span class="line">    dbg!(string_pop);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>代码运行结果如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">p1 = Some(</span><br><span class="line">   &#x27;!&#x27;,</span><br><span class="line">)</span><br><span class="line">p2 = Some(</span><br><span class="line">   &#x27;文&#x27;,</span><br><span class="line">)</span><br><span class="line">string_pop = &quot;rust pop 中&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>remove</code> —— 删除并返回字符串中指定位置的字符</p>
+</li>
+</ol>
+<p>该方法是<strong>直接操作原来的字符串</strong>。但是存在返回值，其返回值是删除位置的字符串，只接收一个参数，表示该字符起始索引位置<code>remove()</code>方法是按照字节来处理字符串的，如果参数所给的位置不是合法的字符边界，则会发生错误。</p>
+<p>示例代码如下：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">string_remove</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;测试remove方法&quot;</span>);</span><br><span class="line">    <span class="built_in">println!</span>(</span><br><span class="line">        <span class="string">&quot;string_remove 占 &#123;&#125; 个字节&quot;</span>,</span><br><span class="line">        std::mem::<span class="title function_ invoke__">size_of_val</span>(string_remove.<span class="title function_ invoke__">as_str</span>())</span><br><span class="line">    );</span><br><span class="line">    <span class="comment">// 删除第一个汉字</span></span><br><span class="line">    string_remove.<span class="title function_ invoke__">remove</span>(<span class="number">0</span>);</span><br><span class="line">    <span class="comment">// 下面代码会发生错误</span></span><br><span class="line">    <span class="comment">// string_remove.remove(1);</span></span><br><span class="line">    <span class="comment">// 直接删除第二个汉字</span></span><br><span class="line">    <span class="comment">// string_remove.remove(3);</span></span><br><span class="line">    dbg!(string_remove);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>代码运行结果如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">string_remove 占 18 个字节</span><br><span class="line">string_remove = &quot;试remove方法&quot;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><code>truncate</code> —— 删除字符串中从指定位置开始到结尾的全部字符</li>
+</ol>
+<p>该方法是<strong>直接操作原来的字符串</strong>。无返回值。该方法<code>truncate()</code>方法是按照字节来处理字符串的，如果参数所给的位置不是合法的字符边界，则会发生错误。</p>
+<p>示例代码如下：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">string_truncate</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;测试truncate&quot;</span>);</span><br><span class="line">    string_truncate.<span class="title function_ invoke__">truncate</span>(<span class="number">3</span>);</span><br><span class="line">    dbg!(string_truncate);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>代码运行结果如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">string_truncate = &quot;测&quot;</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li><code>clear</code> —— 清空字符串<br>该方法是直接操作原来的字符串。调用后，删除字符串中的所有字符，相当于<code>truncate()</code>方法参数为<code>0</code>的时候。<br>示例代码如下：<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">string_clear</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;string clear&quot;</span>);</span><br><span class="line">    string_clear.<span class="title function_ invoke__">clear</span>();</span><br><span class="line">    dbg!(string_clear);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+代码运行结果如下：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">string_clear = &quot;&quot;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p><strong>TIPS:剩下的连接和字符串转义实在懒得记了，可以看链接：</strong> <a target="_blank" rel="noopener" href="https://practice-zh.course.rs/basic-types/statements-expressions.html" title="查看Rust语言圣经">Rust语言圣经</a></p>
+<h3 id="连接（concatenate）"><a href="#连接（concatenate）" class="headerlink" title="连接（concatenate）"></a>连接（concatenate）</h3><ol>
+<li><p>使用<code>+</code>或者<code>+=</code>连接字符串</p>
+</li>
+<li><p>使用<code>format!</code>连接字符串</p>
+</li>
+</ol>
+<h2 id="字符串转义"><a href="#字符串转义" class="headerlink" title="字符串转义"></a>字符串转义</h2><p>我们可以通过转义的方式<code>\</code>输出<code>ASCII</code>和<code>Unicode</code>字符</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/10/09/rust-array-and-slice/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wobujiaoxyy3">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/10/09/rust-array-and-slice/" class="post-title-link" itemprop="url">八、Rust基础-数组与切片</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2024-10-09 23:10:39" itemprop="dateCreated datePublished" datetime="2024-10-09T23:10:39+01:00">2024-10-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-10-23 17:45:25" itemprop="dateModified" datetime="2024-10-23T17:45:25+01:00">2024-10-23</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="数组与切片"><a href="#数组与切片" class="headerlink" title="数组与切片"></a>数组与切片</h1><h2 id="数组（Array）"><a href="#数组（Array）" class="headerlink" title="数组（Array）"></a>数组（Array）</h2><p>数组的定义其实就是为分配一段连续的相同数据类型的内存块。Rust的数组具有以下三要素：<br>    · 长度固定<br>    · 元素必须有相同的类型<br>    · 依次线性排列</p>
+<p>在Rust中，由于数组的元素类型大小固定，且长度也是固定，它实际上也是Rust的基本类型之一，因此数组<code>array</code>是存储在栈上的，性能非常优秀。</p>
+<h3 id="创建数组"><a href="#创建数组" class="headerlink" title="创建数组"></a>创建数组</h3><p>在Rust中，数组是这样定义的：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">arr</span> = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在某些时候，我们需要为数组声明类型：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">a</span>: [<span class="type">i32</span>; <span class="number">5</span>] = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br></pre></td></tr></table></figure>
+<p>我们还可以使用下面的语法初始化一个某个值重复出现N次的数组：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">a</span> = [<span class="number">3</span>; <span class="number">5</span>];    <span class="comment">// a = [3, 3, 3, 3, 3]</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="访问数组元素"><a href="#访问数组元素" class="headerlink" title="访问数组元素"></a>访问数组元素</h3><p>因为数组是连续存放元素的，因此可以通过索引的方式来访问存放其中的元素：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">a</span> = [<span class="number">9</span>, <span class="number">8</span>, <span class="number">7</span>, <span class="number">6</span>, <span class="number">5</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">first</span> = a[<span class="number">0</span>]; <span class="comment">// 获取a数组第一个元素</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">second</span> = a[<span class="number">1</span>]; <span class="comment">// 获取第二个元素</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>与其他语言类似，数组的索引下标是从<code>0</code>开始的。此处，<code>first</code>获取到的值是<code>9</code>，<code>second</code>是<code>8</code>。</p>
+<h3 id="数组越界访问"><a href="#数组越界访问" class="headerlink" title="数组越界访问"></a>数组越界访问</h3><p>在Rust中，不允许使用超出数组范围的索引访问数组元素，否则Rust会检查数组越界问题，报错<strong>panic</strong>。</p>
+<h3 id="数组长度"><a href="#数组长度" class="headerlink" title="数组长度"></a>数组长度</h3><p>在Rust中，我们可以使用<code>.len()</code>来获取数组的长度：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">arr</span> = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;the length of arr is &#123;&#125;&quot;</span>, arr.<span class="title function_ invoke__">len</span>());    <span class="comment">//输出“The length of arr is 3”</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="遍历数组"><a href="#遍历数组" class="headerlink" title="遍历数组"></a>遍历数组</h3><p>我们可以这样遍历数组：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">arr</span> = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> <span class="variable">index</span> <span class="keyword">in</span> <span class="number">0</span>..<span class="number">4</span> &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;&#123;:?&#125;, arr[index]&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>值得注意的是，此时<code>index</code>会被自动指定为<code>usize</code>类型，因为数组的索引必须是<code>usize</code>类型.</p>
+<p>同时，我们也可以使用数组的迭代器（iterator）来遍历数组：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">arr</span> = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> <span class="variable">value</span> <span class="keyword">in</span> arr.<span class="title function_ invoke__">iter</span>() &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;&#123;:?&#125;, value&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改数组中的元素"><a href="#修改数组中的元素" class="headerlink" title="修改数组中的元素"></a>修改数组中的元素</h3><p>如果要修改数组中的元素，首先要用<code>mut</code>关键字修饰数组：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">arr_mut</span> = [<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>];</span><br><span class="line"></span><br><span class="line">    arr_mut[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="数组在函数中的值传递和引用传递"><a href="#数组在函数中的值传递和引用传递" class="headerlink" title="数组在函数中的值传递和引用传递"></a>数组在函数中的值传递和引用传递</h3><p>看接下来的两个代码示例：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">arr</span> = [<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>];</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;main before: &#123;:?&#125;&quot;</span>, arr);</span><br><span class="line">    <span class="title function_ invoke__">update</span>(arr);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;main after: &#123;:?&#125;&quot;</span>, arr);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">update</span>(<span class="keyword">mut</span> arr: [<span class="type">i32</span>; <span class="number">4</span>]) &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;update before: &#123;:?&#125;&quot;</span>, arr);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> <span class="number">0</span>..<span class="number">4</span> &#123;</span><br><span class="line">            arr[i] = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;update after: &#123;:?&#125;&quot;</span>, arr);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行该代码示例，会输出以下结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">main before: [10, 20, 30, 40]</span><br><span class="line">update before: [10, 20, 30, 40]</span><br><span class="line">update after: [0, 0, 0, 0]</span><br><span class="line">main after: [10, 20, 30, 40]</span><br></pre></td></tr></table></figure>
+<p>上述代码示例展现的是数组的<strong>值传递</strong>，由于数组实现了<code>copy</code>特性，所以传入<code>update</code>函数的<code>arr</code>实际上是原先数组的拷贝，因此，在函数<code>update</code>内部对<code>arr</code>的修改并不会影响到<code>main()</code>函数中的<code>arr</code>。</p>
+<p>再来看下面这个代码示例：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">arr</span> = [<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>];</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;main before: &#123;:?&#125;&quot;</span>, arr);</span><br><span class="line">    <span class="title function_ invoke__">update_mut</span>(&amp;<span class="keyword">mut</span> arr);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;main after: &#123;:?&#125;&quot;</span>, arr);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">update_mut</span>(arr: &amp;<span class="keyword">mut</span> [<span class="type">i32</span>; <span class="number">4</span>]) &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;update before: &#123;:?&#125;&quot;</span>, arr);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> <span class="number">0</span>..<span class="number">4</span> &#123;</span><br><span class="line">            arr[i] = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;update after: &#123;:?&#125;&quot;</span>, arr);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行该代码示例，会输出以下结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">main before: [10, 20, 30, 40]</span><br><span class="line">update before: [10, 20, 30, 40]</span><br><span class="line">update after: [0, 0, 0, 0]</span><br><span class="line">main after: [0, 0, 0, 0]</span><br></pre></td></tr></table></figure>
+<p>在这个代码示例中，我们将数组<code>arr</code>的可变引用传递给函数。通过传递可变引用，允许<code>update_arr</code>函数在数组的原始数据上进行修改。</p>
+<h2 id="切片（Slice）"><a href="#切片（Slice）" class="headerlink" title="切片（Slice）"></a>切片（Slice）</h2><p><code>Slice</code>类型通常被翻译为切片，它表示从某个包含多个元素的容器中取得局部数据，这个过程被称为切片操作。Rust支持Slice操作，但只允许获取一段连续的局部数据。</p>
+<p>在Rust常见的数据类型中，有三种类型已经支持Slice操作：<code>String</code>、<code>Array</code>、<code>Vec</code>。</p>
+<p><code>slice</code>变量的类型是<code>&amp;[i32]</code>,存储第一个集合元素的引用和一个集合总长度：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">a</span> = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line"><span class="keyword">let</span> <span class="variable">slice</span> = &amp;a[<span class="number">1</span>..<span class="number">3</span>];    <span class="comment">// slice = [2,3]</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">mut_slice</span> = &amp;<span class="keyword">mut</span> a[<span class="number">1</span>..<span class="number">3</span>];</span><br></pre></td></tr></table></figure>
+
+<h3 id="切片常用函数"><a href="#切片常用函数" class="headerlink" title="切片常用函数"></a>切片常用函数</h3><ol>
+<li><p><code>len()</code>: 查看切片的长度：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">a</span> = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">slice</span> = &amp;a[<span class="number">1</span>..<span class="number">3</span>];</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;the length of slice is &#123;&#125;&quot;</span>, slice.<span class="title function_ invoke__">len</span>()); <span class="comment">// the length of slice is 2</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>is_empty()</code>: 判断切片是否为空：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">a</span> = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">slice</span> = &amp;a[<span class="number">1</span>..<span class="number">3</span>];</span><br><span class="line">    slice.<span class="title function_ invoke__">is_empty</span>(); <span class="comment">// false</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">empty_slice</span>: &amp;[<span class="type">i32</span>] = &amp;[];</span><br><span class="line">    empty_slice.<span class="title function_ invoke__">is_empty</span>();  <span class="comment">// true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>contains()</code>: 判断切片中是否包含某个元素</p>
+</li>
+<li><p><code>repeat()</code>: 重复切片指定次数<br>…</p>
+<img src ="/images/8-1.png" alt = "" width = "500"></li>
+</ol>
+<h2 id="课后习题"><a href="#课后习题" class="headerlink" title="课后习题"></a>课后习题</h2><img src = "/images/8-2.png" alt = "" width = "1000">
+
+<p><strong>解法</strong>：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">number</span> = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">answer</span> = <span class="title function_ invoke__">resolution</span>(number);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;:?&#125;&quot;</span>, answer);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">resolution</span>(number: [<span class="type">i32</span>; <span class="number">5</span>]) <span class="punctuation">-&gt;</span> [<span class="type">i32</span>; <span class="number">5</span>] &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">n</span> = number.<span class="title function_ invoke__">len</span>();</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">answer</span> = [<span class="number">0</span>; <span class="number">5</span>];</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">prefix</span> = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">suffix</span> = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> <span class="number">0</span>..n &#123;</span><br><span class="line">            answer[i] = prefix;</span><br><span class="line">            prefix *= number[i];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> (<span class="number">0</span>..n).<span class="title function_ invoke__">rev</span>() &#123;</span><br><span class="line">            answer[i] = suffix;</span><br><span class="line">            suffix *= number[i];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        answer</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/10/09/rust-reference-and-borrowing/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wobujiaoxyy3">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/10/09/rust-reference-and-borrowing/" class="post-title-link" itemprop="url">七、Rust基础-引用与借用</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2024-10-09 17:21:50" itemprop="dateCreated datePublished" datetime="2024-10-09T17:21:50+01:00">2024-10-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-10-17 19:07:28" itemprop="dateModified" datetime="2024-10-17T19:07:28+01:00">2024-10-17</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="引用和借用"><a href="#引用和借用" class="headerlink" title="引用和借用"></a>引用和借用</h1><p>上节中提到，如果仅仅支持通过转移所有权的方式获取一个值，那会让程序变得复杂。 Rust 能否像其它编程语言一样，使用某个变量的指针或者引用呢？答案是可以。</p>
+<p>Rust通过<strong>借用</strong>(Borrowing) 这个概念来达成上述的目的，获取变量的引用（reference），称之为借用(borrowing)。</p>
+<h2 id="引用和解引用"><a href="#引用和解引用" class="headerlink" title="引用和解引用"></a>引用和解引用</h2><p>常规引用是一个<strong>指针类型</strong>，指向了对象存储的内存地址，因而可以在不改变所有权的情况下访问一个值。在下面代码中，我们创建一个<code>i32</code>值的引用<code>y</code>，然后使用<strong>解引用</strong>运算符来解出<code>y</code>所使用的值:</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">x</span> = <span class="number">5</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">y</span> = &amp;x;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">assert_eq!</span>(<span class="number">5</span>, x);</span><br><span class="line">    <span class="built_in">assert_eq!</span>(<span class="number">5</span>, *y);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>变量<code>x</code>存放了一个<code>i32</code>值<code>5</code>,可以断言<code>x</code>等于 5。然而，<code>y</code>是<code>x</code>的一个引用。如果希望对<code>y</code>的值做出断言，必须使用<code>*y</code>来<strong>解出引用所指向的值</strong>（也就是解引用）。一旦解引用了<code>y</code>，就可以访问<code>y</code>所指向的整型值并可以与<code>5</code>做比较。</p>
+<p>在Rust中，引用分为<strong>不可变引用</strong>和<strong>可变引用</strong>：</p>
+<p><strong>不可变引用</strong>（Immutable Reference）: 通过不可变引用，我们可以读取数据，但不能修改数据。一个变量可以同时拥有多个不可变引用，但不能与可变引用共存。</p>
+<p><strong>可变引用</strong>（Mutable Reference）: 通过可变引用，我们可以在读取数据的同时修改数据。一个变量只能拥有一个可变引用，且不能与不可变引用共存。</p>
+<h3 id="引用的规则"><a href="#引用的规则" class="headerlink" title="引用的规则"></a>引用的规则</h3><p>· 同一时间内，一个变量只能有一个可变引用或多个不可变引用<br>· 引用必须总是有效</p>
+<h2 id="不可变引用"><a href="#不可变引用" class="headerlink" title="不可变引用"></a>不可变引用</h2><p>先看如下代码：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">s1</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">len</span> = <span class="title function_ invoke__">calculate_length</span>(&amp;s1);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;The length of &#x27;&#123;&#125;&#x27; is &#123;&#125;.&quot;</span>, s1, len);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">calculate_length</span>(s: &amp;<span class="type">String</span>) <span class="punctuation">-&gt;</span> <span class="type">usize</span> &#123;</span><br><span class="line">    s.<span class="title function_ invoke__">len</span>()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上述代码中，我们通过<code>&amp;s1</code>创建了一个指向<code>s1</code>的引用，同时，函数<code>calculate_length</code>使用<code>&amp;</code>来表明参数<code>s</code>的类型是一个引用.</p>
+<p>这里，<code>&amp;</code>符号即是引用，它们允许你使用值，但是不获取所有权，如图所示：<br><img src = "images/7-1.png" alt = "" width ="1000"></p>
+<h2 id="可变引用"><a href="#可变引用" class="headerlink" title="可变引用"></a>可变引用</h2><p>在上面的例子中，仅仅使用<code>&amp;s1</code>，我们仅能创建一个不可变引用，而无法修改借用的变量。</p>
+<p>如果需要创建一个可变引用，首先，我们需要借用的变量本身是<strong>可变类型</strong>，同时，对引用本身也添加<code>mut</code>关键字，如下所示：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="title function_ invoke__">change</span>(&amp;<span class="keyword">mut</span> s);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">change</span>(some_string: &amp;<span class="keyword">mut</span> <span class="type">String</span>) &#123;</span><br><span class="line">    some_string.<span class="title function_ invoke__">push_str</span>(<span class="string">&quot;, world&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>让我们再看如下代码，观察一下引用的作用域：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">   <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">r1</span> = &amp;s;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">r2</span> = &amp;s;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125; and &#123;&#125;&quot;</span>, r1, r2);</span><br><span class="line">    <span class="comment">// 新编译器中，r1,r2作用域在这里结束</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">r3</span> = &amp;<span class="keyword">mut</span> s;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, r3);</span><br><span class="line">&#125; <span class="comment">// 老编译器中，r1、r2、r3作用域在这里结束</span></span><br><span class="line">  <span class="comment">// 新编译器中，r3作用域在这里结束</span></span><br></pre></td></tr></table></figure>
+<p>在早期时，引用的作用域跟变量作用域是一致的；而新版本的编译器中，引用作用域的结束位置从花括号变成最后一次使用的位置，因此<code>r1</code>借用和<code>r2</code>借用在<code>println!</code>后，就结束了，此时<code>r3</code>可以顺利借用到可变引用，而不违反引用的规则。</p>
+<h2 id="借用"><a href="#借用" class="headerlink" title="借用"></a>借用</h2><h2 id="切片（Slices）"><a href="#切片（Slices）" class="headerlink" title="切片（Slices）"></a>切片（Slices）</h2><p>字符串切片和数组切片实际上都是对其本身内容的部分引用：<br>· 字符串切片：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">s</span> = <span class="string">&quot;hello world&quot;</span>.<span class="title function_ invoke__">to_string</span>()</span><br><span class="line"><span class="keyword">let</span> <span class="variable">hello</span> = &amp;s[<span class="number">0</span>..<span class="number">5</span>];   <span class="comment">//引用“hello”</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">world</span> = &amp;s[<span class="number">6</span>..<span class="number">11</span>];  <span class="comment">//引用“world”</span></span><br></pre></td></tr></table></figure>
+<p>· 数组切片：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">arr</span> = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line"><span class="keyword">let</span> <span class="variable">slice</span> = &amp;arr[<span class="number">0</span>..<span class="number">3</span>];     <span class="comment">//引用[1,2,3]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="生命周期（Lifetimes）"><a href="#生命周期（Lifetimes）" class="headerlink" title="生命周期（Lifetimes）"></a>生命周期（Lifetimes）</h2><p>生命周期是Rust用来保证引用有效性的机制。生命周期注释允许编译器推断引用的有效范围，确保在引用仍然有效时使用他们。</p>
+<p><strong>在以后的课程中会更加具体的讲到</strong></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/10/08/rust-ownership/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wobujiaoxyy3">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/10/08/rust-ownership/" class="post-title-link" itemprop="url">六、Rust基础-所有权</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2024-10-08 23:15:09" itemprop="dateCreated datePublished" datetime="2024-10-08T23:15:09+01:00">2024-10-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-10-09 17:16:57" itemprop="dateModified" datetime="2024-10-09T17:16:57+01:00">2024-10-09</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="所有权"><a href="#所有权" class="headerlink" title="所有权"></a>所有权</h1><p>Rust是一种系统编程语言，它的设计目的是确保内存安全并防止数据竞争，而不去依赖GC（垃圾回收器），因为GC会带来性能、内存占用以及Stop the world等问题。我们将在这一讲中介绍Rust的<strong>所有权系统</strong>。</p>
+<p>思考两个问题：<br>    ·为什么Rust需要所有权系统？<br>    ·为什么所有权系统能够实现零开销内存回收？</p>
+<h2 id="静态语言VS动态语言"><a href="#静态语言VS动态语言" class="headerlink" title="静态语言VS动态语言"></a>静态语言VS动态语言</h2><p><strong>静态语言</strong>：<br>    ·在编译时对变量类型进行检查和确定的语言<br>    ·例如：<code>c</code>,<code>c++</code>,<code>rust</code></p>
+<p><strong>动态语言</strong><br>    ·在运行时进行类型检查和确定的语言<br>    ·例如：<code>javascript</code>,<code>python</code></p>
+<h3 id="写法对比"><a href="#写法对比" class="headerlink" title="写法对比"></a>写法对比</h3><p><strong>rust</strong></p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">x</span>: <span class="type">i32</span> = <span class="number">5</span>;  <span class="comment">//需要指定类型</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">y</span> = <span class="number">5</span>;  <span class="comment">//rust编译器较为智能，自动帮你制定类型</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;, &#123;&#125;&quot;</span>, x, y);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>javascript</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = <span class="number">1</span>;  <span class="comment">//无需制定类型，对于数字类型默认double float</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(a)</span><br></pre></td></tr></table></figure>
+
+<h3 id="差异对比"><a href="#差异对比" class="headerlink" title="差异对比"></a>差异对比</h3><table>
+<thead>
+<tr>
+<th align="center"><strong>特性</strong></th>
+<th align="center"><strong>静态语言</strong></th>
+<th align="center"><strong>动态语言</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>类型检查时间</strong></td>
+<td align="center">编译时</td>
+<td align="center">运行时</td>
+</tr>
+<tr>
+<td align="center"><strong>类型安全</strong></td>
+<td align="center">更加安全，减少运行时类型错误</td>
+<td align="center">较灵活，但类型错误可能在运行时出现</td>
+</tr>
+<tr>
+<td align="center"><strong>性能</strong></td>
+<td align="center">通常较高效，编译器优化</td>
+<td align="center">通常较低，运行时类型检查</td>
+</tr>
+<tr>
+<td align="center"><strong>灵活性</strong></td>
+<td align="center">较低，需明确声明类型</td>
+<td align="center">较高，允许在运行时改变类型</td>
+</tr>
+<tr>
+<td align="center"><strong>代码简洁性</strong></td>
+<td align="center">需要显式类型声明，代码相对冗长</td>
+<td align="center">通常更加简洁，适合快速开发</td>
+</tr>
+<tr>
+<td align="center"><strong>开发工具支持</strong></td>
+<td align="center">更强大的静态分析和重构工具</td>
+<td align="center">开发工具支持有限，但在快速开发上占优势</td>
+</tr>
+</tbody></table>
+<h3 id="内存回收方式对比"><a href="#内存回收方式对比" class="headerlink" title="内存回收方式对比"></a>内存回收方式对比</h3><p><strong>C&#x2F;C++</strong><br>    ·内存管理方式：手动管理（Manual Management），手动分配和释放内存，没有内置的垃圾回收系统<br>    ·优点：高效且灵活，适用于对性能要求极高的系统级编程<br>    ·缺点：容易出现内存泄漏、悬垂指针和缓冲区溢出等问题，需要非常小心的管理内存</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//手动释放分配的内存</span></span><br><span class="line"><span class="built_in">free</span>(ptr); ptr = <span class="literal">NULL</span>; <span class="comment">//将指针设置为NULL，避免悬空指针</span></span><br><span class="line"><span class="comment">//动态分配一个数组的内存</span></span><br><span class="line"><span class="type">int</span> n = <span class="number">5</span>;<span class="type">int</span> *arr = (<span class="type">int</span> *)<span class="built_in">malloc</span>(n * <span class="keyword">sizeof</span>(<span class="type">int</span>));</span><br></pre></td></tr></table></figure>
+
+<p><strong>JavaScript</strong><br>    ·内存管理方式：垃圾回收机制（Garbage Collection）<br>    ·特点：浏览器和Node.js环境中均使用垃圾回收器；采用标记-清除（Mark-and-Sweep）、标记-压缩（Mark-and-Compact）、分代回收等算法<br>    ·优点：自动内存管理，适合快速开发和运行在多平台上的应用<br>    ·缺点：垃圾回收机制需要定时回收内存，在某些情况下可能会导致性能问题，如UI线程停顿等</p>
+<p><strong>Rust</strong><br>    ·内存管理方式：所有权系统（Ownership System）<br>    ·特点：Rust使用所有权系统进行内存管理，编译器在编译时通过静态分析来确保内存的安全<br>          每个值都在任意时刻都有且只有一个有效的所有者<br>          通过借用（引用）机制来共享数据，同时确保数据竞争和悬垂指针的安全<br>    ·优点：在编译时就保证内存安全，运行时零开销；避免了数据竞争和悬垂指针<br>    ·缺点：需要程序员理解和遵循所有权和借用规则，学习曲线陡峭</p>
+<h2 id="栈（Stack）和堆（Heap）"><a href="#栈（Stack）和堆（Heap）" class="headerlink" title="栈（Stack）和堆（Heap）"></a>栈（Stack）和堆（Heap）</h2><p>栈和堆事编程语言中最为核心的数据结构。对于Rust这样的系统编程语言来说，值位于栈上还是堆上十分重要，这回影响程序的行为和性能</p>
+<p>栈和堆的核心目标就是为程序在运行时提供可供使用的内存空间</p>
+<h3 id="栈（Stack）"><a href="#栈（Stack）" class="headerlink" title="栈（Stack）"></a>栈（Stack）</h3><p>栈是一种有组织的数据结构，它从低地址到高地址连续的储存数据，同时在需要取出值时，以相反的顺序从高地址到低地址取出值</p>
+<p>增加数据叫做<strong>进栈</strong>，移出数据叫做<strong>出栈</strong></p>
+<p>因为上述的实现方式，栈中的所有数据都必须占用已知且固定大小的内存空间，假设数据大小是未知的，那么在取出数据时，你将无法取到你想要的数据</p>
+<h3 id="堆（Heap）"><a href="#堆（Heap）" class="headerlink" title="堆（Heap）"></a>堆（Heap）</h3><p>与栈不同，对于大小未知或者可能变化的数据，我们需要将它存储在堆上（因而堆是一种相对缺乏组织的数据结构）</p>
+<p>当向堆上放入数据时，需要请求一定大小的内存空间。操作系统在堆的某处找到一块足够大的空位，把它标记为已使用，并返回一个表示该位置地址的指针, 该过程被称为<strong>在堆上分配内存</strong>，有时简称为 “分配”(allocating)</p>
+<p>接着，<strong>该指针会被推入栈中</strong>，因为指针的大小是已知且固定的，在后续使用过程中，你将通过栈中的指针，来获取数据在堆上的实际内存位置，进而访问该数据</p>
+<h3 id="性能区别"><a href="#性能区别" class="headerlink" title="性能区别"></a>性能区别</h3><p>在栈上分配内存比在堆上分配内存要快，因为入栈时操作系统无需进行函数调用（或更慢的系统调用）来分配新的空间，只需要将新数据放入栈顶即可。相比之下，在堆上分配内存则需要更多的工作，这是因为操作系统必须首先找到一块足够存放数据的内存空间，接着做一些记录为下一次分配做准备，如果当前进程分配的内存页不足时，还需要进行系统调用来申请更多内存。 因此，处理器在栈上分配数据会比在堆上分配数据更加高效。</p>
+<h3 id="所有权与堆栈"><a href="#所有权与堆栈" class="headerlink" title="所有权与堆栈"></a>所有权与堆栈</h3><p>当你的代码调用一个函数时，传递给函数的参数（包括可能指向堆上数据的指针和函数的局部变量）依次被压入栈中，当函数调用结束时，这些值将被从栈中按照相反的顺序依次移除。</p>
+<p>因为堆上的数据缺乏组织，因此跟踪这些数据何时分配和释放是非常重要的，否则堆上的数据将产生内存泄漏 —— 这些数据将永远无法被回收。这就是 Rust 所有权系统为我们提供的强大保障。</p>
+<h2 id="所有权原则"><a href="#所有权原则" class="headerlink" title="所有权原则"></a>所有权原则</h2><p>Rust的所有权系统有三个基本原则：</p>
+<ol>
+<li>Rust中每一个值都被一个变量所拥有，该变量被称为值的所有者（Owner）</li>
+<li>在任意时刻，一个值只能有一个所有者</li>
+<li>当所有者离开作用域（Scope）时，该值就会被丢弃</li>
+</ol>
+<h3 id="变量作用域"><a href="#变量作用域" class="headerlink" title="变量作用域"></a>变量作用域</h3><p>作用域是一个变量在程序中有效的范围，有如下示例：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">                <span class="comment">//变量s在此处无效，因为它尚未声明</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">s</span> = <span class="number">5</span>;  <span class="comment">//从此处起，s是有效的</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//使用s</span></span><br><span class="line">&#125;               <span class="comment">//此作用域结束，s不再有效</span></span><br></pre></td></tr></table></figure>
+<p>在上述示例中，变量<code>s</code>在被创建时就有效，持续到它离开它的作用域为止。</p>
+<h3 id="转移所有权"><a href="#转移所有权" class="headerlink" title="转移所有权"></a>转移所有权</h3><p>我们先来看一个简单的代码：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">x</span> = <span class="number">5</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">y</span> = x;</span><br></pre></td></tr></table></figure>
+<p>在这段代码中，由于变量<code>x</code>是整型，是Rust的基本数据类型，被存放在<strong>栈</strong>上，实现了<strong>拷贝</strong>的特性。因而，在<code>let y = x;</code>中，并没有发生所有权的转移，而是直接<strong>拷贝</strong><code>x</code>的值<code>5</code>，并将其赋给了<code>y</code>，最终，<code>x</code>和<code>y</code>都拥有值<code>5</code>（不是同一个值<code>5</code>）。</p>
+<p>让我们再看如下的代码：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">s1</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line"><span class="keyword">let</span> <span class="variable">s2</span> = s1;</span><br></pre></td></tr></table></figure>
+<p>首先，这段代码与上面一段完全不一样，我们不能拷贝<code>s1</code>的值并将其赋给<code>s2</code>。原因是这里的<code>s1</code>是<code>String</code>类型，它是复合类型，存储在<strong>堆</strong>上，并没有实现<strong>拷贝</strong>的特性。 </p>
+<p>实际上，<code>String</code>类型是一个复杂类型，由存储在栈中的堆指针、字符串长度、字符串容量共同组成，它指向了一个堆上的空间，这里存储着它的真实数据。堆指针是最重要的，它指向了真实存储字符串内容的堆内存，而容量是堆内存分配空间的大小，长度是目前已经使用的大小。</p>
+<p>在上面这段代码中，<code>let s2 = s1;</code>所做的事情是拷贝了<code>s1</code>的<code>String</code>本身（即拷贝了<code>8字节的指针</code>、<code>8字节的长度</code>和<code>8字节的容量</code>），而并没有拷贝储存在堆上的字节数组。</p>
+<p>此时我们可以发现，<code>s2</code>和<code>s1</code>同时指向了储存在堆上的<code>hello</code>.注意所有权原则：一个值只能有一个所有者。因此Rust实际上所做的操作是在<code>s1</code>被赋予给<code>s2</code>之后，使得<code>s1</code>变量不再有效，<code>hello</code>值的所有权从<code>s1</code>转移给了<code>s2</code>，这一个操作也被称之为<strong>移动</strong>（move）。</p>
+<p>我们也可以从下面这张图直观的看出移动操作到底发生了什么：<br><img src="/images/6-1.png" alt="" width="500"></p>
+<p>因此，我们不能在所有权转移之后再使用旧的所有者：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">s1</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line"><span class="keyword">let</span> <span class="variable">s2</span> = s1;</span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;s1 = &#123;&#125;, s2 = &#123;&#125;&quot;</span>, s1, s2);</span><br></pre></td></tr></table></figure>
+<p>此时编译器会报错，因为<code>s1</code>已经不再有效，Rust禁止使用无效的引用：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">error[E0382]: borrow of moved value: `s1`</span><br><span class="line"> --&gt; src/main.rs:5:28</span><br><span class="line">  |</span><br><span class="line">2 |     let s1 = String::from(&quot;hello&quot;);</span><br><span class="line">  |         -- move occurs because `s1` has type `String`, which does not implement the `Copy` trait</span><br><span class="line">3 |     let s2 = s1;</span><br><span class="line">  |              -- value moved here</span><br><span class="line">4 |</span><br><span class="line">5 |     println!(&quot;&#123;&#125;, world!&quot;, s1);</span><br><span class="line">  |                            ^^ value borrowed here after move</span><br><span class="line">  |</span><br><span class="line">  = note: this error originates in the macro `$crate::format_args_nl` which comes from the expansion of the macro `println` (in Nightly builds, run with -Z macro-backtrace for more info)</span><br><span class="line">help: consider cloning the value if the performance cost is acceptable</span><br><span class="line">  |</span><br><span class="line">3 |     let s2 = s1.clone();</span><br><span class="line">  |                ++++++++</span><br><span class="line"></span><br><span class="line">For more information about this error, try `rustc --explain E0382`.</span><br></pre></td></tr></table></figure>
+
+<h3 id="浅拷贝（shallow-copy）"><a href="#浅拷贝（shallow-copy）" class="headerlink" title="浅拷贝（shallow copy）"></a>浅拷贝（shallow copy）</h3><p>Rust的基本类型在编译时是已知大小的，其被存储在栈上，所以拷贝其实际的值是快速的。Rust为这些存储在栈上的基本类型实现了一个<code>Copy</code>的特征，具有<code>Copy</code>特征的类型，其旧的变量在被赋值给其他变量后仍然可用，也就是<strong>赋值</strong>的过程即是<strong>拷贝</strong>的过程。</p>
+<p>如下整型变量具备<code>Copy</code>特征，因而可以打印<code>x</code>、<code>y</code>变量：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">x</span> = <span class="number">5</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">y</span> = x;</span><br><span class="line"></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;x = &#123;&#125;, y = &#123;&#125;&quot;</span>, x, y);</span><br></pre></td></tr></table></figure>
+
+<h3 id="深拷贝-deep-copy"><a href="#深拷贝-deep-copy" class="headerlink" title="深拷贝(deep copy)"></a>深拷贝(deep copy)</h3><p>首先，<strong>Rust永远也不会自动创建数据的 “深拷贝”</strong>，但如果我们确实需要深度复制<code>String</code>中<strong>堆</strong>上的数据，而不仅仅是<strong>栈</strong>上的数据，Rust也为我们提供了一个叫做<code>clone</code>的方法：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">s1</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line"><span class="keyword">let</span> <span class="variable">s2</span> = s1.<span class="title function_ invoke__">clone</span>();</span><br><span class="line"></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;s1 = &#123;&#125;, s2 = &#123;&#125;&quot;</span>, s1, s2);</span><br></pre></td></tr></table></figure>
+<p>如上代码可以正常运行，这说明<code>s2</code>确实完整的复制了<code>s1</code>的数据。</p>
+<p>需要注意的是，如果代码性能无关紧要，例如初始化程序时或者在某段时间只会执行寥寥数次时，你可以使用<code>clone</code>来简化编程。但是对于执行较为频繁的代码(热点路径)，使用<code>clone</code>会极大的降低程序性能，需要小心使用！</p>
+<h2 id="函数的传值与返回"><a href="#函数的传值与返回" class="headerlink" title="函数的传值与返回"></a>函数的传值与返回</h2><p>将值传递给函数，一样会发生 移动 或者 复制，就跟 let 语句一样，下面的代码展示了所有权、作用域的规则：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);  <span class="comment">// s 进入作用域</span></span><br><span class="line"></span><br><span class="line">    <span class="title function_ invoke__">takes_ownership</span>(s);             <span class="comment">// s 的值移动到函数里 ...</span></span><br><span class="line">                                    <span class="comment">// ... 所以s到这里不再有效</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">x</span> = <span class="number">5</span>;                      <span class="comment">// x 进入作用域</span></span><br><span class="line"></span><br><span class="line">    <span class="title function_ invoke__">makes_copy</span>(x);                  <span class="comment">// x 应该移动函数里，</span></span><br><span class="line">                                    <span class="comment">// 但 i32 具有Copy特性，所以在后面可继续使用 x</span></span><br><span class="line"></span><br><span class="line">&#125; <span class="comment">// 这里, x 先移出了作用域，然后是 s。但因为 s 的值已被移走，</span></span><br><span class="line">  <span class="comment">// 所以不会有特殊操作</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">takes_ownership</span>(some_string: <span class="type">String</span>) &#123; <span class="comment">// some_string 进入作用域</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, some_string);</span><br><span class="line">&#125; <span class="comment">// 这里，some_string 移出作用域并调用 `drop` 方法。占用的内存被释放</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">makes_copy</span>(some_integer: <span class="type">i32</span>) &#123; <span class="comment">// some_integer 进入作用域</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, some_integer);</span><br><span class="line">&#125; <span class="comment">// 这里，some_integer 移出作用域。不会有特殊操作</span></span><br></pre></td></tr></table></figure>
+
+<p>同样的，函数返回值也有所有权，例如:</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">s1</span> = <span class="title function_ invoke__">gives_ownership</span>();         <span class="comment">// gives_ownership 将返回值</span></span><br><span class="line">                                        <span class="comment">// 移给 s1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">s2</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);     <span class="comment">// s2 进入作用域</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">s3</span> = <span class="title function_ invoke__">takes_and_gives_back</span>(s2);  <span class="comment">// s2 被移动到</span></span><br><span class="line">                                        <span class="comment">// takes_and_gives_back 中,</span></span><br><span class="line">                                        <span class="comment">// 它也将返回值移给 s3</span></span><br><span class="line">&#125; <span class="comment">// 这里, s3 移出作用域并被丢弃。s2 也移出作用域，但已被移走，</span></span><br><span class="line">  <span class="comment">// 所以什么也不会发生。s1 移出作用域并被丢弃</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">gives_ownership</span>() <span class="punctuation">-&gt;</span> <span class="type">String</span> &#123;             <span class="comment">// gives_ownership 将返回值移动给</span></span><br><span class="line">                                             <span class="comment">// 调用它的函数</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">some_string</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>); <span class="comment">// some_string 进入作用域.</span></span><br><span class="line"></span><br><span class="line">    some_string                              <span class="comment">// 返回 some_string 并移出给调用的函数(这里最终赋给s1)</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// takes_and_gives_back 将传入字符串并返回该值</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">takes_and_gives_back</span>(a_string: <span class="type">String</span>) <span class="punctuation">-&gt;</span> <span class="type">String</span> &#123; <span class="comment">// a_string 进入作用域</span></span><br><span class="line"></span><br><span class="line">    a_string  <span class="comment">// 返回 a_string 并移出给调用的函数(这里最终赋给s3)</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2024/10/08/rust-primitve-types/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -787,7 +1516,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-count">20</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

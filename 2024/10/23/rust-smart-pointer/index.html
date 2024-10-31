@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="智能指针概述在各个编程语言中，指针的概念几乎都是相同的：指针是一个包含了内存地址的变量，该内存地址引用或者指向了另外的数据。而在Rust中，最常见的指针类型就是引用。 而智能指针（Smart Pointer）虽然也叫做指针，但是它实际上是一类数据结构，不仅包含一个指针，还附带一些额外的元数据和功能，与普通指针不同，智能指针在Rust中往往基于结构体实现，并且实现了Deref和Drop两个特征：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="十六、Rust进阶-智能指针">
+<meta property="og:url" content="http://example.com/2024/10/23/rust-smart-pointer/index.html">
+<meta property="og:site_name" content="Wobujiaoxyy3">
+<meta property="og:description" content="智能指针概述在各个编程语言中，指针的概念几乎都是相同的：指针是一个包含了内存地址的变量，该内存地址引用或者指向了另外的数据。而在Rust中，最常见的指针类型就是引用。 而智能指针（Smart Pointer）虽然也叫做指针，但是它实际上是一类数据结构，不仅包含一个指针，还附带一些额外的元数据和功能，与普通指针不同，智能指针在Rust中往往基于结构体实现，并且实现了Deref和Drop两个特征：">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/images/16-1.png">
+<meta property="article:published_time" content="2024-10-23T21:53:58.000Z">
+<meta property="article:modified_time" content="2024-10-26T13:08:32.549Z">
+<meta property="article:tag" content="Rust">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/16-1.png">
+
+<link rel="canonical" href="http://example.com/2024/10/23/rust-smart-pointer/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>十六、Rust进阶-智能指针 | Wobujiaoxyy3</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Wobujiaoxyy3</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/10/23/rust-smart-pointer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wobujiaoxyy3">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          十六、Rust进阶-智能指针
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2024-10-23 22:53:58" itemprop="dateCreated datePublished" datetime="2024-10-23T22:53:58+01:00">2024-10-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-10-26 14:08:32" itemprop="dateModified" datetime="2024-10-26T14:08:32+01:00">2024-10-26</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="智能指针概述"><a href="#智能指针概述" class="headerlink" title="智能指针概述"></a>智能指针概述</h2><p>在各个编程语言中，指针的概念几乎都是相同的：指针是一个包含了内存地址的变量，该内存地址引用或者指向了另外的数据。而在Rust中，最常见的指针类型就是<strong>引用</strong>。</p>
+<p>而智能指针（Smart Pointer）虽然也叫做指针，但是它实际上是一类<strong>数据结构</strong>，不仅包含一个指针，还附带一些额外的元数据和功能，与普通指针不同，智能指针在Rust中往往基于结构体实现，并且实现了<code>Deref</code>和<code>Drop</code>两个特征：<br>    <code>Deref</code>可以让智能指针像引用那样工作，这样可以写出同时支持智能指针和引用的代码。<br>    <code>Drop</code>允许智能指针在离开作用域时自动清理资源。</p>
+<h2 id="为什么存在智能指针？"><a href="#为什么存在智能指针？" class="headerlink" title="为什么存在智能指针？"></a>为什么存在智能指针？</h2><p><strong>·资源管理</strong><br>    自动管理资源的分配和释放，避免内存泄漏<br><strong>·所有权与借用</strong><br>    Rust的所有权系统通过智能指针来确保内存安全，避免数据竞争和悬垂指针<br><strong>·复杂数据结构</strong><br>    通过智能指针可以构建复杂的数据结构，例如递归结构、共享数据等</p>
+<h1 id="Box-堆对象分配"><a href="#Box-堆对象分配" class="headerlink" title="Box 堆对象分配"></a>Box<T> 堆对象分配</h1><p><code>Box&lt;T&gt;</code>是Rust中最常见的智能指针，它允许你将类型<code>T</code>的值分配在堆上，然后在栈上保留一个智能指针指向堆上的数据。当Box被销毁时，堆上的数据也会被销毁。</p>
+<h2 id="Box的底层实现"><a href="#Box的底层实现" class="headerlink" title="Box的底层实现"></a>Box的底层实现</h2><p>·Box的底层原理<br>    <code>Box&lt;T&gt;</code>是一个智能指针，内部包含一个指向堆上分配内存的裸指针。当<code>Box&lt;T&gt;</code>被销毁时，其Drop trait会被调用，释放堆上的内存。<br>·内存分配<br>    Rust使用系统的全局分配器(<code>malloc</code>和<code>free</code>)来管理内存。<br>    <code>Box::new</code>分配内存，<code>Drop</code>释放内存<br>·安全性<br>    Rust的所有权系统确保<code>Box&lt;T&gt;</code>的内存安全。当所有权发生转移时，堆内存的生命周期也会随之变化</p>
+<h2 id="Box的使用场景"><a href="#Box的使用场景" class="headerlink" title="Box的使用场景"></a>Box的使用场景</h2><p>由于Box是简单的封装，除了将值存储在堆上外，并没有其它性能上的损耗。而性能和功能往往是鱼和熊掌，因此Box相比其它智能指针，功能较为单一，可以在以下场景中使用它：</p>
+<p>·特意的将数据分配在堆上<br>·数据较大时，又不想在转移所有权时进行数据拷贝<br>·类型的大小在编译期无法确定，但是我们又需要固定大小的类型时<br>·特征对象，用于说明对象实现了一个特征，而不是某个特定的类型</p>
+<h3 id="使用Box将数据存储在堆上"><a href="#使用Box将数据存储在堆上" class="headerlink" title="使用Box&lt;T&gt;将数据存储在堆上"></a>使用<code>Box&lt;T&gt;</code>将数据存储在堆上</h3><p>Box最常见的用途是将数据分配在堆上而非栈上，这在处理较大的数据结构或数据结构的大小在编译时不确定的情况下尤为重要：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">a</span> = <span class="type">Box</span>::<span class="title function_ invoke__">new</span>(<span class="number">3</span>);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;a = &#123;&#125;&quot;</span>, a); <span class="comment">// a = 3</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 下面一行代码将报错</span></span><br><span class="line">    <span class="comment">// let b = a + 1; // cannot add `&#123;integer&#125;` to `Box&lt;&#123;integer&#125;&gt;`</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="处理动态大小类型（DST）"><a href="#处理动态大小类型（DST）" class="headerlink" title="处理动态大小类型（DST）"></a>处理动态大小类型（DST）</h3><p>Rust需要在编译时知道类型占用多少空间，如果一种类型在编译时无法知道具体的大小，那么被称为动态大小类型DST。Box允许我们处理动态大小的类型，如<code>str</code>和<code>[T]</code>：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">s</span>: <span class="type">Box</span>&lt;<span class="type">str</span>&gt; = <span class="string">&quot;Hello,world!&quot;</span>.<span class="title function_ invoke__">into</span>();</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;s = &#123;s&#125;&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">arr</span>: <span class="type">Box</span>&lt;[<span class="type">i32</span>]&gt; = <span class="built_in">vec!</span>[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>].<span class="title function_ invoke__">into_boxed_slice</span>();</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;arr = &#123;:?&#125;&quot;</span>, arr);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="递归数据结构"><a href="#递归数据结构" class="headerlink" title="递归数据结构"></a>递归数据结构</h3><p>其中另一种无法在编译时知道大小的类型是<strong>递归类型</strong>：它在类型定义中又使用到了自身，或者说该类型的值的一部分可以是相同类型的其它值，这种值的嵌套理论上可以无限进行下去，所以 Rust 不知道递归类型需要多少空间：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">List</span> &#123;</span><br><span class="line">    <span class="title function_ invoke__">Cons</span>(<span class="type">i32</span>, List),</span><br><span class="line">    Nil,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的例子中就是函数式语言中常见的<code>Cons List</code>，它的每个节点包含一个<code>i32</code>值，还包含了一个新的<code>List</code>，因此这种嵌套可以无限进行下去，Rust认为该类型是一个DST类型，并给予报错：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">error[E0072]: recursive type `List` has infinite size //递归类型 `List` 拥有无限长的大小</span><br><span class="line"> --&gt; src/main.rs:3:1</span><br><span class="line">  |</span><br><span class="line">3 | enum List &#123;</span><br><span class="line">  | ^^^^^^^^^ recursive type has infinite size</span><br><span class="line">4 |     Cons(i32, List),</span><br><span class="line">  |               ---- recursive without indirection</span><br></pre></td></tr></table></figure>
+
+<p>如果想要解决这个问题，我们可以使用智能指针类型来引用自身：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">List</span> &#123;</span><br><span class="line">    <span class="title function_ invoke__">Cons</span>(<span class="type">i32</span>, <span class="type">Box</span>&lt;List&gt;),</span><br><span class="line">    Nil,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上面的代码中，我们将<code>List</code>存储到了堆上，并且使用一个智能指针指向它，完成了从DST到Sized类型（固定大小类型）的转变。</p>
+<h3 id="类型擦除"><a href="#类型擦除" class="headerlink" title="类型擦除"></a>类型擦除</h3><p>在 Rust 中，想实现不同类型组成的数组只有两个办法：枚举和特征对象，前者限制较多，因此后者往往是最常用的解决办法，而<code>Box&lt;dyn Trait&gt;</code>可以用于类型擦除，允许在运行时决定类型：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">trait</span> <span class="title class_">Animal</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">speak</span>(&amp;<span class="keyword">self</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Dog</span>;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Cat</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Animal</span> <span class="keyword">for</span> <span class="title class_">Dog</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">speak</span>(&amp;<span class="keyword">self</span>) &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;Woo&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Animal</span> <span class="keyword">for</span> <span class="title class_">Cat</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">speak</span>(&amp;<span class="keyword">self</span>) &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;Meow&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">animals</span>: <span class="type">Vec</span>&lt;<span class="type">Box</span>&lt;<span class="keyword">dyn</span> Animal&gt;&gt; = <span class="built_in">vec!</span>[<span class="type">Box</span>::<span class="title function_ invoke__">new</span>(Dog), <span class="type">Box</span>::<span class="title function_ invoke__">new</span>(Cat)];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> <span class="variable">animal</span> <span class="keyword">in</span> animals.<span class="title function_ invoke__">iter</span>() &#123;</span><br><span class="line">        animal.<span class="title function_ invoke__">speak</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上面的代码中，我们使用了<code>Box&lt;dyn Animal&gt;</code>的智能指针类型，来把<code>Dog</code>和<code>Cat</code>都塞进了<code>animals</code>的向量中。</p>
+<h4 id="dyn解释"><a href="#dyn解释" class="headerlink" title="dyn解释"></a><code>dyn</code>解释</h4><p><code>dyn</code>关键字用于指定动态分发的类型，它允许在运行时决定具体类型。在Rust中，<code>dyn</code>关键字用于实现动态分发的<code>trait</code>对象。</p>
+<h3 id="内存管理和性能优化"><a href="#内存管理和性能优化" class="headerlink" title="内存管理和性能优化"></a>内存管理和性能优化</h3><p>通过使用Box，可以控制内存的分配和释放，从而优化性能和内存使用。例如，将大型数据结构放在堆上，而不是栈上，可以减少栈的使用量，从而避免<strong>栈溢出</strong>：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">large_array</span>: <span class="type">Box</span>::<span class="title function_ invoke__">new</span>([<span class="number">0u8</span>; <span class="number">1_000_000</span>]);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Large array allocated on the heap.&quot;</span>); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Box的优缺点"><a href="#Box的优缺点" class="headerlink" title="Box的优缺点"></a>Box的优缺点</h2><p><strong>·优点</strong><br>    提供堆内存分配，支持复杂数据结构<br>    与Rust的所有权系统完美集成，确保内存安全<br>    动态分配对象，实现类型擦除</p>
+<p><strong>·缺点</strong><br>    需要堆内存分配和释放，可能带来性能开销<br>    不适合需要频繁分配和释放的场景</p>
+<h2 id="Drop和Deref"><a href="#Drop和Deref" class="headerlink" title="Drop和Deref"></a>Drop和Deref</h2><h3 id="Drop"><a href="#Drop" class="headerlink" title="Drop"></a>Drop</h3><p><code>Drop</code>trait用于自定义当值离开作用域时执行的代码，通常用于释放资源（例如内存、文件句柄、网络连接等）。<br><code>Drop</code>trait定义了一个drop方法，当值被释放时，Rust会自动调用这个方法：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">trait</span> <span class="title class_">Drop</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">drop</span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Deref"><a href="#Deref" class="headerlink" title="Deref"></a>Deref</h3><p><code>Deref</code> trait用于重载解引用运算符（*），它允许你自定义指针类型的解引用行为。<br><code>Deref</code> trait定义了一个deref方法，该方法返回指向目标类型的引用：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">trait</span> <span class="title class_">Deref</span> &#123;</span><br><span class="line">    <span class="keyword">type</span> <span class="title class_">Target</span>: ?Size;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">deref</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> &amp;<span class="keyword">Self</span>::Target;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>下面再举一个例子：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">use::ste::ops::Deref;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Mybox</span>&lt;T&gt;(T);</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span>&lt;T&gt; Mybox&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">new</span>(x: T) <span class="punctuation">-&gt;</span> Mybox&lt;T&gt; &#123;</span><br><span class="line">        <span class="title function_ invoke__">Mybox</span>(x)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span>&lt;T&gt; Deref <span class="keyword">for</span> <span class="title class_">Mybox</span>&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">type</span> <span class="title class_">Target</span> = T;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">deref</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> &amp;T &#123;</span><br><span class="line">        <span class="title function_ invoke__">println</span>(<span class="string">&quot;deref called!&quot;</span>);</span><br><span class="line">        &amp;<span class="keyword">self</span>.<span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">x</span> = <span class="number">5</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">y</span> = Mybox::<span class="title function_ invoke__">new</span>(x);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;y = &#123;&#125;&quot;</span>, *y);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最终输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">deref called!</span><br><span class="line">y = 5</span><br></pre></td></tr></table></figure>
+
+<h3 id="DerefMut"><a href="#DerefMut" class="headerlink" title="DerefMut"></a>DerefMut</h3><p>与<code>Deref</code>相似，<code>DerefMut</code>用于重载可变解引用运算符（*），允许对自定义类型进行可变解引用：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">trait</span> <span class="title class_">DerefMut</span>: Deref &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">deref_mut</span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) <span class="punctuation">-&gt;</span> &amp;<span class="keyword">mut</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="课后作业"><a href="#课后作业" class="headerlink" title="课后作业"></a>课后作业</h2><img src="/images/16-1.png" alt="" width="1000">
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Rust/" rel="tag"># Rust</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/10/22/rust-module-system/" rel="prev" title="十五、Rust基础-模块化">
+      <i class="fa fa-chevron-left"></i> 十五、Rust基础-模块化
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/10/26/rust-smaet-pointer-2/" rel="next" title="rust-smaet-pointer-2">
+      rust-smaet-pointer-2 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">智能指针概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%AD%98%E5%9C%A8%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">为什么存在智能指针？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Box-%E5%A0%86%E5%AF%B9%E8%B1%A1%E5%88%86%E9%85%8D"><span class="nav-number"></span> <span class="nav-text">Box 堆对象分配</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Box%E7%9A%84%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.</span> <span class="nav-text">Box的底层实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Box%E7%9A%84%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">2.</span> <span class="nav-text">Box的使用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Box%E5%B0%86%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E5%9C%A8%E5%A0%86%E4%B8%8A"><span class="nav-number">2.1.</span> <span class="nav-text">使用Box&lt;T&gt;将数据存储在堆上</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%84%E7%90%86%E5%8A%A8%E6%80%81%E5%A4%A7%E5%B0%8F%E7%B1%BB%E5%9E%8B%EF%BC%88DST%EF%BC%89"><span class="nav-number">2.2.</span> <span class="nav-text">处理动态大小类型（DST）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%92%E5%BD%92%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">2.3.</span> <span class="nav-text">递归数据结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B%E6%93%A6%E9%99%A4"><span class="nav-number">2.4.</span> <span class="nav-text">类型擦除</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#dyn%E8%A7%A3%E9%87%8A"><span class="nav-number">2.4.1.</span> <span class="nav-text">dyn解释</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%92%8C%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96"><span class="nav-number">2.5.</span> <span class="nav-text">内存管理和性能优化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Box%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="nav-number">3.</span> <span class="nav-text">Box的优缺点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Drop%E5%92%8CDeref"><span class="nav-number">4.</span> <span class="nav-text">Drop和Deref</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Drop"><span class="nav-number">4.1.</span> <span class="nav-text">Drop</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deref"><span class="nav-number">4.2.</span> <span class="nav-text">Deref</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DerefMut"><span class="nav-number">4.3.</span> <span class="nav-text">DerefMut</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%BE%E5%90%8E%E4%BD%9C%E4%B8%9A"><span class="nav-number">5.</span> <span class="nav-text">课后作业</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name"></p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
