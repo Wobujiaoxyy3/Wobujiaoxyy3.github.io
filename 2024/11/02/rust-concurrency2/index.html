@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="共享内存在上一节课中，我们学习了消息传递并发模型，消息传递并发模型通过通道（channel）在多个线程之间传递消息，从而实现并发。而实际上我们还可以通过共享内存的方式来实现并发。  在通过通道进行通信时，我们实际上是在通过消息传递的方式进行通信，这种方式类似于所有权，一旦我们将值的所有权转移至Channel中，我们就无法再使用该值。而共享内存并发则类似于多所有权，多个线程可以同时读写同一块内存。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rust进阶-并发2">
+<meta property="og:url" content="http://example.com/2024/11/02/rust-concurrency2/index.html">
+<meta property="og:site_name" content="Wobujiaoxyy3">
+<meta property="og:description" content="共享内存在上一节课中，我们学习了消息传递并发模型，消息传递并发模型通过通道（channel）在多个线程之间传递消息，从而实现并发。而实际上我们还可以通过共享内存的方式来实现并发。  在通过通道进行通信时，我们实际上是在通过消息传递的方式进行通信，这种方式类似于所有权，一旦我们将值的所有权转移至Channel中，我们就无法再使用该值。而共享内存并发则类似于多所有权，多个线程可以同时读写同一块内存。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-11-02T12:36:24.000Z">
+<meta property="article:modified_time" content="2024-11-13T23:43:16.488Z">
+<meta property="article:tag" content="Rust">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2024/11/02/rust-concurrency2/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Rust进阶-并发2 | Wobujiaoxyy3</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Wobujiaoxyy3</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/11/02/rust-concurrency2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wobujiaoxyy3">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Rust进阶-并发2
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2024-11-02 12:36:24" itemprop="dateCreated datePublished" datetime="2024-11-02T12:36:24+00:00">2024-11-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-11-13 23:43:16" itemprop="dateModified" datetime="2024-11-13T23:43:16+00:00">2024-11-13</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="共享内存"><a href="#共享内存" class="headerlink" title="共享内存"></a>共享内存</h1><p>在上一节课中，我们学习了消息传递并发模型，消息传递并发模型通过通道（channel）在多个线程之间传递消息，从而实现并发。而实际上我们还可以通过<strong>共享内存</strong>的方式来实现并发。 </p>
+<p>在通过通道进行通信时，我们实际上是在通过消息传递的方式进行通信，这种方式类似于<strong>所有权</strong>，一旦我们将值的所有权转移至Channel中，我们就无法再使用该值。而共享内存并发则类似于多所有权，多个线程可以同时读写同一块内存。</p>
+<h2 id="互斥锁-Mutex"><a href="#互斥锁-Mutex" class="headerlink" title="互斥锁 Mutex"></a>互斥锁 Mutex</h2><p>互斥锁<code>Mutex</code>是Rust标准库提供的用于共享内存的并发原语。它是<code>multipule exlusion</code>的缩写，意为<strong>多线程互斥</strong>。<code>Mutex</code>让多个线程并发的访问同一个值变成了排队访问：同一时间，只允许一个线程<code>A</code>访问该值，其他线程<code>B</code>则需要等待线程<code>A</code>访问结束。</p>
+<p>如果想要访问数据：</p>
+<ul>
+<li>线程<code>A</code>需要先获取<code>Mutex</code>的锁(<code>lock</code>)，只有获取到锁，才能访问数据。</li>
+<li>lock数据结构是<code>Mutex</code>的一部分，它能跟踪谁对数据拥有独占访问权</li>
+<li><code>mutex</code>通常被描述为：通过锁定系统来保护它所持有的数据</li>
+</ul>
+<h2 id="Mutex-的两条规则"><a href="#Mutex-的两条规则" class="headerlink" title="Mutex 的两条规则"></a>Mutex 的两条规则</h2><ul>
+<li>在使用数据之前，必须尝试获取锁（<code>lock</code>）</li>
+<li>在使用完<code>mutex</code>所保护的数据后，必须释放锁（<code>unlock</code>），以便其他的线程可以获取锁</li>
+</ul>
+<h2 id="使用-Mutex"><a href="#使用-Mutex" class="headerlink" title="使用 Mutex"></a>使用 Mutex</h2><h3 id="单线程中使用Mutex"><a href="#单线程中使用Mutex" class="headerlink" title="单线程中使用Mutex"></a>单线程中使用Mutex</h3><p>让我们通过一个例子来看看单线程中如何使用<code>Mutex</code>：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::sync::Mutex;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="comment">// 创建一个Mutex智能指针</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">m</span> = Mutex::<span class="title function_ invoke__">new</span>(<span class="number">5</span>);</span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// lock返回的是Result类型</span></span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">num</span> = m.<span class="title function_ invoke__">lock</span>().<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">        *num = <span class="number">6</span>;</span><br><span class="line">        <span class="comment">// 离开作用域时，自动释放锁</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;m = &#123;&#125;&quot;</span>, m);  <span class="comment">// 打印结果为：m = Mutex &#123; data: 6 &#125;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上面的代码示例中，我们使用<code>Mutex::new(5)</code>创建了一个<code>Mutex</code>智能指针，并将其初始值设置为5。接着，我们使用了<code>m.lock()</code>方法来为<code>m</code>申请一个<strong>锁</strong>，并将其赋值给<code>num</code>。该方法会阻塞当前线程，直到获取到锁。因此当多个线程同时访问该数据时，只有一个线程能获取到锁，其它线程只能阻塞着等待，这样就保证了数据能被安全的修改！</p>
+<p><code>m.lock()</code>方法也有可能返回一个错误，例如当前正在持有锁的线程<code>panic</code>了。在这种情况下，其它线程不可能再获得锁，因此<code>lock</code>方法会返回一个错误。</p>
+<p>实际上，<code>lock</code>方法返回的是一个<code>MutexGuard</code>类型的智能指针，它实现了<code>Deref</code>特征，因此我们可以像解引用一个常规的指针一样，直接访问<code>Mutex</code>中的数据。同时，它还实现了<code>Drop</code>特征，当<code>MutexGuard</code>离开作用域时，会自动释放锁，因此不需要我们手动调用<code>unlock</code>方法。</p>
+<h3 id="多线程中使用-Mutex"><a href="#多线程中使用-Mutex" class="headerlink" title="多线程中使用 Mutex"></a>多线程中使用 Mutex</h3><p>让我们先来看下面一个例子：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::sync::Mutex;</span><br><span class="line"><span class="keyword">use</span> std::thread;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="comment">// 创建一个Mutex智能指针</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">counter</span> = Mutex::<span class="title function_ invoke__">new</span>(<span class="number">0</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">handles</span> = <span class="built_in">vec!</span>[];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建10个线程，每个线程将计数器加1</span></span><br><span class="line">    <span class="keyword">for</span> <span class="variable">_</span> <span class="keyword">in</span> <span class="number">0</span>..<span class="number">10</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">handle</span> = thread::<span class="title function_ invoke__">spawn</span>(<span class="keyword">move</span> || &#123;</span><br><span class="line">            <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">num</span> = counter.<span class="title function_ invoke__">lock</span>().<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">            *num += <span class="number">1</span>;</span><br><span class="line">        &#125;);</span><br><span class="line">        handles.<span class="title function_ invoke__">push</span>(handle);</span><br><span class="line">    &#125;   </span><br><span class="line"></span><br><span class="line">    <span class="comment">// 等待所有线程结束</span></span><br><span class="line">    <span class="keyword">for</span> <span class="variable">handle</span> <span class="keyword">in</span> handles &#123;</span><br><span class="line">        handle.<span class="title function_ invoke__">join</span>().<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Result: &#123;&#125;&quot;</span>, *counter.<span class="title function_ invoke__">lock</span>().<span class="title function_ invoke__">unwrap</span>());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上面的的代码中，我们试图创建一个被<code>Mutex</code>保护的计数器，并创建了10个线程，每个线程将计数器加<code>1</code>。最后，打印出计数器的值。但很遗憾的是，这段代码并不能正常工作。原因在于<code>counter</code>变量已经被<code>move</code>移动到了线程中，主线程无法再访问该变量。</p>
+<p>那么，我们之前学过<code>Rc&lt;T&gt;</code>智能指针，它允许我们在多个地方共享所有权。那么，我们是否可以用<code>Rc&lt;Mutex&lt;T&gt;&gt;</code>来解决这个问题呢？</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::rc::Rc;</span><br><span class="line"><span class="keyword">use</span> std::sync::Mutex;</span><br><span class="line"><span class="keyword">use</span> std::thread;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="comment">// 通过`Rc`实现`Mutex`的多所有权</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">counter</span> = Rc::<span class="title function_ invoke__">new</span>(Mutex::<span class="title function_ invoke__">new</span>(<span class="number">0</span>));</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">handles</span> = <span class="built_in">vec!</span>[];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> <span class="variable">_</span> <span class="keyword">in</span> <span class="number">0</span>..<span class="number">10</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">counter</span> = Rc::<span class="title function_ invoke__">clone</span>(&amp;counter);</span><br><span class="line">        <span class="comment">// 创建子线程，并将`Mutex`的所有权拷贝传入到子线程中</span></span><br><span class="line">        <span class="keyword">let</span> <span class="variable">handle</span> = thread::<span class="title function_ invoke__">spawn</span>(<span class="keyword">move</span> || &#123;</span><br><span class="line">            <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">num</span> = counter.<span class="title function_ invoke__">lock</span>().<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line"></span><br><span class="line">            *num += <span class="number">1</span>;</span><br><span class="line">        &#125;);</span><br><span class="line">        handles.<span class="title function_ invoke__">push</span>(handle);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 等待所有子线程完成</span></span><br><span class="line">    <span class="keyword">for</span> <span class="variable">handle</span> <span class="keyword">in</span> handles &#123;</span><br><span class="line">        handle.<span class="title function_ invoke__">join</span>().<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 输出最终的计数结果</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Result: &#123;&#125;&quot;</span>, *counter.<span class="title function_ invoke__">lock</span>().<span class="title function_ invoke__">unwrap</span>());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里，由于子线程需要通过<code>move</code>拿走锁的所有权，因此我们需要使用多所有权来保证每个线程都拿到数据的独立所有权，从而避免主线程无法访问<code>counter</code>变量。但是，遗憾又来了，当我们运行该程序时，会报错：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">error[E0277]: `Rc&lt;Mutex&lt;i32&gt;&gt;` cannot be sent between threads safely</span><br><span class="line">                // `Rc`无法在线程中安全的传输</span><br><span class="line">   --&gt; src/main.rs:11:22</span><br><span class="line">    |</span><br><span class="line">13  |           let handle = thread::spawn(move || &#123;</span><br><span class="line">    |  ______________________^^^^^^^^^^^^^_-</span><br><span class="line">    | |                      |</span><br><span class="line">    | |                      `Rc&lt;Mutex&lt;i32&gt;&gt;` cannot be sent between threads safely</span><br><span class="line">14  | |             let mut num = counter.lock().unwrap();</span><br><span class="line">15  | |</span><br><span class="line">16  | |             *num += 1;</span><br><span class="line">17  | |         &#125;);</span><br><span class="line">    | |_________- within this `[closure@src/main.rs:11:36: 15:10]`</span><br><span class="line">    |</span><br><span class="line">    = help: within `[closure@src/main.rs:11:36: 15:10]`, the trait `Send` is not implemented for `Rc&lt;Mutex&lt;i32&gt;&gt;`</span><br><span class="line">     // `Rc`没有实现`Send`特征</span><br><span class="line">    = note: required because it appears within the type `[closure@src/main.rs:11:36: 15:10]`</span><br></pre></td></tr></table></figure>
+<p>上面的错误信息告诉我们，<code>Rc</code>没有实现<code>Send</code>特征，因此无法在线程间安全的传输。这听起来有点难理解，<code>Rc</code>不是线程安全的吗？单线程中，<code>Rc</code>确实可以安全的进行使用，但是当<code>Rc</code>被用在多线程中时，就会变得不安全。原因在于<code>Rc</code>本身是不可变的，它无法自动更新引用计数，因此当多个线程同时修改引用计数时，就会导致数据不一致的问题。想象一下，如果一个线程正在修改引用计数，而另一个线程正在读取引用计数，那么就会导致数据不一致的问题。</p>
+<h4 id="多线程安全的Arc"><a href="#多线程安全的Arc" class="headerlink" title="多线程安全的Arc&lt;T&gt;"></a>多线程安全的<code>Arc&lt;T&gt;</code></h4><p><code>Arc&lt;T&gt;</code>是<code>Rc&lt;T&gt;</code>的多线程版本，它通过<code>Atomic</code>原子操作实现了线程安全的引用计数。因此，我们可以使用<code>Arc&lt;Mutex&lt;T&gt;&gt;</code>来替代<code>Rc&lt;Mutex&lt;T&gt;&gt;</code>，从而解决多线程中<code>Mutex</code>的问题。值得注意的是，<code>Arc</code>与<code>Rc</code>的API基本一致，因此我们可以直接将<code>Rc</code>替换为<code>Arc</code>。</p>
+<p>那么就引出了一个问题，为什么所有的基础类型都不是原子的，为什么标准库类型不默认使用<code>Arc</code>呢？原因在于实现原子性需要额外的性能开销。</p>
+<p>接下来，让我们使用<code>Arc&lt;T&gt;</code>来实现多线程中<code>Mutex</code>的访问：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::sync::&#123;Arc, Mutex&#125;;</span><br><span class="line"><span class="keyword">use</span> std::thread;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">counter</span> = Arc::<span class="title function_ invoke__">new</span>(Mutex::<span class="title function_ invoke__">new</span>(<span class="number">0</span>));</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">handles</span> = <span class="built_in">vec!</span>[];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> <span class="variable">_</span> <span class="keyword">in</span> <span class="number">0</span>..<span class="number">10</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">counter</span> = Arc::<span class="title function_ invoke__">clone</span>(&amp;counter);</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">handle</span> = thread::<span class="title function_ invoke__">spawn</span>(<span class="keyword">move</span> || &#123;</span><br><span class="line">            <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">num</span> = counter.<span class="title function_ invoke__">lock</span>().<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line"></span><br><span class="line">            *num += <span class="number">1</span>;</span><br><span class="line">        &#125;);</span><br><span class="line">        handles.<span class="title function_ invoke__">push</span>(handle);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> <span class="variable">handle</span> <span class="keyword">in</span> handles &#123;</span><br><span class="line">        handle.<span class="title function_ invoke__">join</span>().<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Result: &#123;&#125;&quot;</span>, *counter.<span class="title function_ invoke__">lock</span>().<span class="title function_ invoke__">unwrap</span>());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上代码可以顺利运行，打印结果为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Result: 10</span><br></pre></td></tr></table></figure>
+
+<h3 id="Rc-RefCell-Versus-Arc-Mutex"><a href="#Rc-RefCell-Versus-Arc-Mutex" class="headerlink" title="Rc&lt;T&gt;&#x2F;RefCell&lt;T&gt; Versus Arc&lt;T&gt;&#x2F;Mutex&lt;T&gt;"></a><code>Rc&lt;T&gt;</code>&#x2F;<code>RefCell&lt;T&gt;</code> Versus <code>Arc&lt;T&gt;</code>&#x2F;<code>Mutex&lt;T&gt;</code></h3><ul>
+<li><code>Mutex&lt;T&gt;</code>也提供了内部可变性，和<code>RefCell&lt;T&gt;</code>类似，但是<code>Mutex&lt;T&gt;</code>需要在访问数据之前先获取锁，因此性能上不如<code>RefCell&lt;T&gt;</code>。</li>
+<li>我们使用<code>RefCell&lt;T&gt;</code>来改变<code>Rc&lt;T&gt;</code>里面的内容。</li>
+<li>我们使用<code>Mutex&lt;T&gt;</code>来改变<code>Arc&lt;T&gt;</code>里面的内容。</li>
+<li><code>Mutex&lt;T&gt;</code>有死锁的风险。</li>
+</ul>
+<h2 id="Send和Sync特征"><a href="#Send和Sync特征" class="headerlink" title="Send和Sync特征"></a><code>Send</code>和<code>Sync</code>特征</h2><ul>
+<li><code>Send</code>特征：允许在线程间安全的传输数据</li>
+<li><code>Sync</code>特征：允许在线程间安全的共享数据</li>
+</ul>
+<p>Rust语言中，所有基本类型都实现了<code>Send</code>和<code>Sync</code>特征，因此它们在线程间可以安全的传输和共享。但是，这并不是Rust语言本身的特性，而是来自标准库。 </p>
+<h3 id="Send：允许在线程间安全的转移所有权"><a href="#Send：允许在线程间安全的转移所有权" class="headerlink" title="Send：允许在线程间安全的转移所有权"></a>Send：允许在线程间安全的转移所有权</h3><p><code>Send</code>特征允许在线程间安全的转移所有权。如果一个类型实现了<code>Send</code>特征，那么它就可以被安全的移动到另一个线程中。Rust中几乎所有的类型都实现了<code>Send</code>特征，除了<code>Rc&lt;T&gt;</code>。</p>
+<p>任何完全由<code>Send</code>类型组成的类型也是<code>Send</code>类型。<br>除了原始指针（<code>*T</code>）之外，所有指针都实现了<code>Send</code>特征。</p>
+<h3 id="Sync：允许在线程间安全的共享数据"><a href="#Sync：允许在线程间安全的共享数据" class="headerlink" title="Sync：允许在线程间安全的共享数据"></a>Sync：允许在线程间安全的共享数据</h3><p><code>Sync</code>特征允许在线程间安全的共享数据，也即多线程访问。如果一个类型实现了<code>Sync</code>特征，那么它就可以安全的被多个线程引用。也就是说：</p>
+<ul>
+<li>如果<code>T</code>实现了<code>Sync</code>，那么<code>&amp;T</code>就是<code>Send</code>。</li>
+<li>所有<code>Send</code>类型都实现了<code>Sync</code>。</li>
+<li>基础类型都实现了<code>Sync</code>，因此任何完全由<code>Sync</code>类型组成的类型也实现了<code>Sync</code>。</li>
+<li><code>Rc&lt;T&gt;</code>没有实现<code>Sync</code>，<code>RefCell&lt;T&gt;</code>和<code>Cell&lt;T&gt;</code>也没有实现<code>Sync</code>。</li>
+<li>而<code>Mutex&lt;T&gt;</code>和<code>Arc&lt;T&gt;</code>都实现了<code>Sync</code>。</li>
+</ul>
+<h2 id="课后作业"><a href="#课后作业" class="headerlink" title="课后作业"></a>课后作业</h2><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 任务描述</span></span><br><span class="line"><span class="comment">// 你需要缩写一个简单的多线程任务调度器，它能够接收多个任务，并将这些任务分发到多个工作线程中执行。调度器使用 Channel 进行任务的分发和结果的收集。你需要使用 Rust 的 Send 和 Sync 特性来确保任务调度器在多线程环境中的安全性。</span></span><br><span class="line"><span class="comment">// 具体要求</span></span><br><span class="line"><span class="comment">// 任务结构：</span></span><br><span class="line"><span class="comment">// 定义一个 Task 结构体，表示需要执行的任务。任务包含一个唯一的 id 和一个用于执行的闭包。</span></span><br><span class="line"><span class="comment">// 调度器结构：</span></span><br><span class="line"><span class="comment">// 创建一个 Scheduler 结构体，包含一个任务队列和一个线程池。调度器应当使用 channel 来分发任务到不同的工作线程。</span></span><br><span class="line"><span class="comment">// 功能实现：</span></span><br><span class="line"><span class="comment">// 调度器应当具有以下功能:</span></span><br><span class="line"><span class="comment">// 添加任务：向调度器添加一个任务。</span></span><br><span class="line"><span class="comment">// 启动调度器：启动多个线程，开始从任务队列中获取任务并执行。</span></span><br><span class="line"><span class="comment">// 获取结果：在所有任务完成后，收集并打印每个任务的执行结果。</span></span><br><span class="line"><span class="comment">// 多线程安全：</span></span><br><span class="line"><span class="comment">// 通过使用 Arc 和 Mutex 确保任务队列在多个线程之间的安全访问。</span></span><br><span class="line"><span class="comment">// 确保任务的结果能够正确地在线程之间传递和收集。</span></span><br><span class="line"><span class="comment">// 问题提示：</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 任务队列：</span></span><br><span class="line"><span class="comment">// 使用 Mutex 来保护任务队列，确保多个线程不会同时修改队列中的数据。</span></span><br><span class="line"><span class="comment">// 使用 Arc 来共享任务队列的所有权，使得多个线程能够访问同一个任务队列。</span></span><br><span class="line"><span class="comment">// 任务分发：</span></span><br><span class="line"><span class="comment">// 使用 channel 来将任务的完成状态发送回主线程，从而可以在主线程中收集和打印任务完成的结果。</span></span><br><span class="line"><span class="comment">// 线程池：</span></span><br><span class="line"><span class="comment">// 通过循环创建多个工作线程，每个线程从任务队列中取出任务并执行。线程池的大小可以通过 Scheduler 的构造函数来指定</span></span><br><span class="line"><span class="comment">// 任务执行：</span></span><br><span class="line"><span class="comment">// 每个任务都应该是一个闭包，使用 Box&lt;dyn FnOnce()&gt;将其存储在 Task 结构体中。</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> std::collections::VecDeque;</span><br><span class="line"><span class="keyword">use</span> std::sync::&#123;mpsc, Arc, Mutex&#125;;</span><br><span class="line"><span class="keyword">use</span> std::thread;</span><br><span class="line"><span class="keyword">use</span> std::time::Duration;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Task</span> &#123;</span><br><span class="line">    task_id: <span class="type">usize</span>,</span><br><span class="line">    job: <span class="type">Box</span>&lt;<span class="keyword">dyn</span> <span class="title function_ invoke__">FnOnce</span>() + <span class="built_in">Send</span> + <span class="symbol">&#x27;static</span>&gt;,    <span class="comment">// 任务闭包</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Task</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">new</span>&lt;F&gt;(task_id: <span class="type">usize</span>, job: F) <span class="punctuation">-&gt;</span> Task </span><br><span class="line">    <span class="keyword">where</span> F: <span class="title function_ invoke__">FnOnce</span>() + <span class="built_in">Send</span> + <span class="symbol">&#x27;static</span>,</span><br><span class="line">    &#123;</span><br><span class="line">        Task &#123;</span><br><span class="line">            task_id,</span><br><span class="line">            job: <span class="type">Box</span>::<span class="title function_ invoke__">new</span>(job),</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Scheduler</span> &#123;</span><br><span class="line">    tasks: Arc&lt;Mutex&lt;VecDeque&lt;Task&gt;&gt;&gt;,    <span class="comment">// 任务队列，VecDeque是双端队列</span></span><br><span class="line">    num_workers: <span class="type">usize</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Scheduler</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">new</span>(num_workers: <span class="type">usize</span>) <span class="punctuation">-&gt;</span> <span class="keyword">Self</span> &#123;</span><br><span class="line">        Scheduler &#123;</span><br><span class="line">            tasks: Arc::<span class="title function_ invoke__">new</span>(Mutex::<span class="title function_ invoke__">new</span>(VecDeque::<span class="title function_ invoke__">new</span>())),</span><br><span class="line">            num_workers,</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">add_task</span>&lt;F&gt;(&amp;<span class="keyword">self</span>, task_id: <span class="type">usize</span>, job: F)</span><br><span class="line">    <span class="keyword">where</span> F: <span class="title function_ invoke__">FnOnce</span>() + <span class="built_in">Send</span> + <span class="symbol">&#x27;static</span>,</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">tasks</span> = <span class="keyword">self</span>.tasks.<span class="title function_ invoke__">lock</span>().<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">        tasks.<span class="title function_ invoke__">push_back</span>(Task::<span class="title function_ invoke__">new</span>(task_id, job));   <span class="comment">// 将任务添加到任务队列的末尾</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">activate</span>(&amp;<span class="keyword">self</span>) &#123;</span><br><span class="line">        <span class="keyword">let</span> (tx, rx) = mpsc::<span class="title function_ invoke__">channel</span>();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> <span class="variable">worker_id</span> <span class="keyword">in</span> <span class="number">1</span>..=<span class="keyword">self</span>.num_workers &#123;</span><br><span class="line">            <span class="keyword">let</span> <span class="variable">tasks</span> = Arc::<span class="title function_ invoke__">clone</span>(&amp;<span class="keyword">self</span>.tasks);</span><br><span class="line">            <span class="keyword">let</span> <span class="variable">tx</span> = tx.<span class="title function_ invoke__">clone</span>();</span><br><span class="line"></span><br><span class="line">            thread::<span class="title function_ invoke__">spawn</span>(<span class="keyword">move</span> || <span class="keyword">loop</span> &#123;</span><br><span class="line">                <span class="keyword">let</span> <span class="variable">task_opt</span> = &#123;</span><br><span class="line">                    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">tasks</span> = tasks.<span class="title function_ invoke__">lock</span>().<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">                    tasks.<span class="title function_ invoke__">pop_front</span>()</span><br><span class="line">                &#125;;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> <span class="keyword">let</span> <span class="variable">Some</span>(task) = task_opt &#123;</span><br><span class="line">                    <span class="built_in">println!</span>(<span class="string">&quot;Worker &#123;&#125; is executing task &#123;&#125;&quot;</span>, worker_id, task.task_id);</span><br><span class="line">                    (task.job)();</span><br><span class="line">                    tx.<span class="title function_ invoke__">send</span>(task.task_id).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                thread::<span class="title function_ invoke__">sleep</span>(Duration::<span class="title function_ invoke__">from_secs</span>(<span class="number">1</span>));</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="title function_ invoke__">drop</span>(tx);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> <span class="keyword">let</span> <span class="variable">Ok</span>(task_id) = rx.<span class="title function_ invoke__">recv</span>() &#123;</span><br><span class="line">            <span class="built_in">println!</span>(<span class="string">&quot;Task &#123;&#125; completed&quot;</span>, task_id);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;All tasks are completed.&quot;</span>);</span><br><span class="line">    &#125;    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="comment">// 创建调度器，指定线程池大小为 4</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">scheduler</span> = Scheduler::<span class="title function_ invoke__">new</span>(<span class="number">4</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 添加任务到调度器</span></span><br><span class="line">    <span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> <span class="number">0</span>..<span class="number">10</span> &#123;</span><br><span class="line">        scheduler.<span class="title function_ invoke__">add_task</span>(i, <span class="keyword">move</span> || &#123;</span><br><span class="line">            <span class="built_in">println!</span>(<span class="string">&quot;Executing task &#123;&#125;&quot;</span>, i);</span><br><span class="line">            thread::<span class="title function_ invoke__">sleep</span>(Duration::<span class="title function_ invoke__">from_secs</span>(<span class="number">2</span>)); <span class="comment">// 模拟任务耗时</span></span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 启动调度器，开始执行任务</span></span><br><span class="line">    scheduler.<span class="title function_ invoke__">activate</span>();</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;All tasks have been processed.&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Rust/" rel="tag"># Rust</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/11/02/rust-concurrency/" rel="prev" title="二十五、Rust进阶-并发">
+      <i class="fa fa-chevron-left"></i> 二十五、Rust进阶-并发
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98"><span class="nav-number">1.</span> <span class="nav-text">共享内存</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%92%E6%96%A5%E9%94%81-Mutex"><span class="nav-number">1.1.</span> <span class="nav-text">互斥锁 Mutex</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Mutex-%E7%9A%84%E4%B8%A4%E6%9D%A1%E8%A7%84%E5%88%99"><span class="nav-number">1.2.</span> <span class="nav-text">Mutex 的两条规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-Mutex"><span class="nav-number">1.3.</span> <span class="nav-text">使用 Mutex</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%95%E7%BA%BF%E7%A8%8B%E4%B8%AD%E4%BD%BF%E7%94%A8Mutex"><span class="nav-number">1.3.1.</span> <span class="nav-text">单线程中使用Mutex</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B8%AD%E4%BD%BF%E7%94%A8-Mutex"><span class="nav-number">1.3.2.</span> <span class="nav-text">多线程中使用 Mutex</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84Arc"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">多线程安全的Arc&lt;T&gt;</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Rc-RefCell-Versus-Arc-Mutex"><span class="nav-number">1.3.3.</span> <span class="nav-text">Rc&lt;T&gt;&#x2F;RefCell&lt;T&gt; Versus Arc&lt;T&gt;&#x2F;Mutex&lt;T&gt;</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Send%E5%92%8CSync%E7%89%B9%E5%BE%81"><span class="nav-number">1.4.</span> <span class="nav-text">Send和Sync特征</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Send%EF%BC%9A%E5%85%81%E8%AE%B8%E5%9C%A8%E7%BA%BF%E7%A8%8B%E9%97%B4%E5%AE%89%E5%85%A8%E7%9A%84%E8%BD%AC%E7%A7%BB%E6%89%80%E6%9C%89%E6%9D%83"><span class="nav-number">1.4.1.</span> <span class="nav-text">Send：允许在线程间安全的转移所有权</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sync%EF%BC%9A%E5%85%81%E8%AE%B8%E5%9C%A8%E7%BA%BF%E7%A8%8B%E9%97%B4%E5%AE%89%E5%85%A8%E7%9A%84%E5%85%B1%E4%BA%AB%E6%95%B0%E6%8D%AE"><span class="nav-number">1.4.2.</span> <span class="nav-text">Sync：允许在线程间安全的共享数据</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%BE%E5%90%8E%E4%BD%9C%E4%B8%9A"><span class="nav-number">1.5.</span> <span class="nav-text">课后作业</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name"></p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

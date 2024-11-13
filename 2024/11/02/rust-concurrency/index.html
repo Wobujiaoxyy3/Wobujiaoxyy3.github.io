@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="并发 Concurrency安全和高效的处理并发是Rust语言的主要目标之一。随着现代处理器的核心数不断增加，并发和并行已经成为日常编程不可或缺的一部分，甚至于Go语言已经将并发简化到一个go关键字就可以。 可惜的是，在Rust中由于语言设计理念、安全、性能的多方面考虑，并没有采用Go语言大道至简的方式，而是选择了多线程与async&#x2F;await相结合，优点是可控性更强、性能更高，缺点是复杂度并不低">
+<meta property="og:type" content="article">
+<meta property="og:title" content="二十五、Rust进阶-并发">
+<meta property="og:url" content="http://example.com/2024/11/02/rust-concurrency/index.html">
+<meta property="og:site_name" content="Wobujiaoxyy3">
+<meta property="og:description" content="并发 Concurrency安全和高效的处理并发是Rust语言的主要目标之一。随着现代处理器的核心数不断增加，并发和并行已经成为日常编程不可或缺的一部分，甚至于Go语言已经将并发简化到一个go关键字就可以。 可惜的是，在Rust中由于语言设计理念、安全、性能的多方面考虑，并没有采用Go语言大道至简的方式，而是选择了多线程与async&#x2F;await相结合，优点是可控性更强、性能更高，缺点是复杂度并不低">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-11-02T01:03:11.000Z">
+<meta property="article:modified_time" content="2024-11-13T23:43:02.311Z">
+<meta property="article:tag" content="Rust">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2024/11/02/rust-concurrency/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>二十五、Rust进阶-并发 | Wobujiaoxyy3</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Wobujiaoxyy3</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/11/02/rust-concurrency/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wobujiaoxyy3">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          二十五、Rust进阶-并发
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2024-11-02 01:03:11" itemprop="dateCreated datePublished" datetime="2024-11-02T01:03:11+00:00">2024-11-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-11-13 23:43:02" itemprop="dateModified" datetime="2024-11-13T23:43:02+00:00">2024-11-13</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="并发-Concurrency"><a href="#并发-Concurrency" class="headerlink" title="并发 Concurrency"></a>并发 Concurrency</h1><p>安全和高效的处理并发是Rust语言的主要目标之一。随着现代处理器的核心数不断增加，并发和并行已经成为日常编程不可或缺的一部分，甚至于Go语言已经将并发简化到一个<code>go</code>关键字就可以。</p>
+<p>可惜的是，在Rust中由于语言设计理念、安全、性能的多方面考虑，并没有采用Go语言大道至简的方式，而是选择了多线程与<code>async/await</code>相结合，优点是可控性更强、性能更高，缺点是复杂度并不低，当然这也是系统级语言的应有选择：使用复杂度换取可控性和性能。</p>
+<h2 id="并发与并行"><a href="#并发与并行" class="headerlink" title="并发与并行"></a>并发与并行</h2><p>并发（Concurrency）和并行（Parallelism）是两个非常相似的概念，虽然我们平时统称并发与并行为并发，但它们之间存在一些细微的差别。</p>
+<p>并发是指系统能够同时处理多个任务的能力，这些任务可能处于不同的状态，但它们共享同一个处理器。并发通常涉及任务的切换和调度，使得多个任务虽然在时间上交替执行，但是看起来就像是同时运行的。</p>
+<p>并行则是指系统能够同时执行多个任务的能力，这些任务在不同的处理器上运行，每个任务都占用一个独立的处理器。并行通常涉及任务的分配和执行，使得多个任务看起来是同时运行的。</p>
+<h2 id="进程与线程"><a href="#进程与线程" class="headerlink" title="进程与线程"></a>进程与线程</h2><p>在大多数的操作系统OS中，代码运行在进程（process）中，OS同时管理里面的多个进程。</p>
+<p>在我们的程序中，各独立部分可以同时运行，运行这些独立部分的就是线程（thread）。</p>
+<h3 id="多线程运行"><a href="#多线程运行" class="headerlink" title="多线程运行"></a>多线程运行</h3><p>多线程运行可以提升程序的性能表现，但是也会增加复杂度，无法保障各线程的执行顺序，同时带来安全问题：</p>
+<ul>
+<li>竞态条件（Race Condition）：多个线程以非一致性的顺序同时访问数据资源，导致数据不一致。</li>
+<li>死锁（Deadlock）：多个线程相互等待对方释放资源，导致所有线程都无法继续执行。</li>
+<li>活锁（Livelock）：多个线程不断尝试解决冲突，但始终无法成功，导致所有线程都无法继续执行。</li>
+<li>一些因为多线程导致的很隐晦的BUG，难以复现并解决。</li>
+</ul>
+<h2 id="实现线程的方式"><a href="#实现线程的方式" class="headerlink" title="实现线程的方式"></a>实现线程的方式</h2><p>不同语言对于线程的实现大相径庭：</p>
+<ul>
+<li>由于操作系统提供了创建线程的API，因此部分语言会直接调用该 API 来创建线程，因此最终程序内的线程数和该程序占用的操作系统线程数相等，一般称之为<strong>1:1线程模型</strong>，例如 Rust。这种设计的优点是运行时（runtime）较小。<br>-还有些语言在内部实现了自己的线程模型（绿色线程、协程），程序内部的 M 个线程最后会以某种映射方式使用 N 个操作系统线程去运行，因此称之为<strong>M:N线程模型</strong>，其中 M 和 N 并没有特定的彼此限制关系。一个典型的代表就是 Go 语言。这种设计则需要较大的运行时。<br>-还有些语言使用了 Actor 模型，基于消息传递进行并发，例如 Erlang 语言。</li>
+</ul>
+<h2 id="在Rust中创建线程"><a href="#在Rust中创建线程" class="headerlink" title="在Rust中创建线程"></a>在Rust中创建线程</h2><p>在Rust中，我们可以使用<code>thread::spawn</code>函数来创建线程：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::thread;</span><br><span class="line"><span class="keyword">use</span> std::time::Duration;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    thread::<span class="title function_ invoke__">spawn</span>(|| &#123; <span class="comment">// 子线程，主线程结束时，子线程也会结束</span></span><br><span class="line">        <span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> <span class="number">1</span>..<span class="number">10</span> &#123;</span><br><span class="line">            <span class="built_in">println!</span>(<span class="string">&quot;hi number &#123;&#125; from the spawned thread!&quot;</span>, i);</span><br><span class="line">            thread::<span class="title function_ invoke__">sleep</span>(Duration::<span class="title function_ invoke__">from_millis</span>(<span class="number">1</span>));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> <span class="number">1</span>..<span class="number">5</span> &#123; <span class="comment">// 主线程，在i=4时，主线程结束</span></span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;hi number &#123;&#125; from the main thread!&quot;</span>, i);</span><br><span class="line">        thread::<span class="title function_ invoke__">sleep</span>(Duration::<span class="title function_ invoke__">from_millis</span>(<span class="number">1</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>有几点值得注意：</p>
+<ul>
+<li>线程内部的代码使用闭包来执行。</li>
+<li><code>main</code>线程一旦结束，程序就立刻结束，因此需要保持它的存活，直到其它子线程完成自己的任务。在上面的代码中，主线程在<code>i=4</code>时，子线程还在运行，因此会输出<code>hi number 5 from the spawned thread!</code>，但是之后主线程结束，子线程也会结束。</li>
+<li><code>thread::sleep</code>会让当前线程休眠指定的时间，随后其它线程会被调度运行，因此就算你的电脑只有一个 CPU 核心，该程序也会表现的如同多 CPU 核心一般，这就是并发！</li>
+</ul>
+<p>让我们来看一下输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">hi number 1 from the main thread!</span><br><span class="line">hi number 1 from the spawned thread!</span><br><span class="line">hi number 2 from the main thread!</span><br><span class="line">hi number 2 from the spawned thread!</span><br><span class="line">hi number 3 from the main thread!</span><br><span class="line">hi number 3 from the spawned thread!</span><br><span class="line">hi number 4 from the spawned thread!</span><br><span class="line">hi number 4 from the main thread!</span><br><span class="line">hi number 5 from the spawned thread!</span><br></pre></td></tr></table></figure>
+<p>如果多运行几次，你会发现好像每次输出会不太一样，因为：虽说线程往往是轮流执行的，但是这一点无法被保证！线程调度的方式往往取决于你使用的操作系统。总之，<strong>千万不要依赖线程的执行顺序</strong>。</p>
+<h3 id="等待子线程结束"><a href="#等待子线程结束" class="headerlink" title="等待子线程结束"></a>等待子线程结束</h3><p>在上面的代码中，我们发现了一个问题，就是当主线程结束时，子线程也将随之立刻结束。那如果我们想要让上面的子线程从1顺序打印到9，该怎么做呢？</p>
+<p>此时我们可以通过<code>join</code>方法来等待子线程结束。<code>thread::spawn</code>的返回值是一个<code>JoinHandle</code>，它是一个智能指针，可以让我们等待线程的结束。<code>JoinHandle</code>持有值的所有权，调用其<code>join</code>方法时，会阻塞当前线程，直到对应的线程结束。</p>
+<p><code>join</code>方法：调用<code>handle.join()</code>会阻塞当前线程的运行，直到<code>handle</code>对应的线程终结。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::thread;</span><br><span class="line"><span class="keyword">use</span> std::time::Duration;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">handle</span> = thread::<span class="title function_ invoke__">spawn</span>(|| &#123;</span><br><span class="line">        <span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> <span class="number">1</span>..<span class="number">5</span> &#123;</span><br><span class="line">            <span class="built_in">println!</span>(<span class="string">&quot;hi number &#123;&#125; from the spawned thread!&quot;</span>, i);</span><br><span class="line">            thread::<span class="title function_ invoke__">sleep</span>(Duration::<span class="title function_ invoke__">from_millis</span>(<span class="number">1</span>));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    handle.<span class="title function_ invoke__">join</span>().<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> <span class="number">1</span>..<span class="number">5</span> &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;hi number &#123;&#125; from the main thread!&quot;</span>, i);</span><br><span class="line">        thread::<span class="title function_ invoke__">sleep</span>(Duration::<span class="title function_ invoke__">from_millis</span>(<span class="number">1</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由于<code>hanle.join</code>返回的是<code>Option</code>类型的值，因此我们需要使用<code>unwrap</code>来解包。在上面的代码中，我们在子线程后添加了<code>handle.join().unwrap()</code>，此时<code>main</code>线程会被阻塞，直到子线程结束之后才会自己输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">hi number 1 from the spawned thread!</span><br><span class="line">hi number 2 from the spawned thread!</span><br><span class="line">hi number 3 from the spawned thread!</span><br><span class="line">hi number 4 from the spawned thread!</span><br><span class="line">hi number 1 from the main thread!</span><br><span class="line">hi number 2 from the main thread!</span><br><span class="line">hi number 3 from the main thread!</span><br><span class="line">hi number 4 from the main thread!</span><br></pre></td></tr></table></figure>
+<p>以上输出清晰的展示了线程阻塞的作用。</p>
+<h3 id="在线程闭包中使用move"><a href="#在线程闭包中使用move" class="headerlink" title="在线程闭包中使用move"></a>在线程闭包中使用move</h3><p>在先前的闭包章节中，我们有讲过<code>move</code>关键字在闭包中的使用可以让该闭包拿走环境中某个值的所有权，同样地，你可以使用<code>move</code>来将值的所有权从一个线程转移到另外一个线程。</p>
+<p>首先，来看看在一个线程中直接使用另一个线程中的数据会如何：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::thread;</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">v</span> = <span class="built_in">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">handle</span> = thread::<span class="title function_ invoke__">spawn</span>(|| &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;Here&#x27;s a vector: &#123;:?&#125;&quot;</span>, v);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    handle.<span class="title function_ invoke__">join</span>().<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上述代码中，子线程中的闭包捕获了主线程中的变量<code>v</code>，让我们来看一下输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">error[E0373]: closure may outlive the current function, but it borrows `v`, which is owned by the current function</span><br><span class="line"> --&gt; src/main.rs:6:32</span><br><span class="line">  |</span><br><span class="line">6 |     let handle = thread::spawn(|| &#123;</span><br><span class="line">  |                                ^^ may outlive borrowed value `v`</span><br><span class="line">7 |         println!(&quot;Here&#x27;s a vector: &#123;:?&#125;&quot;, v);</span><br><span class="line">  |                                           - `v` is borrowed here</span><br><span class="line">  |</span><br><span class="line">note: function requires argument type to outlive `&#x27;static`</span><br><span class="line"> --&gt; src/main.rs:6:18</span><br><span class="line">  |</span><br><span class="line">6 |       let handle = thread::spawn(|| &#123;</span><br><span class="line">  |  __________________^</span><br><span class="line">7 | |         println!(&quot;Here&#x27;s a vector: &#123;:?&#125;&quot;, v);</span><br><span class="line">8 | |     &#125;);</span><br><span class="line">  | |______^</span><br><span class="line">help: to force the closure to take ownership of `v` (and any other referenced variables), use the `move` keyword</span><br><span class="line">  |</span><br><span class="line">6 |     let handle = thread::spawn(move || &#123;</span><br><span class="line">  |                                ++++</span><br></pre></td></tr></table></figure>
+<p>其实上述代码本身并没有问题，问题在于 Rust 无法确定新的线程会活多久（多个线程的结束顺序并不是固定的），所以也无法确定新线程所引用的<code>v</code> 是否在使用过程中一直合法。</p>
+<p>因此，我们需要使用<code>move</code>关键字来将<code>v</code>的所有权转移到子线程中，这样子线程就可以随意使用<code>v</code>了：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::thread;</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">v</span> = <span class="built_in">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">handle</span> = thread::<span class="title function_ invoke__">spawn</span>(<span class="keyword">move</span> || &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;Here&#x27;s a vector: &#123;:?&#125;&quot;</span>, v);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    handle.<span class="title function_ invoke__">join</span>().<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们需要记住，线程的启动时间点和结束时间点是不确定的，如果我们不添加<code>move</code>关键字，那么主线程中的<code>v</code>可能会在子线程结束之前被释放，导致子线程无法正常使用。</p>
+<h1 id="多线程通信"><a href="#多线程通信" class="headerlink" title="多线程通信"></a>多线程通信</h1><p>在多线程间有多种方式可以共享、传递数据。</p>
+<h2 id="消息传递"><a href="#消息传递" class="headerlink" title="消息传递"></a>消息传递</h2><p>一种很流行且能保证安全并发的技术就是：<strong>消息传递</strong>。线程(<code>Actor</code>)通过彼此发送消息（数据）来进行通信。</p>
+<p>在Go语言中有一句很经典的话：<strong>Don’t communicate by sharing memory, share memory by communicating</strong>。</p>
+<p>与Go语言内置的<code>chan</code>不同，Rust 是在标准库里提供了消息通道(<code>channel</code>)。</p>
+<h3 id="消息通道Channel"><a href="#消息通道Channel" class="headerlink" title="消息通道Channel"></a>消息通道Channel</h3><p>消息通道(<code>channel</code>)是Rust标准库提供的一种线程间通信机制，它可以让多个线程之间安全地传递数据，它由两部分组成：发送端(<code>Sender</code>)和接收端(<code>Receiver</code>)。</p>
+<p>调用<code>channel</code>的<code>send</code>方法可以发送消息，调用<code>Receiver</code>的<code>recv</code>方法可以检查和接收到达的消息。</p>
+<p>如果发送端或者接收端中的任意一端被丢弃了，那么<code>channel</code>就会被关闭，此时<code>recv</code>方法会返回一个错误。</p>
+<p>显而易见的是，一个通道应该支持多个发送者和接收者。但是，在实际使用通道的过程中，我们需要使用不同的通道类型来满足诸如：</p>
+<ul>
+<li>单个发送者和单个接收者</li>
+<li>多个发送者和单个接收者</li>
+<li>单个发送者和多个接收者</li>
+<li>多个发送者和多个接收者<br>的多个应用场景。让我们先从<strong>多发送者，单接收者</strong>的场景开始讲起：</li>
+</ul>
+<h3 id="多发送者，单接收者"><a href="#多发送者，单接收者" class="headerlink" title="多发送者，单接收者"></a>多发送者，单接收者</h3><p>标准库提供了通道<code>std::sync::mpsc</code>，其中<code>mpsc</code>是<code>multiple producer, single consumer</code>的缩写，代表了该通道支持多个发送者，但是只支持唯一的接收者。<br>需要注意的是，支持了多个发送者，自然也就支持了单个发送者。</p>
+<p>我们可以使用<code>mspc::channel</code>函数来创建一个通道，这个函数会返回一个元组，元组中第一个元素是发送端，第二个元素是接收端：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">use</span> std::sync::mpsc;</span><br><span class="line"><span class="keyword">use</span> std::thread;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="comment">// 创建一个消息通道, 返回一个元组：(发送者，接收者)</span></span><br><span class="line">    <span class="keyword">let</span> (tx, rx) = mpsc::<span class="title function_ invoke__">channel</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建线程，并发送消息</span></span><br><span class="line">    thread::<span class="title function_ invoke__">spawn</span>(<span class="keyword">move</span> || &#123;</span><br><span class="line">        <span class="comment">// 发送一个数字1, send方法返回Result&lt;T,E&gt;，通过unwrap进行快速错误处理</span></span><br><span class="line">        tx.<span class="title function_ invoke__">send</span>(<span class="number">1</span>).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 下面代码将报错，因为编译器自动推导出通道传递的值是i32类型，那么Option&lt;i32&gt;类型将产生不匹配错误</span></span><br><span class="line">        <span class="comment">// tx.send(Some(1)).unwrap()</span></span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 在主线程中接收子线程发送的消息并输出</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;receive &#123;&#125;&quot;</span>, rx.<span class="title function_ invoke__">recv</span>().<span class="title function_ invoke__">unwrap</span>());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>让我们再来解读下上面的代码：</p>
+<ul>
+<li><code>tx</code>,<code>rx</code>对应发送者和接收者，它们的类型由编译器自动推导: <code>tx.send(1)</code>发送了整数，因此它们分别是<code>mpsc::Sender&lt;i32&gt;</code>和<code>mpsc::Receiver&lt;i32&gt;</code>类型，需要注意，由于内部是泛型实现，一旦类型被推导确定，该通道就只能传递对应类型的值, 例如此例中非<code>i32</code>类型的值将导致编译错误。</li>
+<li><code>send</code>方法发送想要发送的数据，并返回<code>Result&lt;T,E&gt;</code>，如果发送失败，则返回<code>Err</code>，成功则返回<code>Ok</code>。</li>
+<li><code>recv</code>方法会阻止当前线程的执行，直到它从通道中接收到消息，就会返回<code>Result&lt;T,E&gt;</code>，如果接收失败，则返回<code>Err</code>，成功则返回<code>Ok</code>。</li>
+</ul>
+<h3 id="不阻塞的try-recv方法"><a href="#不阻塞的try-recv方法" class="headerlink" title="不阻塞的try_recv方法"></a>不阻塞的<code>try_recv</code>方法</h3><p>在上面的代码中，我们使用了<code>recv</code>方法，该方法会阻塞当前线程，直到接收到消息。如果我们不希望阻塞当前线程，可以使用<code>try_recv</code>方法，该方法不会阻塞当前线程，而是立即返回<code>Result&lt;T,E&gt;</code>：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::sync::mpsc;</span><br><span class="line"><span class="keyword">use</span> std::thread;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> (tx, rx) = mpsc::<span class="title function_ invoke__">channel</span>();</span><br><span class="line"></span><br><span class="line">    thread::<span class="title function_ invoke__">spawn</span>(<span class="keyword">move</span> || &#123;</span><br><span class="line">        tx.<span class="title function_ invoke__">send</span>(<span class="number">1</span>).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;receive &#123;:?&#125;&quot;</span>, rx.<span class="title function_ invoke__">try_recv</span>());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由于子线程的创建需要时间，因此<code>println!</code>和<code>try_recv</code>方法会先执行，而此时子线程的消息还未被发出。<code>try_recv</code>会尝试立即读取一次消息，因为消息没有发出，此次读取最终会报错，且主线程运行结束：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">receive Err(Empty)</span><br></pre></td></tr></table></figure>
+<p>如上，<code>try_recv</code>返回了一个错误，错误内容是Empty，代表通道并没有消息。如果你尝试把<code>println!</code>复制一些行，就会发现一个有趣的输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">receive Err(Empty)</span><br><span class="line">receive Ok(1)</span><br><span class="line">receive Err(Disconnected)</span><br></pre></td></tr></table></figure>
+<p>如上，当子线程创建成功且发送消息后，主线程会接收到<code>Ok(1)</code>的消息内容，紧接着子线程结束，发送者也随着被<code>drop</code>，此时接收者又会报错，但是这次错误原因有所不同：<code>Disconnected</code>代表发送者已经被关闭。</p>
+<p>从上面的例子中，我们可以得出一个启示：通常需要使用循环调用来检查<code>try_recv</code>的结果。</p>
+<h3 id="mspc-sender-clone"><a href="#mspc-sender-clone" class="headerlink" title="mspc::sender::clone"></a><code>mspc::sender::clone</code></h3><p>在上面的例子中，我们始终使用了单发送者，单接受者的通道。如果我们需要多个发送者，该怎么做呢？</p>
+<p>标准库为我们提供了<code>clone</code>方法，可以克隆发送者：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::sync::mpsc;</span><br><span class="line"><span class="keyword">use</span> std::thread;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> (tx, rx) = mpsc::<span class="title function_ invoke__">channel</span>();</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">tx1</span> = mpsc::Sender::<span class="title function_ invoke__">clone</span>(&amp;tx);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">tx2</span> = mpsc::Sender::<span class="title function_ invoke__">clone</span>(&amp;tx);</span><br><span class="line"></span><br><span class="line">thread::<span class="title function_ invoke__">spawn</span>(<span class="keyword">move</span> || &#123;</span><br><span class="line">    tx1.<span class="title function_ invoke__">send</span>(<span class="number">1</span>).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">thread::<span class="title function_ invoke__">spawn</span>(<span class="keyword">move</span> || &#123;</span><br><span class="line">        tx2.<span class="title function_ invoke__">send</span>(<span class="number">2</span>).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;receive &#123;:?&#125;&quot;</span>, rx.<span class="title function_ invoke__">recv</span>().<span class="title function_ invoke__">unwrap</span>());</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;receive &#123;:?&#125;&quot;</span>, rx.<span class="title function_ invoke__">recv</span>().<span class="title function_ invoke__">unwrap</span>());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="课后习题"><a href="#课后习题" class="headerlink" title="课后习题"></a>课后习题</h2><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 课后习题1：实现多线程文件处理器</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// •任务描述</span></span><br><span class="line"><span class="comment">// 	•你需要编写一个多线程文件处理器。它从一个通道（channel）中接收文件路径，并在线程池中处理这些文件。文件处理的具体任务可以是读取文件内容并打印到控制台。你需要使用 Rust 的带缓冲区的 channel 来控制并发线程的数量，从而限制同时处理的文件数量。</span></span><br><span class="line"><span class="comment">// •具体要求</span></span><br><span class="line"><span class="comment">// 	•文件处理任务：</span></span><br><span class="line"><span class="comment">// 	•定义一个函数 process_file，该函数接受一个文件路径，读取文件内容，并将内容打印到控制台。</span></span><br><span class="line"><span class="comment">// •多线程控制：</span></span><br><span class="line"><span class="comment">// 	•创建一个带缓冲区的 channel，用于在主线程和工作线程之间传递文件路径。</span></span><br><span class="line"><span class="comment">// 	•使用多线程来实现文件处理的并发性，限制线程的并发数量（例如，最多同时处理 4 个文件）。</span></span><br><span class="line"><span class="comment">// •主线程作为生产者：</span></span><br><span class="line"><span class="comment">// 	•主线程负责向通道发送文件路径。假设我们有 10 个文件路径要处理。</span></span><br><span class="line"><span class="comment">// •工作线程作为消费者：</span></span><br><span class="line"><span class="comment">// 	•创建多个工作线程，每个线程从通道中接收文件路径，并调用 process_file 函数来处理文件。</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> std::sync::mpsc;</span><br><span class="line"><span class="keyword">use</span> std::thread;</span><br><span class="line"><span class="keyword">use</span> std::fs;</span><br><span class="line"><span class="keyword">use</span> std::sync::Arc;   </span><br><span class="line"><span class="keyword">use</span> std::sync::Mutex; </span><br><span class="line"><span class="keyword">use</span> std::io::Error;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">create_test_file</span>() <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;(), Error&gt; &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">dir_path</span> = <span class="string">&quot;test_files&quot;</span>;</span><br><span class="line">    fs::<span class="title function_ invoke__">create_dir_all</span>(dir_path)?;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> <span class="number">1</span>..=<span class="number">10</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">file_path</span> = <span class="built_in">format!</span>(<span class="string">&quot;&#123;&#125;/file_&#123;&#125;.txt&quot;</span>, dir_path, i);</span><br><span class="line">        fs::<span class="title function_ invoke__">write</span>(file_path, <span class="built_in">format!</span>(<span class="string">&quot;&#123;&#125;&#123;&#125;&#123;&#125;&quot;</span>, i, i, i))?;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_ invoke__">Ok</span>(())</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">process_file</span>(file_path: <span class="type">String</span>) &#123;</span><br><span class="line">    <span class="comment">// 读取文件内容</span></span><br><span class="line">    <span class="keyword">match</span> fs::<span class="title function_ invoke__">read_to_string</span>(&amp;file_path) &#123;</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(content) =&gt; &#123;</span><br><span class="line">            <span class="built_in">println!</span>(<span class="string">&quot;处理文件: &#123;&#125;&quot;</span>, file_path);</span><br><span class="line">            <span class="built_in">println!</span>(<span class="string">&quot;文件内容:\n&#123;&#125;&quot;</span>, content);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="title function_ invoke__">Err</span>(e) =&gt; <span class="built_in">println!</span>(<span class="string">&quot;读取文件 &#123;&#125; 时发生错误: &#123;&#125;&quot;</span>, file_path, e),</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">    </span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">let</span> <span class="variable">Err</span>(e) = <span class="title function_ invoke__">create_test_file</span>() &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;创建测试文件时发生错误: &#123;&#125;&quot;</span>, e);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> (tx, rx) = mpsc::<span class="title function_ invoke__">channel</span>();</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">rx</span> = Arc::<span class="title function_ invoke__">new</span>(Mutex::<span class="title function_ invoke__">new</span>(rx));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">handles</span> = <span class="built_in">vec!</span>[];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> <span class="variable">id</span> <span class="keyword">in</span> <span class="number">0</span>..<span class="number">4</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">rx</span> = Arc::<span class="title function_ invoke__">clone</span>(&amp;rx);</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">handle</span> = thread::<span class="title function_ invoke__">spawn</span>(<span class="keyword">move</span> || &#123;</span><br><span class="line">            <span class="built_in">println!</span>(<span class="string">&quot;工作线程 &#123;&#125; 已启动&quot;</span>, id);</span><br><span class="line">            <span class="keyword">loop</span> &#123;</span><br><span class="line">                <span class="comment">// 获取锁并立即释放，只在接收消息时短暂持有锁</span></span><br><span class="line">                <span class="keyword">let</span> <span class="variable">received</span> = rx.<span class="title function_ invoke__">lock</span>().<span class="title function_ invoke__">unwrap</span>().<span class="title function_ invoke__">try_recv</span>();</span><br><span class="line">                <span class="keyword">match</span> received &#123;</span><br><span class="line">                    <span class="title function_ invoke__">Ok</span>(file_path) =&gt; &#123;</span><br><span class="line">                        <span class="title function_ invoke__">process_file</span>(file_path);</span><br><span class="line">                        thread::<span class="title function_ invoke__">sleep</span>(std::time::Duration::<span class="title function_ invoke__">from_millis</span>(<span class="number">1000</span>));</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="title function_ invoke__">Err</span>(mpsc::TryRecvError::Empty) =&gt; &#123;</span><br><span class="line">                        <span class="comment">// 通道为空，短暂等待后重试</span></span><br><span class="line">                        thread::<span class="title function_ invoke__">sleep</span>(std::time::Duration::<span class="title function_ invoke__">from_millis</span>(<span class="number">10</span>));</span><br><span class="line">                        <span class="keyword">continue</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="title function_ invoke__">Err</span>(mpsc::TryRecvError::Disconnected) =&gt; &#123;</span><br><span class="line">                        <span class="comment">// 通道已关闭，退出循环</span></span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="built_in">println!</span>(<span class="string">&quot;工作线程 &#123;&#125; 已结束&quot;</span>, id);</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        handles.<span class="title function_ invoke__">push</span>(handle);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> <span class="number">1</span>..=<span class="number">10</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">path</span> = <span class="built_in">format!</span>(<span class="string">&quot;test_files/file_&#123;&#125;.txt&quot;</span>, i);</span><br><span class="line">        tx.<span class="title function_ invoke__">send</span>(path).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;已发送文件路径: file_&#123;&#125;.txt&quot;</span>, i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_ invoke__">drop</span>(tx);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> <span class="variable">handle</span> <span class="keyword">in</span> handles &#123;</span><br><span class="line">        handle.<span class="title function_ invoke__">join</span>().<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 课后习题2：使用Channel实现程序的优雅停止</span></span><br><span class="line"><span class="comment">// • 任务描述</span></span><br><span class="line"><span class="comment">//     。在这道练习中，你需要编写一个多线程程序，该程序会创建多个工作线程，持续处理任务。在接收到停止信号时，所有工作线程应该优雅地停止工作，并确保所有未完成的任务都被处理完毕。</span></span><br><span class="line"><span class="comment">//     你将使用Rust的channel来实现任务的调度和优雅停止机制。</span></span><br><span class="line"><span class="comment">// • 具体要求</span></span><br><span class="line"><span class="comment">//     • 工作线程：</span></span><br><span class="line"><span class="comment">//         创建一个工作线程池，工作线程从通道接收任务并处理。</span></span><br><span class="line"><span class="comment">//         工作线程应能够响应停止信号，并在完成当前任务后优雅地退出。</span></span><br><span class="line"><span class="comment">//     • 任务结构：</span></span><br><span class="line"><span class="comment">//         任务可以是简单的打印操作，模拟一些耗时工作，例如打印任务ID并暂停一段时间。</span></span><br><span class="line"><span class="comment">//     • 优雅停止：</span></span><br><span class="line"><span class="comment">//         通过发送一个特殊的停止信号，通知所有工作线程停止接收新的任务，并在完成当前任务后退出。</span></span><br><span class="line"><span class="comment">//         确保所有已接收的任务都被处理完毕。</span></span><br><span class="line"><span class="comment">//     • 主线程控制：</span></span><br><span class="line"><span class="comment">//         主线程应当能够发送任务，也能够在适当的时候发送停止信号，触发工作线程的优雅停止。</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> std::sync::&#123;mpsc, Arc, Mutex&#125;;</span><br><span class="line"><span class="keyword">use</span> std::thread;</span><br><span class="line"><span class="keyword">use</span> std::time::Duration;</span><br><span class="line"></span><br><span class="line"><span class="keyword">enum</span> <span class="title class_">Message</span> &#123;</span><br><span class="line">    <span class="title function_ invoke__">NewTask</span>(<span class="type">u32</span>),</span><br><span class="line">    Stop,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Worker</span> &#123;</span><br><span class="line">    id: <span class="type">usize</span>,</span><br><span class="line">    thread: <span class="type">Option</span>&lt;thread::JoinHandle&lt;()&gt;&gt;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Worker</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">new</span>(id: <span class="type">usize</span>, receiver: Arc&lt;Mutex&lt;mpsc::Receiver&lt;Message&gt;&gt;&gt;) <span class="punctuation">-&gt;</span> Worker &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">thread</span> = thread::<span class="title function_ invoke__">spawn</span>(<span class="keyword">move</span> || <span class="keyword">loop</span> &#123;</span><br><span class="line">            <span class="keyword">let</span> <span class="variable">message</span> = receiver.<span class="title function_ invoke__">lock</span>().<span class="title function_ invoke__">unwrap</span>().<span class="title function_ invoke__">recv</span>().<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line"></span><br><span class="line">            <span class="keyword">match</span> message &#123;</span><br><span class="line">                Message::<span class="title function_ invoke__">NewTask</span>(task_id) =&gt; &#123;</span><br><span class="line">                    <span class="built_in">println!</span>(<span class="string">&quot;工作线程&#123;&#125;正在处理任务&#123;&#125;&quot;</span>, id, task_id);</span><br><span class="line">                    thread::<span class="title function_ invoke__">sleep</span>(Duration::<span class="title function_ invoke__">from_secs</span>(<span class="number">1</span>));</span><br><span class="line">                    <span class="built_in">println!</span>(<span class="string">&quot;工作线程&#123;&#125;完成任务&#123;&#125;&quot;</span>, id, task_id);</span><br><span class="line">                &#125;</span><br><span class="line">                Message::Stop =&gt; &#123;</span><br><span class="line">                    <span class="built_in">println!</span>(<span class="string">&quot;工作线程&#123;&#125;收到停止信号&quot;</span>, id);</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        Worker &#123; id, thread: <span class="title function_ invoke__">Some</span>(thread) &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> (tx, rx) = mpsc::<span class="title function_ invoke__">channel</span>();</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">rx</span> = Arc::<span class="title function_ invoke__">new</span>(Mutex::<span class="title function_ invoke__">new</span>(rx));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">handles</span> = <span class="built_in">vec!</span>[];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> <span class="variable">worker_id</span> <span class="keyword">in</span> <span class="number">1</span>..=<span class="number">4</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">worker</span> = Worker::<span class="title function_ invoke__">new</span>(worker_id, Arc::<span class="title function_ invoke__">clone</span>(&amp;rx));</span><br><span class="line">        handles.<span class="title function_ invoke__">push</span>(worker);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> <span class="number">1</span>..=<span class="number">10</span> &#123;</span><br><span class="line">        tx.<span class="title function_ invoke__">send</span>(Message::<span class="title function_ invoke__">NewTask</span>(i)).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;主线程发送任务 &#123;&#125;&quot;</span>, i);</span><br><span class="line">        thread::<span class="title function_ invoke__">sleep</span>(Duration::<span class="title function_ invoke__">from_millis</span>(<span class="number">100</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> <span class="variable">_</span> <span class="keyword">in</span> <span class="number">0</span>..handles.<span class="title function_ invoke__">len</span>() &#123;</span><br><span class="line">        tx.<span class="title function_ invoke__">send</span>(Message::Stop).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> <span class="variable">handle</span> <span class="keyword">in</span> handles &#123;</span><br><span class="line">        handle.thread.<span class="title function_ invoke__">unwrap</span>().<span class="title function_ invoke__">join</span>().<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;所有任务完成&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Rust/" rel="tag"># Rust</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/11/01/rust-test/" rel="prev" title="二十四、Rust测试">
+      <i class="fa fa-chevron-left"></i> 二十四、Rust测试
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/11/02/rust-concurrency2/" rel="next" title="Rust进阶-并发2">
+      Rust进阶-并发2 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B9%B6%E5%8F%91-Concurrency"><span class="nav-number">1.</span> <span class="nav-text">并发 Concurrency</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%B6%E5%8F%91%E4%B8%8E%E5%B9%B6%E8%A1%8C"><span class="nav-number">1.1.</span> <span class="nav-text">并发与并行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B"><span class="nav-number">1.2.</span> <span class="nav-text">进程与线程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%90%E8%A1%8C"><span class="nav-number">1.2.1.</span> <span class="nav-text">多线程运行</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E7%BA%BF%E7%A8%8B%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="nav-number">1.3.</span> <span class="nav-text">实现线程的方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8Rust%E4%B8%AD%E5%88%9B%E5%BB%BA%E7%BA%BF%E7%A8%8B"><span class="nav-number">1.4.</span> <span class="nav-text">在Rust中创建线程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AD%89%E5%BE%85%E5%AD%90%E7%BA%BF%E7%A8%8B%E7%BB%93%E6%9D%9F"><span class="nav-number">1.4.1.</span> <span class="nav-text">等待子线程结束</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8%E7%BA%BF%E7%A8%8B%E9%97%AD%E5%8C%85%E4%B8%AD%E4%BD%BF%E7%94%A8move"><span class="nav-number">1.4.2.</span> <span class="nav-text">在线程闭包中使用move</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%9A%E7%BA%BF%E7%A8%8B%E9%80%9A%E4%BF%A1"><span class="nav-number">2.</span> <span class="nav-text">多线程通信</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%92"><span class="nav-number">2.1.</span> <span class="nav-text">消息传递</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E9%80%9A%E9%81%93Channel"><span class="nav-number">2.1.1.</span> <span class="nav-text">消息通道Channel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E5%8F%91%E9%80%81%E8%80%85%EF%BC%8C%E5%8D%95%E6%8E%A5%E6%94%B6%E8%80%85"><span class="nav-number">2.1.2.</span> <span class="nav-text">多发送者，单接收者</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8D%E9%98%BB%E5%A1%9E%E7%9A%84try-recv%E6%96%B9%E6%B3%95"><span class="nav-number">2.1.3.</span> <span class="nav-text">不阻塞的try_recv方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mspc-sender-clone"><span class="nav-number">2.1.4.</span> <span class="nav-text">mspc::sender::clone</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%BE%E5%90%8E%E4%B9%A0%E9%A2%98"><span class="nav-number">2.2.</span> <span class="nav-text">课后习题</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name"></p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
