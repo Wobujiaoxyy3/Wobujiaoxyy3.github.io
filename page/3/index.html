@@ -144,6 +144,219 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/10/09/rust-array-and-slice/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wobujiaoxyy3">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/10/09/rust-array-and-slice/" class="post-title-link" itemprop="url">八、Rust基础-数组与切片</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2024-10-09 23:10:39" itemprop="dateCreated datePublished" datetime="2024-10-09T23:10:39+01:00">2024-10-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-10-23 17:45:25" itemprop="dateModified" datetime="2024-10-23T17:45:25+01:00">2024-10-23</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="数组与切片"><a href="#数组与切片" class="headerlink" title="数组与切片"></a>数组与切片</h1><h2 id="数组（Array）"><a href="#数组（Array）" class="headerlink" title="数组（Array）"></a>数组（Array）</h2><p>数组的定义其实就是为分配一段连续的相同数据类型的内存块。Rust的数组具有以下三要素：<br>    · 长度固定<br>    · 元素必须有相同的类型<br>    · 依次线性排列</p>
+<p>在Rust中，由于数组的元素类型大小固定，且长度也是固定，它实际上也是Rust的基本类型之一，因此数组<code>array</code>是存储在栈上的，性能非常优秀。</p>
+<h3 id="创建数组"><a href="#创建数组" class="headerlink" title="创建数组"></a>创建数组</h3><p>在Rust中，数组是这样定义的：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">arr</span> = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在某些时候，我们需要为数组声明类型：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">a</span>: [<span class="type">i32</span>; <span class="number">5</span>] = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br></pre></td></tr></table></figure>
+<p>我们还可以使用下面的语法初始化一个某个值重复出现N次的数组：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">a</span> = [<span class="number">3</span>; <span class="number">5</span>];    <span class="comment">// a = [3, 3, 3, 3, 3]</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="访问数组元素"><a href="#访问数组元素" class="headerlink" title="访问数组元素"></a>访问数组元素</h3><p>因为数组是连续存放元素的，因此可以通过索引的方式来访问存放其中的元素：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">a</span> = [<span class="number">9</span>, <span class="number">8</span>, <span class="number">7</span>, <span class="number">6</span>, <span class="number">5</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">first</span> = a[<span class="number">0</span>]; <span class="comment">// 获取a数组第一个元素</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">second</span> = a[<span class="number">1</span>]; <span class="comment">// 获取第二个元素</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>与其他语言类似，数组的索引下标是从<code>0</code>开始的。此处，<code>first</code>获取到的值是<code>9</code>，<code>second</code>是<code>8</code>。</p>
+<h3 id="数组越界访问"><a href="#数组越界访问" class="headerlink" title="数组越界访问"></a>数组越界访问</h3><p>在Rust中，不允许使用超出数组范围的索引访问数组元素，否则Rust会检查数组越界问题，报错<strong>panic</strong>。</p>
+<h3 id="数组长度"><a href="#数组长度" class="headerlink" title="数组长度"></a>数组长度</h3><p>在Rust中，我们可以使用<code>.len()</code>来获取数组的长度：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">arr</span> = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;the length of arr is &#123;&#125;&quot;</span>, arr.<span class="title function_ invoke__">len</span>());    <span class="comment">//输出“The length of arr is 3”</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="遍历数组"><a href="#遍历数组" class="headerlink" title="遍历数组"></a>遍历数组</h3><p>我们可以这样遍历数组：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">arr</span> = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> <span class="variable">index</span> <span class="keyword">in</span> <span class="number">0</span>..<span class="number">4</span> &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;&#123;:?&#125;, arr[index]&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>值得注意的是，此时<code>index</code>会被自动指定为<code>usize</code>类型，因为数组的索引必须是<code>usize</code>类型.</p>
+<p>同时，我们也可以使用数组的迭代器（iterator）来遍历数组：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">arr</span> = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> <span class="variable">value</span> <span class="keyword">in</span> arr.<span class="title function_ invoke__">iter</span>() &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;&#123;:?&#125;, value&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改数组中的元素"><a href="#修改数组中的元素" class="headerlink" title="修改数组中的元素"></a>修改数组中的元素</h3><p>如果要修改数组中的元素，首先要用<code>mut</code>关键字修饰数组：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">arr_mut</span> = [<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>];</span><br><span class="line"></span><br><span class="line">    arr_mut[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="数组在函数中的值传递和引用传递"><a href="#数组在函数中的值传递和引用传递" class="headerlink" title="数组在函数中的值传递和引用传递"></a>数组在函数中的值传递和引用传递</h3><p>看接下来的两个代码示例：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">arr</span> = [<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>];</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;main before: &#123;:?&#125;&quot;</span>, arr);</span><br><span class="line">    <span class="title function_ invoke__">update</span>(arr);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;main after: &#123;:?&#125;&quot;</span>, arr);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">update</span>(<span class="keyword">mut</span> arr: [<span class="type">i32</span>; <span class="number">4</span>]) &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;update before: &#123;:?&#125;&quot;</span>, arr);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> <span class="number">0</span>..<span class="number">4</span> &#123;</span><br><span class="line">            arr[i] = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;update after: &#123;:?&#125;&quot;</span>, arr);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行该代码示例，会输出以下结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">main before: [10, 20, 30, 40]</span><br><span class="line">update before: [10, 20, 30, 40]</span><br><span class="line">update after: [0, 0, 0, 0]</span><br><span class="line">main after: [10, 20, 30, 40]</span><br></pre></td></tr></table></figure>
+<p>上述代码示例展现的是数组的<strong>值传递</strong>，由于数组实现了<code>copy</code>特性，所以传入<code>update</code>函数的<code>arr</code>实际上是原先数组的拷贝，因此，在函数<code>update</code>内部对<code>arr</code>的修改并不会影响到<code>main()</code>函数中的<code>arr</code>。</p>
+<p>再来看下面这个代码示例：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">arr</span> = [<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>];</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;main before: &#123;:?&#125;&quot;</span>, arr);</span><br><span class="line">    <span class="title function_ invoke__">update_mut</span>(&amp;<span class="keyword">mut</span> arr);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;main after: &#123;:?&#125;&quot;</span>, arr);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">update_mut</span>(arr: &amp;<span class="keyword">mut</span> [<span class="type">i32</span>; <span class="number">4</span>]) &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;update before: &#123;:?&#125;&quot;</span>, arr);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> <span class="number">0</span>..<span class="number">4</span> &#123;</span><br><span class="line">            arr[i] = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;update after: &#123;:?&#125;&quot;</span>, arr);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行该代码示例，会输出以下结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">main before: [10, 20, 30, 40]</span><br><span class="line">update before: [10, 20, 30, 40]</span><br><span class="line">update after: [0, 0, 0, 0]</span><br><span class="line">main after: [0, 0, 0, 0]</span><br></pre></td></tr></table></figure>
+<p>在这个代码示例中，我们将数组<code>arr</code>的可变引用传递给函数。通过传递可变引用，允许<code>update_arr</code>函数在数组的原始数据上进行修改。</p>
+<h2 id="切片（Slice）"><a href="#切片（Slice）" class="headerlink" title="切片（Slice）"></a>切片（Slice）</h2><p><code>Slice</code>类型通常被翻译为切片，它表示从某个包含多个元素的容器中取得局部数据，这个过程被称为切片操作。Rust支持Slice操作，但只允许获取一段连续的局部数据。</p>
+<p>在Rust常见的数据类型中，有三种类型已经支持Slice操作：<code>String</code>、<code>Array</code>、<code>Vec</code>。</p>
+<p><code>slice</code>变量的类型是<code>&amp;[i32]</code>,存储第一个集合元素的引用和一个集合总长度：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">a</span> = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line"><span class="keyword">let</span> <span class="variable">slice</span> = &amp;a[<span class="number">1</span>..<span class="number">3</span>];    <span class="comment">// slice = [2,3]</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">mut_slice</span> = &amp;<span class="keyword">mut</span> a[<span class="number">1</span>..<span class="number">3</span>];</span><br></pre></td></tr></table></figure>
+
+<h3 id="切片常用函数"><a href="#切片常用函数" class="headerlink" title="切片常用函数"></a>切片常用函数</h3><ol>
+<li><p><code>len()</code>: 查看切片的长度：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">a</span> = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">slice</span> = &amp;a[<span class="number">1</span>..<span class="number">3</span>];</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;the length of slice is &#123;&#125;&quot;</span>, slice.<span class="title function_ invoke__">len</span>()); <span class="comment">// the length of slice is 2</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>is_empty()</code>: 判断切片是否为空：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">a</span> = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">slice</span> = &amp;a[<span class="number">1</span>..<span class="number">3</span>];</span><br><span class="line">    slice.<span class="title function_ invoke__">is_empty</span>(); <span class="comment">// false</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">empty_slice</span>: &amp;[<span class="type">i32</span>] = &amp;[];</span><br><span class="line">    empty_slice.<span class="title function_ invoke__">is_empty</span>();  <span class="comment">// true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>contains()</code>: 判断切片中是否包含某个元素</p>
+</li>
+<li><p><code>repeat()</code>: 重复切片指定次数<br>…</p>
+<img src ="/images/8-1.png" alt = "" width = "500"></li>
+</ol>
+<h2 id="课后习题"><a href="#课后习题" class="headerlink" title="课后习题"></a>课后习题</h2><img src = "/images/8-2.png" alt = "" width = "1000">
+
+<p><strong>解法</strong>：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">number</span> = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">answer</span> = <span class="title function_ invoke__">resolution</span>(number);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;:?&#125;&quot;</span>, answer);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">resolution</span>(number: [<span class="type">i32</span>; <span class="number">5</span>]) <span class="punctuation">-&gt;</span> [<span class="type">i32</span>; <span class="number">5</span>] &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">n</span> = number.<span class="title function_ invoke__">len</span>();</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">answer</span> = [<span class="number">0</span>; <span class="number">5</span>];</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">prefix</span> = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">suffix</span> = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> <span class="number">0</span>..n &#123;</span><br><span class="line">            answer[i] = prefix;</span><br><span class="line">            prefix *= number[i];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> (<span class="number">0</span>..n).<span class="title function_ invoke__">rev</span>() &#123;</span><br><span class="line">            answer[i] = suffix;</span><br><span class="line">            suffix *= number[i];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        answer</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/10/09/rust-reference-and-borrowing/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wobujiaoxyy3">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/10/09/rust-reference-and-borrowing/" class="post-title-link" itemprop="url">七、Rust基础-引用与借用</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2024-10-09 17:21:50" itemprop="dateCreated datePublished" datetime="2024-10-09T17:21:50+01:00">2024-10-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-10-17 19:07:28" itemprop="dateModified" datetime="2024-10-17T19:07:28+01:00">2024-10-17</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="引用和借用"><a href="#引用和借用" class="headerlink" title="引用和借用"></a>引用和借用</h1><p>上节中提到，如果仅仅支持通过转移所有权的方式获取一个值，那会让程序变得复杂。 Rust 能否像其它编程语言一样，使用某个变量的指针或者引用呢？答案是可以。</p>
+<p>Rust通过<strong>借用</strong>(Borrowing) 这个概念来达成上述的目的，获取变量的引用（reference），称之为借用(borrowing)。</p>
+<h2 id="引用和解引用"><a href="#引用和解引用" class="headerlink" title="引用和解引用"></a>引用和解引用</h2><p>常规引用是一个<strong>指针类型</strong>，指向了对象存储的内存地址，因而可以在不改变所有权的情况下访问一个值。在下面代码中，我们创建一个<code>i32</code>值的引用<code>y</code>，然后使用<strong>解引用</strong>运算符来解出<code>y</code>所使用的值:</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">x</span> = <span class="number">5</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">y</span> = &amp;x;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">assert_eq!</span>(<span class="number">5</span>, x);</span><br><span class="line">    <span class="built_in">assert_eq!</span>(<span class="number">5</span>, *y);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>变量<code>x</code>存放了一个<code>i32</code>值<code>5</code>,可以断言<code>x</code>等于 5。然而，<code>y</code>是<code>x</code>的一个引用。如果希望对<code>y</code>的值做出断言，必须使用<code>*y</code>来<strong>解出引用所指向的值</strong>（也就是解引用）。一旦解引用了<code>y</code>，就可以访问<code>y</code>所指向的整型值并可以与<code>5</code>做比较。</p>
+<p>在Rust中，引用分为<strong>不可变引用</strong>和<strong>可变引用</strong>：</p>
+<p><strong>不可变引用</strong>（Immutable Reference）: 通过不可变引用，我们可以读取数据，但不能修改数据。一个变量可以同时拥有多个不可变引用，但不能与可变引用共存。</p>
+<p><strong>可变引用</strong>（Mutable Reference）: 通过可变引用，我们可以在读取数据的同时修改数据。一个变量只能拥有一个可变引用，且不能与不可变引用共存。</p>
+<h3 id="引用的规则"><a href="#引用的规则" class="headerlink" title="引用的规则"></a>引用的规则</h3><p>· 同一时间内，一个变量只能有一个可变引用或多个不可变引用<br>· 引用必须总是有效</p>
+<h2 id="不可变引用"><a href="#不可变引用" class="headerlink" title="不可变引用"></a>不可变引用</h2><p>先看如下代码：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">s1</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">len</span> = <span class="title function_ invoke__">calculate_length</span>(&amp;s1);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;The length of &#x27;&#123;&#125;&#x27; is &#123;&#125;.&quot;</span>, s1, len);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">calculate_length</span>(s: &amp;<span class="type">String</span>) <span class="punctuation">-&gt;</span> <span class="type">usize</span> &#123;</span><br><span class="line">    s.<span class="title function_ invoke__">len</span>()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上述代码中，我们通过<code>&amp;s1</code>创建了一个指向<code>s1</code>的引用，同时，函数<code>calculate_length</code>使用<code>&amp;</code>来表明参数<code>s</code>的类型是一个引用.</p>
+<p>这里，<code>&amp;</code>符号即是引用，它们允许你使用值，但是不获取所有权，如图所示：<br><img src = "images/7-1.png" alt = "" width ="1000"></p>
+<h2 id="可变引用"><a href="#可变引用" class="headerlink" title="可变引用"></a>可变引用</h2><p>在上面的例子中，仅仅使用<code>&amp;s1</code>，我们仅能创建一个不可变引用，而无法修改借用的变量。</p>
+<p>如果需要创建一个可变引用，首先，我们需要借用的变量本身是<strong>可变类型</strong>，同时，对引用本身也添加<code>mut</code>关键字，如下所示：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="title function_ invoke__">change</span>(&amp;<span class="keyword">mut</span> s);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">change</span>(some_string: &amp;<span class="keyword">mut</span> <span class="type">String</span>) &#123;</span><br><span class="line">    some_string.<span class="title function_ invoke__">push_str</span>(<span class="string">&quot;, world&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>让我们再看如下代码，观察一下引用的作用域：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">   <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">r1</span> = &amp;s;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">r2</span> = &amp;s;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125; and &#123;&#125;&quot;</span>, r1, r2);</span><br><span class="line">    <span class="comment">// 新编译器中，r1,r2作用域在这里结束</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">r3</span> = &amp;<span class="keyword">mut</span> s;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, r3);</span><br><span class="line">&#125; <span class="comment">// 老编译器中，r1、r2、r3作用域在这里结束</span></span><br><span class="line">  <span class="comment">// 新编译器中，r3作用域在这里结束</span></span><br></pre></td></tr></table></figure>
+<p>在早期时，引用的作用域跟变量作用域是一致的；而新版本的编译器中，引用作用域的结束位置从花括号变成最后一次使用的位置，因此<code>r1</code>借用和<code>r2</code>借用在<code>println!</code>后，就结束了，此时<code>r3</code>可以顺利借用到可变引用，而不违反引用的规则。</p>
+<h2 id="借用"><a href="#借用" class="headerlink" title="借用"></a>借用</h2><h2 id="切片（Slices）"><a href="#切片（Slices）" class="headerlink" title="切片（Slices）"></a>切片（Slices）</h2><p>字符串切片和数组切片实际上都是对其本身内容的部分引用：<br>· 字符串切片：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">s</span> = <span class="string">&quot;hello world&quot;</span>.<span class="title function_ invoke__">to_string</span>()</span><br><span class="line"><span class="keyword">let</span> <span class="variable">hello</span> = &amp;s[<span class="number">0</span>..<span class="number">5</span>];   <span class="comment">//引用“hello”</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">world</span> = &amp;s[<span class="number">6</span>..<span class="number">11</span>];  <span class="comment">//引用“world”</span></span><br></pre></td></tr></table></figure>
+<p>· 数组切片：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">arr</span> = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line"><span class="keyword">let</span> <span class="variable">slice</span> = &amp;arr[<span class="number">0</span>..<span class="number">3</span>];     <span class="comment">//引用[1,2,3]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="生命周期（Lifetimes）"><a href="#生命周期（Lifetimes）" class="headerlink" title="生命周期（Lifetimes）"></a>生命周期（Lifetimes）</h2><p>生命周期是Rust用来保证引用有效性的机制。生命周期注释允许编译器推断引用的有效范围，确保在引用仍然有效时使用他们。</p>
+<p><strong>在以后的课程中会更加具体的讲到</strong></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2024/10/08/rust-ownership/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -955,12 +1168,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-count">28</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
