@@ -144,7 +144,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/11/27/solana-simple-socialfi/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/05/07/recblog_1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -158,7 +158,159 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2024/11/27/solana-simple-socialfi/" class="post-title-link" itemprop="url">Solana小项目：简易SocialFi</a>
+            <a href="/2025/05/07/recblog_1/" class="post-title-link" itemprop="url">How Content Finds Us</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-05-07 23:10:39" itemprop="dateCreated datePublished" datetime="2025-05-07T23:10:39+08:00">2025-05-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2025-05-09 18:11:54" itemprop="dateModified" datetime="2025-05-09T18:11:54+08:00">2025-05-09</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>As the number of users and items continued to grow, traditional neighborhood-based collaborative filtering methods began to face significant challenges—most notably data sparsity and scalability. To address these issues, researchers turned to matrix factorization (MF), a model-based approach that maps high-dimensional user–item interactions into a low-dimensional latent factor space. At its core, matrix factorization is a form of dimensionality reduction, assuming that both users and items can be described by a small number of latent features that capture their underlying preferences or characteristics.</p>
+<p>Formally, given a set of users ( U ) and items ( I ), we define two matrices:<br>( P \in \mathbb{R}^{|U| \times k} ) representing latent vectors for all users, and<br>( Q \in \mathbb{R}^{|I| \times k} ) for all items,<br>where ( k ) is the number of latent dimensions (much smaller than the number of users or items).<br>The goal is to approximate the original rating matrix ( R ) by the product of ( P ) and ( Q ).<br>For any user ( u ) and item ( i ), the predicted rating is computed as:</p>
+<p>[<br>\hat{r}_{u,i} &#x3D; p_u \cdot q_i<br>]</p>
+<p>—that is, the dot product of the user and item vectors.<br>The matrices ( P ) and ( Q ) are learned from observed ratings by minimizing the squared error between predicted and actual values, with a regularization term to prevent overfitting:</p>
+<p>[<br>\min_{P,Q} \sum_{(u,i)\in K} \left(r_{u,i} - p_u \cdot q_i\right)^2 + \lambda \left( |p_u|^2 + |q_i|^2 \right)<br>]</p>
+<p>Here, ( K ) is the set of observed user–item pairs in the training data, and ( \lambda ) is a regularization coefficient. Optimization techniques such as stochastic gradient descent (SGD) or alternating least squares (ALS) are typically used to train the model.</p>
+<p>Intuitively, matrix factorization embeds users and items into a shared latent semantic space, such that users are close to items they’re likely to prefer. For example, if “User Dave” ends up with a latent vector positioned close to those of <em>Ocean’s 11</em> and <em>The Lion King</em>, the model will likely predict that Dave enjoys these movies.</p>
+<p>The major breakthrough for matrix factorization came with the launch of the Netflix Prize in 2006. Netflix released a dataset containing 100 million user ratings and challenged the world to improve its recommendation algorithm by at least 10% in terms of RMSE over its existing neighborhood-based method. The competition drew massive attention—never before had such a large-scale recommendation dataset been made public. Researchers and engineers worldwide participated, openly sharing techniques and innovations.</p>
+<p>One particularly influential contribution came from Simon Funk, who posted on his blog a simple yet powerful matrix factorization algorithm (now known as Funk-SVD). His method demonstrated the effectiveness of MF for collaborative filtering and inspired many teams. Over time, enhanced versions of matrix factorization—incorporating bias terms, temporal dynamics, and more—dominated the leaderboard. In 2009, the BellKor team ultimately won the competition with a model ensemble containing hundreds of algorithms, but matrix factorization remained the core component of their solution.</p>
+<p>Post-competition, it became clear that MF methods could capture the hidden structure of user preferences much better than traditional neighborhood methods, leading to significantly higher accuracy. The Netflix Prize brought matrix factorization into the spotlight across both academia and industry.</p>
+<p>Since then, latent factor models have become a dominant paradigm in recommender systems. Extensions such as <strong>SVD++</strong> (which incorporates implicit feedback) and <strong>Factorization Machines (FM)</strong> (which integrate regression-like modeling) were developed to further improve recommendation quality and incorporate richer information. Despite these variations, the core philosophy remains: use low-dimensional vectors to represent users and items, and frame the recommendation task as a problem of matching these vectors in space.</p>
+<p>$$ sds^2$<br>$\text{Var}[X_i] &#x3D; \sigma^2 &lt; \infty$</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/05/06/latex/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wobujiaoxyy3">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/05/06/latex/" class="post-title-link" itemprop="url">latex</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-05-06 18:16:49" itemprop="dateCreated datePublished" datetime="2025-05-06T18:16:49+08:00">2025-05-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2025-05-09 18:18:11" itemprop="dateModified" datetime="2025-05-09T18:18:11+08:00">2025-05-09</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p> is great at typesetting mathematics. Let <span
+class="math inline"><em>X</em><sub>1</sub>, <em>X</em><sub>2</sub>, …, <em>X</em><sub><em>n</em></sub></span>
+be a sequence of independent and identically distributed random
+variables with <span
+class="math inline">E[<em>X</em><sub><em>i</em></sub>] = <em>μ</em></span>
+and <span
+class="math inline">Var[<em>X</em><sub><em>i</em></sub>] = <em>σ</em><sup>2</sup> &lt; ∞</span>,
+and let [S_n = = _{i}^{n} X_i] denote their mean. Then as <span
+class="math inline"><em>n</em></span> approaches infinity, the random
+variables <span class="math inline">$\sqrt{n}(S_n - \mu)$</span>
+converge in distribution to a normal <span
+class="math inline">𝒩(0,<em>σ</em><sup>2</sup>)</span>.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/11/28/solana-simple-socialfi/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wobujiaoxyy3">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/11/28/solana-simple-socialfi/" class="post-title-link" itemprop="url">Solana小项目：简易SocialFi</a>
         </h2>
 
         <div class="post-meta">
@@ -169,7 +321,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2024-11-27 22:36:50 / Modified: 22:55:08" itemprop="dateCreated datePublished" datetime="2024-11-27T22:36:50+00:00">2024-11-27</time>
+              <time title="Created: 2024-11-28 06:36:50 / Modified: 06:55:08" itemprop="dateCreated datePublished" datetime="2024-11-28T06:36:50+08:00">2024-11-28</time>
             </span>
 
           
@@ -246,7 +398,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2024/11/23/solana-SPL-token/" class="post-title-link" itemprop="url">solana-SPL-token</a>
+            <a href="/2024/11/23/solana-SPL-token/" class="post-title-link" itemprop="url">Solana小项目：SPL-token合约创建</a>
         </h2>
 
         <div class="post-meta">
@@ -256,14 +408,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2024-11-23 10:09:34" itemprop="dateCreated datePublished" datetime="2024-11-23T10:09:34+00:00">2024-11-23</time>
+              <time title="Created: 2024-11-23 10:09:34" itemprop="dateCreated datePublished" datetime="2024-11-23T10:09:34+08:00">2024-11-23</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-11-27 22:36:57" itemprop="dateModified" datetime="2024-11-27T22:36:57+00:00">2024-11-27</time>
+                <time title="Modified: 2024-12-01 01:06:37" itemprop="dateModified" datetime="2024-12-01T01:06:37+08:00">2024-12-01</time>
               </span>
 
           
@@ -397,14 +549,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2024-11-02 12:36:24" itemprop="dateCreated datePublished" datetime="2024-11-02T12:36:24+00:00">2024-11-02</time>
+              <time title="Created: 2024-11-02 20:36:24" itemprop="dateCreated datePublished" datetime="2024-11-02T20:36:24+08:00">2024-11-02</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-11-13 23:43:16" itemprop="dateModified" datetime="2024-11-13T23:43:16+00:00">2024-11-13</time>
+                <time title="Modified: 2024-11-14 07:43:16" itemprop="dateModified" datetime="2024-11-14T07:43:16+08:00">2024-11-14</time>
               </span>
 
           
@@ -515,14 +667,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2024-11-02 01:03:11" itemprop="dateCreated datePublished" datetime="2024-11-02T01:03:11+00:00">2024-11-02</time>
+              <time title="Created: 2024-11-02 09:03:11" itemprop="dateCreated datePublished" datetime="2024-11-02T09:03:11+08:00">2024-11-02</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-11-13 23:43:02" itemprop="dateModified" datetime="2024-11-13T23:43:02+00:00">2024-11-13</time>
+                <time title="Modified: 2024-11-14 07:43:02" itemprop="dateModified" datetime="2024-11-14T07:43:02+08:00">2024-11-14</time>
               </span>
 
           
@@ -637,7 +789,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/11/01/rust-test/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/11/02/rust-test/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -651,7 +803,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2024/11/01/rust-test/" class="post-title-link" itemprop="url">二十四、Rust测试</a>
+            <a href="/2024/11/02/rust-test/" class="post-title-link" itemprop="url">二十四、Rust测试</a>
         </h2>
 
         <div class="post-meta">
@@ -660,16 +812,10 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
+              
 
-              <time title="Created: 2024-11-01 16:44:06" itemprop="dateCreated datePublished" datetime="2024-11-01T16:44:06+00:00">2024-11-01</time>
+              <time title="Created: 2024-11-02 00:44:06 / Modified: 09:02:00" itemprop="dateCreated datePublished" datetime="2024-11-02T00:44:06+08:00">2024-11-02</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-11-02 01:02:00" itemprop="dateModified" datetime="2024-11-02T01:02:00+00:00">2024-11-02</time>
-              </span>
 
           
 
@@ -800,14 +946,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2024-11-01 10:43:59" itemprop="dateCreated datePublished" datetime="2024-11-01T10:43:59+00:00">2024-11-01</time>
+              <time title="Created: 2024-11-01 18:43:59" itemprop="dateCreated datePublished" datetime="2024-11-01T18:43:59+08:00">2024-11-01</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-11-13 23:43:58" itemprop="dateModified" datetime="2024-11-13T23:43:58+00:00">2024-11-13</time>
+                <time title="Modified: 2024-11-14 07:43:58" itemprop="dateModified" datetime="2024-11-14T07:43:58+08:00">2024-11-14</time>
               </span>
 
           
@@ -905,7 +1051,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/10/31/rust-closure/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/11/01/rust-closure/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -919,7 +1065,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2024/10/31/rust-closure/" class="post-title-link" itemprop="url">二十二、Rust进阶-闭包</a>
+            <a href="/2024/11/01/rust-closure/" class="post-title-link" itemprop="url">二十二、Rust进阶-闭包</a>
         </h2>
 
         <div class="post-meta">
@@ -929,14 +1075,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2024-10-31 23:42:39" itemprop="dateCreated datePublished" datetime="2024-10-31T23:42:39+00:00">2024-10-31</time>
+              <time title="Created: 2024-11-01 07:42:39" itemprop="dateCreated datePublished" datetime="2024-11-01T07:42:39+08:00">2024-11-01</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-11-13 23:41:57" itemprop="dateModified" datetime="2024-11-13T23:41:57+00:00">2024-11-13</time>
+                <time title="Modified: 2024-11-14 07:41:57" itemprop="dateModified" datetime="2024-11-14T07:41:57+08:00">2024-11-14</time>
               </span>
 
           
@@ -1034,7 +1180,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/10/31/rust-macros/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/11/01/rust-macros/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -1048,7 +1194,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2024/10/31/rust-macros/" class="post-title-link" itemprop="url">二十一、Rust进阶-宏</a>
+            <a href="/2024/11/01/rust-macros/" class="post-title-link" itemprop="url">二十一、Rust进阶-宏</a>
         </h2>
 
         <div class="post-meta">
@@ -1058,14 +1204,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2024-10-31 18:36:49" itemprop="dateCreated datePublished" datetime="2024-10-31T18:36:49+00:00">2024-10-31</time>
+              <time title="Created: 2024-11-01 02:36:49" itemprop="dateCreated datePublished" datetime="2024-11-01T02:36:49+08:00">2024-11-01</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-11-13 23:44:41" itemprop="dateModified" datetime="2024-11-13T23:44:41+00:00">2024-11-13</time>
+                <time title="Modified: 2024-11-14 07:44:41" itemprop="dateModified" datetime="2024-11-14T07:44:41+08:00">2024-11-14</time>
               </span>
 
           
@@ -1200,345 +1346,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/10/28/rust-lifetime/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Wobujiaoxyy3">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/10/28/rust-lifetime/" class="post-title-link" itemprop="url">十九、Rust进阶-生命周期</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2024-10-28 20:09:43" itemprop="dateCreated datePublished" datetime="2024-10-28T20:09:43+00:00">2024-10-28</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-11-13 23:40:46" itemprop="dateModified" datetime="2024-11-13T23:40:46+00:00">2024-11-13</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h1><p>在这个章节中，我们将介绍Rust中十分困难的概念：<strong>生命周期</strong>。生命周期，简而言之就是引用的有效作用域，在大部分情况下，我们无需手动的声明生命周期，因为编译器可以自动进行推导；但在一些特殊情况下，在多种类型存在时，如果编译器无法推导出某个引用的生命周期，就需要我们手动标明生命周期。</p>
-<h2 id="悬垂指针与生命周期"><a href="#悬垂指针与生命周期" class="headerlink" title="悬垂指针与生命周期"></a>悬垂指针与生命周期</h2><p>让我们来看下面一个例子：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">r</span>;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">x</span> = <span class="number">5</span>;</span><br><span class="line">        r = &amp;x;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;r: &#123;&#125;&quot;</span>, r);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这段代码有几点值得注意:<br>·<code>let r</code>; 的声明方式貌似存在使用<code>null</code>的风险，实际上，当我们不初始化它就使用时，编译器会给予报错<br>·<code>r</code>引用了内部花括号中的<code>x</code>变量，但是<code>x</code>会在内部花括号<code>&#125;</code>处被释放，因此回到外部花括号后，<code>r</code>会引用一个无效的<code>x</code><br>·此处<code>r</code>就是一个悬垂指针，它引用了提前被释放的变量<code>x</code>，可以预料到，这段代码会报错：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">error[E0597]: `x` does not live long enough // `x` 活得不够久</span><br><span class="line">  --&gt; src/main.rs:7:17</span><br><span class="line">   |</span><br><span class="line">7  |             r = &amp;x;</span><br><span class="line">   |                 ^^ borrowed value does not live long enough // 被借用的 `x` 活得不够久</span><br><span class="line">8  |         &#125;</span><br><span class="line">   |         - `x` dropped here while still borrowed // `x` 在这里被丢弃，但是它依然还在被借用</span><br><span class="line">9  |</span><br><span class="line">10 |         println!(&quot;r: &#123;&#125;&quot;, r);</span><br><span class="line">   |                           - borrow later used here // 对 `x` 的借用在此处被使用</span><br></pre></td></tr></table></figure>
-<p>在这里<code>r</code>拥有更大的作用域，或者说活得更久。如果<code>Rust</code>不阻止该悬垂引用的发生，那么当<code>x</code>被释放后，<code>r</code>所引用的值就不再是合法的，会导致我们程序发生异常行为，且该异常行为有时候会很难被发现。</p>
-<h2 id="借用检查"><a href="#借用检查" class="headerlink" title="借用检查"></a>借用检查</h2><p>为了保证Rust的所有权和借用的正确性，Rust使用了一个借用检查器(Borrow checker)，来检查我们程序的借用正确性：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">r</span>;                <span class="comment">// ---------+-- &#x27;a</span></span><br><span class="line">                          <span class="comment">//          |</span></span><br><span class="line">    &#123;                     <span class="comment">//          |</span></span><br><span class="line">        <span class="keyword">let</span> <span class="variable">x</span> = <span class="number">5</span>;        <span class="comment">// -+-- &#x27;b  |</span></span><br><span class="line">        r = &amp;x;           <span class="comment">//  |       |</span></span><br><span class="line">    &#125;                     <span class="comment">// -+       |</span></span><br><span class="line">                          <span class="comment">//          |</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;r: &#123;&#125;&quot;</span>, r); <span class="comment">//          |</span></span><br><span class="line">&#125;                         <span class="comment">// ---------+</span></span><br></pre></td></tr></table></figure>
-<p>这段代码和之前的一模一样，唯一的区别在于增加了对变量生命周期的注释。这里，<code>r</code>变量被赋予了生命周期 <code>&#39;a</code>，<code>x</code>被赋予了生命周期<code>&#39;b</code>，从图示上可以明显看出生命周期<code>&#39;b</code>比<code>&#39;a</code>小很多。</p>
-<p>在编译期，<code>Rust</code>会比较两个变量的生命周期，结果发现<code>r</code>明明拥有生命周期<code>&#39;a</code>，但是却引用了一个小得多的生命周期<code>&#39;b</code>，在这种情况下，编译器会认为我们的程序存在风险，因此拒绝运行。</p>
-<p>如果想要编译通过，也很简单，只要<code>&#39;b</code>比<code>&#39;a</code>大就好。总之，<code>x</code>变量只要比<code>r</code>活得久，那么<code>r</code>就能随意引用<code>x</code>且不会存在危险：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">x</span> = <span class="number">5</span>;            <span class="comment">// ----------+-- &#x27;b</span></span><br><span class="line">                          <span class="comment">//           |</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">r</span> = &amp;x;           <span class="comment">// --+-- &#x27;a  |</span></span><br><span class="line">                          <span class="comment">//   |       |</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;r: &#123;&#125;&quot;</span>, r); <span class="comment">//   |       |</span></span><br><span class="line">                          <span class="comment">// --+       |</span></span><br><span class="line">&#125;                         <span class="comment">// ----------+</span></span><br></pre></td></tr></table></figure>
-<p>根据之前的结论，我们重新实现了代码，现在<code>x</code>的生命周期<code>&#39;b</code>大于<code>r</code>的生命周期<code>&#39;a</code>，因此<code>r</code>对<code>x</code>的引用是安全的。</p>
-<h2 id="函数中的生命周期"><a href="#函数中的生命周期" class="headerlink" title="函数中的生命周期"></a>函数中的生命周期</h2><p>有代码示例如下：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">string1</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;abcd&quot;</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">string2</span> = <span class="string">&quot;xyz&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">result</span> = <span class="title function_ invoke__">longest</span>(string1.<span class="title function_ invoke__">as_str</span>(), string2);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;The longest string is &#123;&#125;&quot;</span>, result);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">longest</span>(x: &amp;<span class="type">str</span>, y: &amp;<span class="type">str</span>) <span class="punctuation">-&gt;</span> &amp;<span class="type">str</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> x.<span class="title function_ invoke__">len</span>() &gt; y.<span class="title function_ invoke__">len</span>() &#123;</span><br><span class="line">        x</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        y</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在上面的示例中，<code>longest</code>函数接受两个字符串切片参数，并返回其中一个更长的字符串切片，看起来是一个十分正常且合理的实现方式，但实际上，编译器会发生报错：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">error[E0106]: missing lifetime specifier</span><br><span class="line"> --&gt; src/main.rs:9:33</span><br><span class="line">  |</span><br><span class="line">9 | fn longest(x: &amp;str, y: &amp;str) -&gt; &amp;str &#123;</span><br><span class="line">  |               ----     ----     ^ expected named lifetime parameter // 参数需要一个生命周期</span><br><span class="line">  |</span><br><span class="line">  = help: this function&#x27;s return type contains a borrowed value, but the signature does not say whether it is</span><br><span class="line">  borrowed from `x` or `y`</span><br><span class="line">  = 帮助： 该函数的返回值是一个引用类型，但是函数签名无法说明，该引用是借用自 `x` 还是 `y`</span><br><span class="line">help: consider introducing a named lifetime parameter // 考虑引入一个生命周期</span><br><span class="line">  |</span><br><span class="line">9 | fn longest&lt;&#x27;a&gt;(x: &amp;&#x27;a str, y: &amp;&#x27;a str) -&gt; &amp;&#x27;a str &#123;</span><br><span class="line">  |           ^^^^    ^^^^^^^     ^^^^^^^     ^^^</span><br></pre></td></tr></table></figure>
-<p>在如上的报错中，我们可以发现，主要是编译器无法知道该函数的返回值到底引用<code>x</code>还是<code>y</code>，因为编译器需要知道这些，来确保函数调用后的引用生命周期分析。</p>
-<p>但实际上，我们自己也不知道调用该函数时会返回<code>x</code>还是<code>y</code>。自然，编译器也无法推导出返回的引用值的生命周期。因此，正如开头所说，当编译器无法自动推导生命周期时，就需要我们去进行手动标注。</p>
-<h2 id="生命周期标注语法"><a href="#生命周期标注语法" class="headerlink" title="生命周期标注语法"></a>生命周期标注语法</h2><p>在Rust中，生命周期主要通过生命周期注解来创建和使用。生命周期注解是一种显式声明引用有效时间的方式，通常用<code>&#39;a</code>、<code>&#39;b</code>这样的符号表示：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&amp;<span class="type">i32</span>        <span class="comment">// 一个引用</span></span><br><span class="line">&amp;<span class="symbol">&#x27;a</span> <span class="type">i32</span>     <span class="comment">// 具有显式生命周期的引用</span></span><br><span class="line">&amp;<span class="symbol">&#x27;a</span> <span class="keyword">mut</span> <span class="type">i32</span> <span class="comment">// 具有显式生命周期的可变引用</span></span><br></pre></td></tr></table></figure>
-<p>一个生命周期标注，它自身并不具有什么意义，<strong>它并不会改变任何引用的实际作用域</strong>，因为生命周期的作用就是告诉编译器多个引用之间的关系。例如，有一个函数，它的第一个参数<code>first</code>是一个指向<code>i32</code>类型的引用，具有生命周期<code>&#39;a</code>，该函数还有另一个参数<code>second</code>，它也是指向<code>i32</code>类型的引用，并且同样具有生命周期<code>&#39;a</code>。此处生命周期标注仅仅说明，这两个参数<code>first</code>和<code>second</code>至少活得和<code>&#39;a</code>一样久，至于到底活多久或者哪个活得更久，抱歉我们都无法得知：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">useless</span>&lt;<span class="symbol">&#x27;a</span>&gt;(first: &amp;<span class="symbol">&#x27;a</span> <span class="type">i32</span>, second: &amp;<span class="symbol">&#x27;a</span> <span class="type">i32</span>) &#123;&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="函数签名中的生命周期标注"><a href="#函数签名中的生命周期标注" class="headerlink" title="函数签名中的生命周期标注"></a>函数签名中的生命周期标注</h3><p>让我们回到之前<code>longest</code>函数的例子中，下面展示了正确的声明周期注解：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">longest</span>&lt;<span class="symbol">&#x27;a</span>&gt;(x: &amp;<span class="symbol">&#x27;a</span> <span class="type">str</span>, y: &amp;<span class="symbol">&#x27;a</span> <span class="type">str</span>) <span class="punctuation">-&gt;</span> &amp;<span class="symbol">&#x27;a</span> <span class="type">str</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> x.<span class="title function_ invoke__">len</span>() &gt; y.<span class="title function_ invoke__">len</span>() &#123;</span><br><span class="line">        x</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        y</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>要注意的点如下：<br>· 和泛型一样，使用生命周期参数，需要先声明<code>&lt;&#39;a&gt;</code>     (随便举一个泛型的例子：<code>fn longest&lt;T&gt;(x: T, y: T) -&gt; T &#123;&#125;</code>)<br>· <code>x</code>、<code>y</code>和返回值<strong>至少</strong>活得和<code>&#39;a</code>一样久（因为返回值要么是<code>x</code>，要么是<code>y</code>）</p>
-<p>让我们再具体分析一下上面的例子，我们先声明了生命周期参数<code>&lt;&#39;a&gt;</code>，随后为函数的两个传入参数<code>x</code>和<code>y</code>以及函数的返回值都标注了生命周期参数<code>&#39;a</code>。实际上，这意味着<strong>返回值的生命周期与参数生命周期中的较小值一致</strong>：虽然两个参数的生命周期都是标注了<code>&#39;a</code>，但是实际上这两个参数的真实生命周期可能是不一样的（生命周期<code>&#39;a</code>不代表生命周期等于<code>&#39;a</code>，而是大于等于<code>&#39;a</code>）。</p>
-<p>当把具体的引用传给<code>longest</code>时，那生命周期<code>&#39;a</code>的大小就是<code>x</code>和<code>y</code>的作用域的重合部分，换句话说，<code>&#39;a</code>的大小将等于<code>x</code>和<code>y</code>中较小的那个。由于返回值的生命周期也被标记为<code>&#39;a</code>，因此返回值的生命周期也是<code>x</code>和<code>y</code>中作用域较小的那个。</p>
-<p>让我们再来看一个例子：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">string1</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;long string is long&quot;</span>);</span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">string2</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;xyz&quot;</span>);</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">result</span> = <span class="title function_ invoke__">longest</span>(string1.<span class="title function_ invoke__">as_str</span>(), string2.<span class="title function_ invoke__">as_str</span>());</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;The longest string is &#123;&#125;&quot;</span>, result);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在上例中，<code>string1</code>的作用域直到<code>main</code>函数的结束，而<code>string2</code>的作用域到内部花括号的结束<code>&#125;</code>，那么根据之前的理论，<code>&#39;a</code>是两者中作用域较小的那个，也就是<code>&#39;a</code>的生命周期等于<code>string2</code>的生命周期，同理，由于函数返回的生命周期也是<code>&#39;a</code>，可以得出函数返回的生命周期也等于<code>string2</code>的生命周期。</p>
-<p>现在来验证下上面的结论：result 的生命周期等于参数中生命周期最小的，因此要等于 string2 的生命周期，也就是说，result 要活得和 string2 一样久，观察下代码的实现，可以发现这个结论是正确的！</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">string1</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;long string is long&quot;</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">result</span>;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">string2</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;xyz&quot;</span>);</span><br><span class="line">        result = <span class="title function_ invoke__">longest</span>(string1.<span class="title function_ invoke__">as_str</span>(), string2.<span class="title function_ invoke__">as_str</span>());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;The longest string is &#123;&#125;&quot;</span>, result);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>此时，按照我们上面的结论，自然而然地编译器报错了：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">error[E0597]: `string2` does not live long enough</span><br><span class="line"> --&gt; src/main.rs:6:44</span><br><span class="line">  |</span><br><span class="line">6 |         result = longest(string1.as_str(), string2.as_str());</span><br><span class="line">  |                                            ^^^^^^^ borrowed value does not live long enough</span><br><span class="line">7 |     &#125;</span><br><span class="line">  |     - `string2` dropped here while still borrowed</span><br><span class="line">8 |     println!(&quot;The longest string is &#123;&#125;&quot;, result);</span><br><span class="line">  |                                          ------ borrow later used here</span><br></pre></td></tr></table></figure>
-<p>该代码成功打印出<code>result</code>的前提是它的生命周期能够达到<code>println!()</code>这一行。但<code>result</code>的生命周期为<code>&#39;a</code>，是<code>string1</code>和<code>string2</code>两个传入参数的生命周期的最小值。这说明，只有<code>string2</code>的生命周期能够达到<code>println!()</code>，<code>result</code>才能成功打印，但很可惜的是<code>string2</code>只能活到内部语句块的花括号<code>&#125;</code>处，因而编译出错。</p>
-<h2 id="结构体和枚举中的生命周期"><a href="#结构体和枚举中的生命周期" class="headerlink" title="结构体和枚举中的生命周期"></a>结构体和枚举中的生命周期</h2><p>不仅仅函数具有生命周期，在结构体和枚举enum中都有这个概念。在之前我们对结构体的使用中都尽量规避了没有所有权的引用类型，因而不需要加上生命周期标注。但如果我们想要在结构体或者是枚举中使用引用，那我们就需要为其中的每一个引用标注上生命周期：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ImportantExcerpt</span>&lt;<span class="symbol">&#x27;a</span>&gt; &#123;</span><br><span class="line">    part: &amp;<span class="symbol">&#x27;a</span> <span class="type">str</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">novel</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;Call me Ishmael. Some years ago...&quot;</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">first_sentence</span> = novel.<span class="title function_ invoke__">split</span>(<span class="string">&#x27;.&#x27;</span>).<span class="title function_ invoke__">next</span>().<span class="title function_ invoke__">expect</span>(<span class="string">&quot;Could not find a &#x27;.&#x27;&quot;</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">i</span> = ImportantExcerpt &#123;</span><br><span class="line">        part: first_sentence,</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>ImportantExcerpt</code>结构体中有一个引用类型的字段<code>part</code>，因此需要为它标注上生命周期。结构体的生命周期标注语法跟泛型参数语法很像，需要对生命周期参数进行声明<code>&lt;&#39;a&gt;</code>。该生命周期标注说明，结构体 <code>ImportantExcerpt</code>所引用的字符串<code>str</code>生命周期需要大于等于该结构体的生命周期。</p>
-<p>从<code>main</code>函数实现来看，<code>ImportantExcerpt</code>的生命周期从第<code>4</code>行开始，到<code>main</code>函数末尾结束，而该结构体引用的字符串从第一行开始，也是到<code>main</code>函数末尾结束，可以得出结论结构体引用的字符串生命周期大于等于结构体，这符合了编译器对生命周期的要求，因此编译通过。</p>
-<p>与之相反，下面的代码就无法通过编译：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#[derive(Debug)]</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">ImportantExcerpt</span>&lt;<span class="symbol">&#x27;a</span>&gt; &#123;</span><br><span class="line">    part: &amp;<span class="symbol">&#x27;a</span> <span class="type">str</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">i</span>;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">novel</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;Call me Ishmael. Some years ago...&quot;</span>);</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">first_sentence</span> = novel.<span class="title function_ invoke__">split</span>(<span class="string">&#x27;.&#x27;</span>).<span class="title function_ invoke__">next</span>().<span class="title function_ invoke__">expect</span>(<span class="string">&quot;Could not find a &#x27;.&#x27;&quot;</span>);</span><br><span class="line">        i = ImportantExcerpt &#123;</span><br><span class="line">            part: first_sentence,</span><br><span class="line">        &#125;;  <span class="comment">// first_sentence生命周期结束</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;:?&#125;&quot;</span>,i);</span><br><span class="line">&#125;  </span><br></pre></td></tr></table></figure>
-<p>我们观察代码可以发现，该结构体中的引用字段的生命周期在内部花括号处生命周期就结束了。但是后续该结构体<code>i</code>又被使用了，因此会导致无效的引用，编译报错。</p>
-<p>如果我们想要在结构体或<code>enum</code>中使用多个具有不同生命周期的引用，就需要为每一个引用进行生命周期标注：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">StringOption</span>&lt;<span class="symbol">&#x27;a</span>, <span class="symbol">&#x27;b</span>&gt; &#123;</span><br><span class="line">    <span class="title function_ invoke__">Some</span>((&amp;<span class="symbol">&#x27;a</span> <span class="type">str</span>, &amp;<span class="symbol">&#x27;b</span> <span class="type">str</span>)),</span><br><span class="line">    <span class="literal">None</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="方法中的生命周期"><a href="#方法中的生命周期" class="headerlink" title="方法中的生命周期"></a>方法中的生命周期</h2><p>既然在枚举和结构体中可以使用生命周期标注的引用，那么，我们自然也西药为具有生命周期的结构体实现方法。在实现时，我们使用的语法也与泛型参数的语法相似：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ImportantExcerpt</span>&lt;<span class="symbol">&#x27;a</span>&gt; &#123;</span><br><span class="line">    part: &amp;<span class="symbol">&#x27;a</span> <span class="type">str</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span>&lt;<span class="symbol">&#x27;a</span>&gt; ImportantExcerpt&lt;<span class="symbol">&#x27;a</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">level</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">i32</span> &#123;</span><br><span class="line">        <span class="number">3</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>首先，我们需要在<code>impl</code>后加上<code>&lt;&#39;a&gt;</code>来声明该方法的实现需要用到生命周期。其次，<code>impl</code>中必须使用结构体的完整名称，包括<code>&lt;&#39;a&gt;</code>，因为生命周期标注也是结构体类型的一部分！</p>
-<p>如果有多种参数，示例如下：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">StringOption</span>&lt;<span class="symbol">&#x27;a</span>, <span class="symbol">&#x27;b</span>&gt; &#123;</span><br><span class="line">    <span class="title function_ invoke__">Some</span>((&amp;<span class="symbol">&#x27;a</span> <span class="type">str</span>, &amp;<span class="symbol">&#x27;b</span> <span class="type">str</span>)),</span><br><span class="line">    <span class="literal">None</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span>&lt;<span class="symbol">&#x27;a</span>, <span class="symbol">&#x27;b</span>&gt; StringOption&lt;<span class="symbol">&#x27;a</span>, <span class="symbol">&#x27;b</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">get</span>(&amp;<span class="keyword">self</span>) &#123;</span><br><span class="line">        <span class="comment">//</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="生命周期消除（Lifetime-Elision）"><a href="#生命周期消除（Lifetime-Elision）" class="headerlink" title="生命周期消除（Lifetime Elision）"></a>生命周期消除（Lifetime Elision）</h2><p>对于编译器来说，每一个引用类型都存在一个与之对应的生命周期，但我们在实际的使用过程中，很多时候我们并不需要标注生命周期，例如：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">first_word</span>(s: &amp;<span class="type">str</span>) <span class="punctuation">-&gt;</span> &amp;<span class="type">str</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">bytes</span> = s.<span class="title function_ invoke__">as_bytes</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (i, &amp;item) <span class="keyword">in</span> bytes.<span class="title function_ invoke__">iter</span>().<span class="title function_ invoke__">enumerate</span>() &#123;</span><br><span class="line">        <span class="keyword">if</span> item == <span class="string">b&#x27; &#x27;</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> &amp;s[<span class="number">0</span>..i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &amp;s[..]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>该该函数的参数和返回值都是引用类型，尽管我们没有显式的为其标注生命周期，编译依然可以通过。</p>
-<p>这是因为，Rust为我们提供了<strong>三条生命周期的消除规则</strong>：</p>
-<p><strong>编译器使用三条消除规则来确定哪些场景不需要显式地去标注生命周期</strong>。其中第一条规则应用在输入生命周期上，第二、三条应用在输出生命周期上。若编译器发现三条规则都不适用时，就会报错，提示你需要手动标注生命周期。</p>
-<ol>
-<li><p>每个引用参数都有自己的生命周期参数。</p>
-</li>
-<li><p>如果只有一个输入引用参数，那么它的生命周期会被赋予所有输出引用。</p>
-</li>
-<li><p>如果有多个输入生命周期参数，但其中一个是<code>&amp;self</code>或<code>&amp;mut self</code>，那么<code>self</code>的生命周期会被赋予所有输出引用。</p>
-</li>
-</ol>
-<p>三条规则实际上都很好理解，但是当实际情况与规则发生一定的冲突时，我们应该怎么办呢？如第三条规则，若一个方法，它的返回值的生命周期就是跟参数<code>&amp;self</code>的不一样怎么办？这时候我们就需要<strong>手动标注生命周期</strong>，因为这些规则只是<strong>编译器发现你没有标注生命周期时默认去使用的</strong>，当你标注生命周期后，编译器自然会乖乖听你的话。</p>
-<p>让我们再举一些例子，带入编译器的视角理解引用这些规则：</p>
-<h3 id="例子1"><a href="#例子1" class="headerlink" title="例子1"></a>例子1</h3><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">first_word</span>(s: &amp;<span class="type">str</span>) <span class="punctuation">-&gt;</span> &amp;<span class="type">str</span> &#123; </span><br></pre></td></tr></table></figure>
-<p>有代码如上，编译器会首先应用第一条规则，为每个参数标注一个生命周期:</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">first_word</span>&lt;<span class="symbol">&#x27;a</span>&gt;(s: &amp;<span class="symbol">&#x27;a</span> <span class="type">str</span>) <span class="punctuation">-&gt;</span> &amp;<span class="type">str</span> &#123; <span class="comment">// 编译器自动为参数添加生命周期</span></span><br></pre></td></tr></table></figure>
-<p>此时，第二条规则就可以进行应用，因为函数只有一个输入生命周期，因此该生命周期会被赋予所有的输出生命周期：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">first_word</span>&lt;<span class="symbol">&#x27;a</span>&gt;(s: &amp;<span class="symbol">&#x27;a</span> <span class="type">str</span>) <span class="punctuation">-&gt;</span> &amp;<span class="symbol">&#x27;a</span> <span class="type">str</span> &#123; <span class="comment">// 编译器自动为返回值添加生命周期</span></span><br></pre></td></tr></table></figure>
-<p>此时，编译器为函数签名中的所有引用都自动添加了具体的生命周期，因此编译通过，且用户无需手动去标注生命周期，只要按照<code>fn first_word(s: &amp;str) -&gt; &amp;str &#123;</code>的形式写代码即可。</p>
-<h3 id="例子2"><a href="#例子2" class="headerlink" title="例子2"></a>例子2</h3><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">longest</span>(x: &amp;<span class="type">str</span>, y: &amp;<span class="type">str</span>) <span class="punctuation">-&gt;</span> &amp;<span class="type">str</span> &#123; </span><br></pre></td></tr></table></figure>
-<p>首先，编译器会应用第一条规则，为每个参数都标注生命周期：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">longest</span>&lt;<span class="symbol">&#x27;a</span>, <span class="symbol">&#x27;b</span>&gt;(x: &amp;<span class="symbol">&#x27;a</span> <span class="type">str</span>, y: &amp;<span class="symbol">&#x27;b</span> <span class="type">str</span>) <span class="punctuation">-&gt;</span> &amp;<span class="type">str</span> &#123;</span><br></pre></td></tr></table></figure>
-<p>但是此时，第二条规则却无法被使用，因为输入生命周期有两个，第三条规则也不符合，因为它是函数，不是方法，因此没有<code>&amp;self</code>参数。在套用所有规则后，编译器依然无法为返回值标注合适的生命周期，因此，编译器就会报错，提示我们需要手动标注生命周期：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">error[E0106]: missing lifetime specifier</span><br><span class="line"> --&gt; src/main.rs:1:47</span><br><span class="line">  |</span><br><span class="line">1 | fn longest&lt;&#x27;a, &#x27;b&gt;(x: &amp;&#x27;a str, y: &amp;&#x27;b str) -&gt; &amp;str &#123;</span><br><span class="line">  |                       -------     -------     ^ expected named lifetime parameter</span><br><span class="line">  |</span><br><span class="line">  = help: this function&#x27;s return type contains a borrowed value, but the signature does not say whether it is borrowed from `x` or `y`</span><br><span class="line">note: these named lifetimes are available to use</span><br><span class="line"> --&gt; src/main.rs:1:12</span><br><span class="line">  |</span><br><span class="line">1 | fn longest&lt;&#x27;a, &#x27;b&gt;(x: &amp;&#x27;a str, y: &amp;&#x27;b str) -&gt; &amp;str &#123;</span><br><span class="line">  |            ^^  ^^</span><br><span class="line">help: consider using one of the available lifetimes here</span><br><span class="line">  |</span><br><span class="line">1 | fn longest&lt;&#x27;a, &#x27;b&gt;(x: &amp;&#x27;a str, y: &amp;&#x27;b str) -&gt; &amp;&#x27;lifetime str &#123;</span><br><span class="line">  |                                                +++++++++</span><br></pre></td></tr></table></figure>
-
-<h2 id="静态生命周期标注"><a href="#静态生命周期标注" class="headerlink" title="静态生命周期标注"></a>静态生命周期标注</h2><p>在 Rust 中有一个非常特殊的生命周期，那就是<code>&#39;static</code>，它表示整个程序运行期间都有效的生命周期。这通常用于全局变量或字符串字面量。</p>
-<p>在之前我们学过字符串字面量，提到过它是被硬编码进Rust的二进制文件中，因此这些字符串变量全部具有<code>&#39;static</code>的生命周期：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">s</span>: &amp;<span class="symbol">&#x27;static</span> <span class="type">str</span> = <span class="string">&quot;我没啥优点，就是活得久，嘿嘿&quot;</span>;</span><br></pre></td></tr></table></figure>
-
-<p>还有如下常量的例子：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> SOME_COORDINATE: (<span class="type">i32</span>, <span class="type">i32</span>) = (<span class="number">7</span>, <span class="number">4</span>);</span><br><span class="line"><span class="keyword">let</span> <span class="variable">static_reference</span>: &amp;<span class="symbol">&#x27;static</span>(<span class="type">i32</span>, <span class="type">i32</span>) = &amp;SOME_COORDINATE;</span><br></pre></td></tr></table></figure>
-
-<h2 id="特殊生命周期标注"><a href="#特殊生命周期标注" class="headerlink" title="特殊生命周期标注"></a>特殊生命周期标注</h2><p>当我们在为带有生命周期的结构体或者枚举实现方法或函数时，如果我们不关心生命周期本身，那么我们就可以应用占位符<code>_</code>替换生命周期标注：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Counter</span>&lt;<span class="symbol">&#x27;a</span>&gt; &#123;</span><br><span class="line">    counter: &amp;<span class="symbol">&#x27;a</span> <span class="keyword">mut</span> <span class="type">i32</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Counter</span>&lt;<span class="symbol">&#x27;_</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">increment</span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) &#123;</span><br><span class="line">        *<span class="keyword">self</span>.counter += <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="生命周期约束"><a href="#生命周期约束" class="headerlink" title="生命周期约束"></a>生命周期约束</h2><p>让我们来看下面这个例子：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">impl</span>&lt;<span class="symbol">&#x27;a</span>&gt; ImportantExcerpt&lt;<span class="symbol">&#x27;a</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">announce_and_return_part</span>&lt;<span class="symbol">&#x27;b</span>&gt;(&amp;<span class="symbol">&#x27;a</span> <span class="keyword">self</span>, announcement: &amp;<span class="symbol">&#x27;b</span> <span class="type">str</span>) <span class="punctuation">-&gt;</span> &amp;<span class="symbol">&#x27;b</span> <span class="type">str</span> &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;Attention please: &#123;&#125;&quot;</span>, announcement);</span><br><span class="line">        <span class="keyword">self</span>.part</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>此时，我们可以发现，该函数<code>announce_and_return_part</code>存在两个生命周期标注<code>&#39;a</code>和<code>&#39;b</code>，但是在该函数中，并不满足我们之前提到的三条规则，因而编译器无法知道<code>&#39;a</code>和<code>&#39;b</code>的关系。在该函数中，返回的<code>&amp;&#39;b str</code>实际上是<code>self.part</code>，因此我们实际上显然需要生命周期<code>&#39;a</code>比<code>&#39;b</code>大，因此，我们需要进行生命周期的约束：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">impl</span>&lt;<span class="symbol">&#x27;a</span>: <span class="symbol">&#x27;b</span>, <span class="symbol">&#x27;b</span>&gt; ImportantExcerpt&lt;<span class="symbol">&#x27;a</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">announce_and_return_part</span>(&amp;<span class="symbol">&#x27;a</span> <span class="keyword">self</span>, announcement: &amp;<span class="symbol">&#x27;b</span> <span class="type">str</span>) <span class="punctuation">-&gt;</span> &amp;<span class="symbol">&#x27;b</span> <span class="type">str</span> &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;Attention please: &#123;&#125;&quot;</span>, announcement);</span><br><span class="line">        <span class="keyword">self</span>.part</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在上面的代码示例中：<br>· <code>&#39;a: &#39;b</code>，是生命周期约束语法，跟泛型约束非常相似，用于说明<code>&#39;a</code>必须比<code>&#39;b</code>活得久<br>· 可以把<code>&#39;a</code>和<code>&#39;b</code>都在同一个地方声明（如上），或者分开声明但通过<code>where &#39;a: &#39;b</code>约束生命周期关系，如下：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">impl</span>&lt;<span class="symbol">&#x27;a</span>&gt; ImportantExcerpt&lt;<span class="symbol">&#x27;a</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">announce_and_return_part</span>&lt;<span class="symbol">&#x27;b</span>&gt;(&amp;<span class="symbol">&#x27;a</span> <span class="keyword">self</span>, announcement: &amp;<span class="symbol">&#x27;b</span> <span class="type">str</span>) <span class="punctuation">-&gt;</span> &amp;<span class="symbol">&#x27;b</span> <span class="type">str</span></span><br><span class="line">    <span class="keyword">where</span></span><br><span class="line">        <span class="symbol">&#x27;a</span>: <span class="symbol">&#x27;b</span>,</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;Attention please: &#123;&#125;&quot;</span>, announcement);</span><br><span class="line">        <span class="keyword">self</span>.part</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="生命周期子类型和协变"><a href="#生命周期子类型和协变" class="headerlink" title="生命周期子类型和协变"></a>生命周期子类型和协变</h2><p>生命周期可以有子类型关系，较短的生命周期可以被视为较长的生命周期的子类型。这在协变（covariance）中尤为重要‼️</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">example</span>&lt;<span class="symbol">&#x27;a</span>, <span class="symbol">&#x27;b</span>&gt;(x: &amp;<span class="symbol">&#x27;a</span> <span class="type">str</span>, y:&amp;<span class="symbol">&#x27;b</span> <span class="type">str</span>) <span class="punctuation">-&gt;</span> &amp;<span class="symbol">&#x27;a</span> <span class="type">str</span> </span><br><span class="line"><span class="keyword">where</span> <span class="symbol">&#x27;a</span>: <span class="symbol">&#x27;b</span>,</span><br><span class="line">&#123;</span><br><span class="line">    x</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="小试牛刀"><a href="#小试牛刀" class="headerlink" title="小试牛刀"></a>小试牛刀</h2><p>下面是一段十分有问题的代码：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">test_lifetime_mut</span>() &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">insert_value</span>&lt;<span class="symbol">&#x27;a</span>, <span class="symbol">&#x27;b</span>&gt;(my_vec: &amp;<span class="keyword">mut</span> <span class="type">Vec</span>&lt;&amp;<span class="symbol">&#x27;a</span> <span class="type">i32</span>&gt;, value: &amp;<span class="symbol">&#x27;b</span> <span class="type">i32</span>) &#123;</span><br><span class="line">        my_vec.<span class="title function_ invoke__">push</span>(value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">x</span> = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">my_vec</span> = <span class="built_in">vec!</span>[&amp;x];</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">y</span> = <span class="number">2</span>;</span><br><span class="line">    <span class="title function_ invoke__">insert_value</span>(&amp;<span class="keyword">mut</span> my_vec, &amp;y);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;my vec: &#123;my_vec:?&#125;&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在上面的代码中，最大的问题便是我们使用了不同的生命周期标注<code>&#39;a</code>和<code>&#39;b</code>。对于<code>&amp;y</code>，编译器在没有明确指示的情况下默认它在执行完<code>insert_value(&amp;mut my_vec, &amp;y);</code>语句后就已经自动<code>drop</code><br>掉了。因此在后续打印时出现了无效的引用。因此，我们需要通过生命周期约束告诉编译器<code>&amp;y</code>的生命周期<code>&#39;b</code>需要大于等于<code>&#39;a</code>:</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">test_lifetime_mut</span>() &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">insert_value</span>&lt;<span class="symbol">&#x27;a</span>, <span class="symbol">&#x27;b</span>&gt;(my_vec: &amp;<span class="keyword">mut</span> <span class="type">Vec</span>&lt;&amp;<span class="symbol">&#x27;a</span> <span class="type">i32</span>&gt;, value: &amp;<span class="symbol">&#x27;b</span> <span class="type">i32</span>) &#123;</span><br><span class="line">        my_vec.<span class="title function_ invoke__">push</span>(value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">x</span> = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">my_vec</span> = <span class="built_in">vec!</span>[&amp;x];</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">y</span> = <span class="number">2</span>;</span><br><span class="line">    <span class="title function_ invoke__">insert_value</span>(&amp;<span class="keyword">mut</span> my_vec, &amp;y);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;my vec: &#123;my_vec:?&#125;&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>或者，我们也可以简单的使用<code>fn insert_value&lt;&#39;a&gt;(my_vec: &amp;mut Vec&lt;&amp;&#39;a i32&gt;, value: &amp;&#39;a i32) &#123;</code>来告诉编译器两个生命周期相同，编译器就不再会报错。</p>
-<h2 id="课后习题"><a href="#课后习题" class="headerlink" title="课后习题"></a>课后习题</h2><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">test_lifetime_multiple</span>() &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">insert_value</span>&lt;<span class="symbol">&#x27;a</span>, <span class="symbol">&#x27;b</span>&gt;(my_vec: &amp;<span class="symbol">&#x27;a</span> <span class="keyword">mut</span> <span class="type">Vec</span>&lt;&amp;<span class="symbol">&#x27;b</span> <span class="type">i32</span>&gt;, value: &amp;<span class="symbol">&#x27;b</span> <span class="type">i32</span>) &#123; <span class="comment">// 使用&#x27;a和&#x27;b两个生命周期参数,</span></span><br><span class="line">        my_vec.<span class="title function_ invoke__">push</span>(value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">my_vec</span> = <span class="built_in">vec!</span>[];</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">val1</span> = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">val2</span> = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">a</span> = &amp;<span class="keyword">mut</span> my_vec;</span><br><span class="line">    <span class="title function_ invoke__">insert_value</span>(a, &amp;val1);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;a is &#123;:?&#125;&quot;</span>, a);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">b</span> = &amp;<span class="keyword">mut</span> my_vec;</span><br><span class="line">    <span class="title function_ invoke__">insert_value</span>(b, &amp;val2);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;b is &#123;:?&#125;&quot;</span>, b);</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;:?&#125;&quot;</span>, my_vec);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/10/26/rust-trait/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Wobujiaoxyy3">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/10/26/rust-trait/" class="post-title-link" itemprop="url">十八、Rust进阶-特征</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2024-10-26 16:19:45" itemprop="dateCreated datePublished" datetime="2024-10-26T16:19:45+01:00">2024-10-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-11-13 23:46:46" itemprop="dateModified" datetime="2024-11-13T23:46:46+00:00">2024-11-13</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="特征-Trait"><a href="#特征-Trait" class="headerlink" title="特征 Trait"></a>特征 Trait</h1><p>trait定义了某个特定类型拥有可能与其他类型共享的功能。（有点类似于其他语言中的接口（interfaces），虽然存在些许不同）</p>
-<h2 id="定义的特征与实现"><a href="#定义的特征与实现" class="headerlink" title="定义的特征与实现"></a>定义的特征与实现</h2><p>让我们来看下面一个例子：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">trait</span> <span class="title class_">Summary</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">summarize</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">String</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在上面的示例中，我们使用<code>trait</code>关键字来声明一个特征，其中<code>Summary</code>是特征名，在大括号中定义了该特征的所有方法。</p>
-<p>特征只定义行为看起来是什么样的，而不定义行为具体是怎么样的。因此，我们只定义特征方法的签名，而不进行实现，此时方法签名结尾是 ;，而不是一个 {}。</p>
-<p>接下来，每一个实现这个特征的类型都需要具体实现该特征的相应方法，编译器也会确保任何实现<code>Summary</code>特征的类型<strong>都</strong>拥有与这个签名的定义完全一致的<code>summarize</code>方法。</p>
-<h2 id="为类型实现特征"><a href="#为类型实现特征" class="headerlink" title="为类型实现特征"></a>为类型实现特征</h2><p>接下来，我们为每一个类型都实现具体的特征：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">trait</span> <span class="title class_">Summary</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">summarize</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">String</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">struct</span> <span class="title class_">Post</span> &#123;</span><br><span class="line">    <span class="keyword">pub</span> title: <span class="type">String</span>, <span class="comment">// 标题</span></span><br><span class="line">    <span class="keyword">pub</span> author: <span class="type">String</span>, <span class="comment">// 作者</span></span><br><span class="line">    <span class="keyword">pub</span> content: <span class="type">String</span>, <span class="comment">// 内容</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Summary</span> <span class="keyword">for</span> <span class="title class_">Post</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">summarize</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">String</span> &#123;</span><br><span class="line">        <span class="built_in">format!</span>(<span class="string">&quot;文章&#123;&#125;, 作者是&#123;&#125;&quot;</span>, <span class="keyword">self</span>.title, <span class="keyword">self</span>.author)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">struct</span> <span class="title class_">Weibo</span> &#123;</span><br><span class="line">    <span class="keyword">pub</span> username: <span class="type">String</span>,</span><br><span class="line">    <span class="keyword">pub</span> content: <span class="type">String</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Summary</span> <span class="keyword">for</span> <span class="title class_">Weibo</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">summarize</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">String</span> &#123;</span><br><span class="line">        <span class="built_in">format!</span>(<span class="string">&quot;&#123;&#125;发表了微博&#123;&#125;&quot;</span>, <span class="keyword">self</span>.username, <span class="keyword">self</span>.content)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>实现特征的语法与为结构体、枚举实现方法很像：<code>impl Summary for Post</code>，读作“为<code>Post</code>类型实现<code>Summary</code>特征”，然后在<code>impl</code>的花括号中实现该特征的具体方法。</p>
-<p>既然已经为类型实现了特征，接下来我们就可以在类型上调用特征的方法：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">post</span> = Post&#123;title: <span class="string">&quot;Rust语言简介&quot;</span>.<span class="title function_ invoke__">to_string</span>(),author: <span class="string">&quot;Sunface&quot;</span>.<span class="title function_ invoke__">to_string</span>(), content: <span class="string">&quot;Rust棒极了!&quot;</span>.<span class="title function_ invoke__">to_string</span>()&#125;;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">weibo</span> = Weibo&#123;username: <span class="string">&quot;sunface&quot;</span>.<span class="title function_ invoke__">to_string</span>(),content: <span class="string">&quot;好像微博没Tweet好用&quot;</span>.<span class="title function_ invoke__">to_string</span>()&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>,post.<span class="title function_ invoke__">summarize</span>());</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>,weibo.<span class="title function_ invoke__">summarize</span>());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>运行上述代码后，会输出如下结果：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">文章 Rust 语言简介, 作者是Sunface</span><br><span class="line">sunface发表了微博好像微博没Tweet好用</span><br></pre></td></tr></table></figure>
-
-<h3 id="孤儿规则——特征定义和实现的位置"><a href="#孤儿规则——特征定义和实现的位置" class="headerlink" title="孤儿规则——特征定义和实现的位置"></a>孤儿规则——特征定义和实现的位置</h3><p>上面我们将<code>Summary</code>定义成了<code>pub</code>公开的。这样，如果他人想要使用我们的<code>Summary</code>特征，则可以引入到他们的包中，然后再进行实现。</p>
-<p>关于特征实现与定义的位置，有一条非常重要的原则：如果你想要为<strong>类型<code>A</code>实现特征<code>T</code>，那么<code>A</code>或者<code>T</code>至少有一个是在当前作用域中定义的！</strong> 例如我们可以为上面的<code>Post</code>类型实现标准库中的<code>Display</code>特征，这是因为<code>Post</code>类型定义在当前的作用域中。同时，我们也可以在当前包中为<code>String</code>类型实现<code>Summary</code>特征，因为<code>Summary</code>定义在当前作用域中。</p>
-<p>但是你无法在当前作用域中，为<code>String</code>类型实现<code>Display</code>特征，因为它们俩都定义在标准库中，其定义所在的位置都不在当前作用域。</p>
-<p>该规则被称为<strong>孤儿规则</strong>，可以确保其它人编写的代码不会破坏你的代码，也确保了你不会莫名其妙就破坏了风马牛不相及的代码。</p>
-<h3 id="默认实现"><a href="#默认实现" class="headerlink" title="默认实现"></a>默认实现</h3><p>实际上，我们可以在特征中定义具有<code>默认实现</code>的方法，这样其他类型就无需再次实现该方法，或者我们也可以选择重载该方法：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">trait</span> <span class="title class_">Summary</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">summarize</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">String</span> &#123;</span><br><span class="line">        <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;(Read more...)&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在上面的代码中，我们为特征<code>Summary</code>定义了一个默认实现，下面继续：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">impl</span> <span class="title class_">Summary</span> <span class="keyword">for</span> <span class="title class_">Post</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Summary</span> <span class="keyword">for</span> <span class="title class_">Weibo</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">summarize</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">String</span> &#123;</span><br><span class="line">        <span class="built_in">format!</span>(<span class="string">&quot;&#123;&#125;发表了微博&#123;&#125;&quot;</span>, <span class="keyword">self</span>.username, <span class="keyword">self</span>.content)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//...</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>,post.<span class="title function_ invoke__">summarize</span>());</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>,weibo.<span class="title function_ invoke__">summarize</span>());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>可以看到，<code>Post</code>选择了默认实现，而<code>Weibo</code>重载了该方法，输出如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(Read more...)</span><br><span class="line">sunface发表了微博好像微博没Tweet好用</span><br></pre></td></tr></table></figure>
-
-<p>同时，<strong>默认实现允许调用相同特征中的其他方法，哪怕这些方法没有默认实现</strong>。如此，特征可以提供很多有用的功能而只需要实现指定的一小部分内容。例如，我们可以定义<code>Summary</code>特征，使其具有一个需要实现的<code>summarize_author</code>方法，然后定义一个<code>summarize</code>方法，此方法的默认实现调用<code>summarize_author</code>方法：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">trait</span> <span class="title class_">Summary</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">summarize_author</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">String</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">summarize</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">String</span> &#123;</span><br><span class="line">        <span class="built_in">format!</span>(<span class="string">&quot;(Read more from &#123;&#125;...)&quot;</span>, <span class="keyword">self</span>.<span class="title function_ invoke__">summarize_author</span>())</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>为了使用<code>Summary</code>，只需要实现<code>summarize_author</code>方法即可：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">impl</span> <span class="title class_">Summary</span> <span class="keyword">for</span> <span class="title class_">Weibo</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">summarize_author</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">String</span> &#123;</span><br><span class="line">        <span class="built_in">format!</span>(<span class="string">&quot;@&#123;&#125;&quot;</span>, <span class="keyword">self</span>.username)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;1 new weibo: &#123;&#125;&quot;</span>, weibo.<span class="title function_ invoke__">summarize</span>());</span><br></pre></td></tr></table></figure>
-<p>此时，<code>weibo.summarize()</code>会先调用<code>Summary</code>特征默认实现的<code>summarize</code>方法，通过该方法进而调用<code>Weibo</code>为<code>Summary</code>实现的<code>summarize_author</code>方法，最终输出：<code>1 new weibo: (Read more from @horse_ebooks...)</code>。</p>
-<h2 id="带泛型的trait"><a href="#带泛型的trait" class="headerlink" title="带泛型的trait"></a>带泛型的trait</h2><p>如果我们需要在特征trait中使用泛型参数<code>T</code>，则需要在定义时使用尖括号注明。同时，我们可以针对不同的参数类型，为特征实现具体的方法：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">trait</span> <span class="title class_">Converter</span>&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">convert</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> T;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">MyInt</span>(<span class="type">i32</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Converter</span>&lt;<span class="type">String</span>&gt; <span class="keyword">for</span> <span class="title class_">MyInt</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">convert</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">String</span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.<span class="number">0</span>.<span class="title function_ invoke__">to_string</span>()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Converter</span>&lt;<span class="type">f32</span>&gt; <span class="keyword">for</span> <span class="title class_">MyInt</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">convert</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">f32</span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.<span class="number">0</span> <span class="keyword">as</span> <span class="type">f32</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">my_int</span> = <span class="title function_ invoke__">MyInt</span>(<span class="number">42</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">output</span>: <span class="type">String</span> = my_int.<span class="title function_ invoke__">convert</span>();  <span class="comment">//需要显式标出output的类型</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;output is: &#123;&#125;&quot;</span>, output);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">output</span>: <span class="type">f32</span> = my_int.<span class="title function_ invoke__">convert</span>();</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;output is: &#123;&#125;&quot;</span>, output);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>需要注意的是，在这里是带泛型的trait，而在上一节中我们实现过带泛型的方法，其语法是：<code>impl&lt;T&gt; Struct&lt;T&gt; &#123;&#125;</code>，这里我们需要注意区分。</p>
-<h2 id="关联类型"><a href="#关联类型" class="headerlink" title="关联类型"></a>关联类型</h2><p>关联类型是trait定义中的类型占位符。定义的时候，并不定义它的具体类型是什么。当我们使用<code>impl</code>实现该trait的时候，才为这个关联类型赋予了确定的类型。同时，关联类型的方式只允许对目标类型实现一次。</p>
-<p>让我们来看如下的代码示例：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">trait</span> <span class="title class_">Converter</span> &#123;</span><br><span class="line">    <span class="keyword">type</span> <span class="title class_">Output</span>;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">convert</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="keyword">Self</span>::Output;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">MyInt</span>(<span class="type">i32</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Converter</span> <span class="keyword">for</span> <span class="title class_">MyInt</span> &#123;</span><br><span class="line">    <span class="keyword">type</span> <span class="title class_">Output</span> = <span class="type">String</span>;   <span class="comment">//赋予具体的String类型</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">convert</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="keyword">Self</span>::Output &#123;</span><br><span class="line">        <span class="keyword">self</span>.<span class="number">0</span>.<span class="title function_ invoke__">to_string</span>()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Converter</span> <span class="keyword">for</span> <span class="title class_">MyInt</span> &#123;</span><br><span class="line">    <span class="keyword">type</span> <span class="title class_">Output</span> = <span class="type">f32</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">convert</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">String</span>::Output &#123;</span><br><span class="line">        <span class="keyword">self</span>.<span class="number">0</span> <span class="keyword">as</span> <span class="type">f32</span></span><br><span class="line">    &#125;       <span class="comment">//无法实现，因为关联类型的方式只允许对目标类型实现一次。</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="默认泛型类型参数"><a href="#默认泛型类型参数" class="headerlink" title="默认泛型类型参数"></a>默认泛型类型参数</h2><p>让我们回顾上一节泛型的例子：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">add</span>&lt;T: std::ops::Add&lt;Output = T&gt;&gt;(a:T, b:T) <span class="punctuation">-&gt;</span> T &#123;</span><br><span class="line">    a + b</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;add i8: &#123;&#125;&quot;</span>, <span class="title function_ invoke__">add</span>(<span class="number">2i8</span>, <span class="number">3i8</span>));</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;add i32: &#123;&#125;&quot;</span>, <span class="title function_ invoke__">add</span>(<span class="number">20</span>, <span class="number">30</span>));</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;add f64: &#123;&#125;&quot;</span>, <span class="title function_ invoke__">add</span>(<span class="number">1.23</span>, <span class="number">1.23</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在上面的代码示例中，实际上传入该函数的参数有限制：<code>add&lt;T: std::ops::Add&lt;Output = T&gt;&gt;</code>。即该泛型<code>T</code>需要实现Add这个特征：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">trait</span> <span class="title class_">Add</span>&lt;Rhs = <span class="keyword">Self</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">type</span>: Output;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">add</span>(<span class="keyword">self</span>, rhs: Rhs) <span class="punctuation">-&gt;</span> <span class="keyword">Self</span>::Output;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在实现<code>Add</code>trait时如果我们不指定<code>Rhs</code>的具体类型，<code>Rhs</code>的类型将是默认的<code>Self</code>类型，也就是在其上实现<code>Add</code>的类型。实际上，<code>Rhs</code>就是一个泛型类型参数，代表了<code>Add</code>trait中的<strong>右操作数类型</strong>（Right-hand side type）。</p>
-<p>有如下的代码示例：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Point</span> &#123;</span><br><span class="line">    x: <span class="type">i32</span>;</span><br><span class="line">    y: <span class="type">i32</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Add</span> <span class="keyword">for</span> <span class="title class_">Point</span> &#123;</span><br><span class="line">    <span class="keyword">type</span> <span class="title class_">Output</span> = Point;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">add</span>(<span class="keyword">self</span>, other: Point) <span class="punctuation">-&gt;</span> Point &#123;</span><br><span class="line">        Point &#123;</span><br><span class="line">            x: <span class="keyword">self</span>.x + other.x,</span><br><span class="line">            y: <span class="keyword">self</span>.y + other.y</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">p3</span> = <span class="title function_ invoke__">add</span>(Point&#123;x:<span class="number">1</span>, y:<span class="number">0</span>&#125;, <span class="title function_ invoke__">Point</span>(x:<span class="number">2</span>, y:<span class="number">3</span>));</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;x: &#123;p3.x&#125;, y: &#123;p3.y&#125;&quot;</span>);   <span class="comment">//x: 3, y: 3</span></span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在上面的代码示例中，我们在实现<code>Add</code>trait的方法时并没有指定<code>Rhs</code>的类型，因此，<code>Rhs</code>的类型就是默认的<code>Self</code>类型，即<code>Point</code>。</p>
-<p>自定义<code>Rhs</code>类型而不是使用默认类型的例子如下：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Millimeters</span>(<span class="type">u32</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Meters</span>(<span class="type">u32</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Add</span>&lt;Meters&gt; <span class="keyword">for</span> <span class="title class_">Millimeters</span> &#123;</span><br><span class="line">    <span class="keyword">type</span> <span class="title class_">Output</span> = Millimeters;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">add</span>(<span class="keyword">self</span>, other: Meters) <span class="punctuation">-&gt;</span> Millimeters &#123;</span><br><span class="line">        <span class="title function_ invoke__">Millimeters</span>(<span class="keyword">self</span>.<span class="number">0</span> + (other.<span class="number">0</span> * <span class="number">1000</span>))</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>而在上面的代码示例中，我们通过<code>impl Add&lt;Meters&gt; for Millimeters &#123;&#125;</code>来指定了<code>Rhs</code>类型为新的类型<code>Meters</code>，从而实现了两个不同类型<code>Millimeters</code>和<code>Meters</code>之间的相加。</p>
-<h2 id="使用特征作为函数参数"><a href="#使用特征作为函数参数" class="headerlink" title="使用特征作为函数参数"></a>使用特征作为函数参数</h2><p>特征不仅仅可以用来实现方法，它还可以作为函数参数的特征使用：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">notify</span>(item: &amp;<span class="keyword">impl</span> <span class="title class_">Summary</span>) &#123;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Breaking news! &#123;&#125;&quot;</span>, item.<span class="title function_ invoke__">summarize</span>());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>我们可以使用<code>impl Summary</code>来表示：<strong>实现了<code>Summary</code>特征</strong>的<code>item</code>参数。</p>
-<p>此时，我们可以使用任何实现了<code>Summary</code>特征的类型作为该函数的参数，同时在函数体内，还可以调用该特征的方法。例如<code>summarize</code>方法。具体的说，可以传递<code>Post</code>或<code>Weibo</code>的实例来作为参数，而其它类如 <code>String</code>或者<code>i32</code>的类型则不能用做该函数的参数，因为它们没有实现<code>Summary</code>特征。</p>
-<h2 id="特征约束（trait-bound）"><a href="#特征约束（trait-bound）" class="headerlink" title="特征约束（trait bound）"></a>特征约束（trait bound）</h2><p>虽然上面的<code>impl trait</code>这种语法十分好理解，但是它实际上只是一个语法糖：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">notify</span>&lt;T: Summary&gt;(item: &amp;T) &#123;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Breaking news! &#123;&#125;&quot;</span>, item.<span class="title function_ invoke__">summarize</span>());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>真正的完整书写形式如上所述。而上面形如<code>T: Summary</code>的表达被称为<strong>特征约束</strong>。</p>
-<p>在简单的场景下<code>impl Trait</code>这种语法糖就足够使用，但是对于复杂的场景，特征约束可以让我们拥有更大的灵活性和语法表现能力，例如一个函数接受两个<code>impl Summary</code>的参数：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">notify</span>(item1: &amp;<span class="keyword">impl</span> <span class="title class_">Summary</span>, item2: &amp;<span class="keyword">impl</span> <span class="title class_">Summary</span>) &#123;&#125;</span><br></pre></td></tr></table></figure>
-<p>如果函数两个参数是不同的类型，那么上面的方法很好，只要这两个类型都实现了<code>Summary</code>特征即可。但是如果我们想要强制函数的两个参数是同一类型呢？上面的语法就无法做到这种限制，此时我们只能使特征约束来实现：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">notify</span>&lt;T: Summary&gt;(item1: &amp;T, item2: &amp;T) &#123;&#125;</span><br></pre></td></tr></table></figure>
-<p>泛型类型<code>T</code>说明了<code>item1</code>和<code>item2</code>必须拥有同样的类型，同时<code>T: Summary</code>说明了<code>T</code>必须实现<code>Summary</code>特征。</p>
-<h3 id="多重约束"><a href="#多重约束" class="headerlink" title="多重约束"></a>多重约束</h3><p>除了单个约束条件，我们还可以指定多个约束条件，例如除了让参数实现<code>Summary</code>特征外，还可以让参数实现<code>Display</code>特征以控制它的格式化输出：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">notify</span>(item: &amp;(<span class="keyword">impl</span> <span class="title class_">Summary</span> + Display)) &#123;&#125;</span><br></pre></td></tr></table></figure>
-<p>除了上述的语法糖形式，还能使用特征约束的形式：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">notify</span>&lt;T: Summary + Display&gt;(item: &amp;T) &#123;&#125;</span><br></pre></td></tr></table></figure>
-<p>通过这两个特征，就可以使用<code>item.summarize</code>方法，以及通过<code>println!(&quot;&#123;&#125;&quot;, item)</code>来格式化输出<code>item</code>。</p>
-<h3 id="Where约束"><a href="#Where约束" class="headerlink" title="Where约束"></a>Where约束</h3><p>当特征约束变得很多时，函数的签名将变得很复杂：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">some_function</span>&lt;T: Display + <span class="built_in">Clone</span>, U: <span class="built_in">Clone</span> + <span class="built_in">Debug</span>&gt;(t: &amp;T, u: &amp;U) <span class="punctuation">-&gt;</span> <span class="type">i32</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
-<p>严格来说，上面的例子还是不够复杂，但是我们还是能对其做一些形式上的改进，通过<code>where</code>：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">some_function</span>&lt;T, U&gt;(t: &amp;T, u: &amp;U) <span class="punctuation">-&gt;</span> <span class="type">i32</span></span><br><span class="line">    <span class="keyword">where</span> T: Display + <span class="built_in">Clone</span>,</span><br><span class="line">          U: <span class="built_in">Clone</span> + <span class="built_in">Debug</span></span><br><span class="line">&#123;&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="使用特征约束有条件地实现方法或特征"><a href="#使用特征约束有条件地实现方法或特征" class="headerlink" title="使用特征约束有条件地实现方法或特征"></a>使用特征约束有条件地实现方法或特征</h3><p>特征约束，可以让我们在指定类型 + 指定特征的条件下去实现方法，例如：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::fmt::Display;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Pair</span>&lt;T&gt; &#123;</span><br><span class="line">    x: T,</span><br><span class="line">    y: T,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span>&lt;T&gt; Pair&lt;T&gt; &#123;   <span class="comment">//为所有Pair&lt;T实现了new方法</span></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">new</span>(x: T, y: T) <span class="punctuation">-&gt;</span> <span class="keyword">Self</span> &#123;</span><br><span class="line">        <span class="keyword">Self</span> &#123;</span><br><span class="line">            x,</span><br><span class="line">            y,</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span>&lt;T: Display + <span class="built_in">PartialOrd</span>&gt; Pair&lt;T&gt; &#123;     <span class="comment">//仅为满足T：Display + PartialOrd的Pair&lt;T实现了cmd_display方法</span></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">cmp_display</span>(&amp;<span class="keyword">self</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">self</span>.x &gt;= <span class="keyword">self</span>.y &#123;</span><br><span class="line">            <span class="built_in">println!</span>(<span class="string">&quot;The largest member is x = &#123;&#125;&quot;</span>, <span class="keyword">self</span>.x);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="built_in">println!</span>(<span class="string">&quot;The largest member is y = &#123;&#125;&quot;</span>, <span class="keyword">self</span>.y);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在上面的代码中，我们可以发现，<code>cmp_display</code>方法，并不是所有的<code>Pair&lt;T&gt;</code>结构体对象都可以拥有，只有<code>T</code>同时实现了<code>Display + PartialOrd</code>的<code>Pair&lt;T&gt;</code>才可以拥有此方法。该函数可读性会更好，因为泛型参数、参数、返回值都在一起，可以快速的阅读，同时每个泛型参数的特征也在新的代码行中通过特征约束进行了约束。</p>
-<p>也可以有条件地实现特征，例如，标准库为任何实现了<code>Display</code>特征的类型实现了<code>ToString</code>特征：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">impl</span>&lt;T: Display&gt; <span class="built_in">ToString</span> <span class="keyword">for</span> <span class="title class_">T</span> &#123;</span><br><span class="line">    <span class="comment">// --snip--</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>我们可以对任何实现了<code>Display</code>特征的类型调用由<code>ToString</code>定义的<code>to_string</code>方法。例如，可以将整型转换为对应的<code>String</code>值，因为整型实现了<code>Display</code>：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">s</span> = <span class="number">3</span>.<span class="title function_ invoke__">to_string</span>();</span><br></pre></td></tr></table></figure>
-
-<h2 id="函数返回中的impl-Trait"><a href="#函数返回中的impl-Trait" class="headerlink" title="函数返回中的impl Trait"></a>函数返回中的impl Trait</h2><p>在上面我们讲述了trait在函数入参中的使用。实际上我们还可以通过<code>impl Trait</code> 来说明一个函数返回了实现了某个特征的类型：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">returns_summarizable</span>() <span class="punctuation">-&gt;</span> <span class="keyword">impl</span> <span class="title class_">Summary</span> &#123;</span><br><span class="line">    Weibo &#123;</span><br><span class="line">        username: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;sunface&quot;</span>),</span><br><span class="line">        content: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(</span><br><span class="line">            <span class="string">&quot;m2 air也不错&quot;</span>,</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>因为<code>Weibo</code>实现了<code>Summary</code>，因此这里可以用它来作为返回值。要注意的是，虽然我们知道这里是一个<code>Weibo</code>类型，但是对于<code>returns_summarizable</code>的调用者而言，他只知道返回了一个实现了<code>Summary</code>特征的对象，但是并不知道返回了一个<code>Weibo</code>类型。</p>
-<p>这种<code>impl Trait</code>形式的返回值，在一种场景下非常非常有用，那就是返回的真实类型非常复杂，你不知道该怎么声明时（毕竟<code>Rust</code>要求你必须标出所有的类型），此时就可以用<code>impl Trait</code>的方式简单返回。例如，闭包和迭代器就是很复杂，只有编译器才知道那玩意的真实类型，如果让你写出来它们的具体类型，估计内心有一万只草泥马奔腾，好在你可以用<code>impl Iterator</code>来告诉调用者，返回了一个迭代器，因为所有迭代器都会实现<code>Iterator</code>特征。</p>
-<p>但是这种返回值方式有一个很大的限制：只能有一个具体的类型，例如：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">returns_summarizable</span>(switch: <span class="type">bool</span>) <span class="punctuation">-&gt;</span> <span class="keyword">impl</span> <span class="title class_">Summary</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> switch &#123;</span><br><span class="line">        Post &#123;</span><br><span class="line">            title: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(</span><br><span class="line">                <span class="string">&quot;Penguins win the Stanley Cup Championship!&quot;</span>,</span><br><span class="line">            ),</span><br><span class="line">            author: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;Iceburgh&quot;</span>),</span><br><span class="line">            content: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(</span><br><span class="line">                <span class="string">&quot;The Pittsburgh Penguins once again are the best \</span></span><br><span class="line"><span class="string">                 hockey team in the NHL.&quot;</span>,</span><br><span class="line">            ),</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        Weibo &#123;</span><br><span class="line">            username: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;horse_ebooks&quot;</span>),</span><br><span class="line">            content: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(</span><br><span class="line">                <span class="string">&quot;of course, as you probably already know, people&quot;</span>,</span><br><span class="line">            ),</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>以上的代码就无法通过编译，因为它返回了两个不同的类型<code>Post</code>和<code>Weibo</code>。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">`if` and `else` have incompatible types</span><br><span class="line">expected struct `Post`, found struct `Weibo`</span><br></pre></td></tr></table></figure>
-<p>报错提示我们<code>if</code>和<code>else</code>返回了不同的类型。如果想要实现返回不同的类型，需要<strong>特征对象</strong>：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">returns_summarizable</span>(switch: <span class="type">bool</span>) <span class="punctuation">-&gt;</span> <span class="type">Box</span>&lt;<span class="keyword">dyn</span> Summary&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> switch &#123;</span><br><span class="line">       <span class="type">Box</span>::<span class="title function_ invoke__">new</span>(Post &#123;</span><br><span class="line">            title: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(</span><br><span class="line">                <span class="string">&quot;Penguins win the Stanley Cup Championship!&quot;</span>,</span><br><span class="line">            ),</span><br><span class="line">            author: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;Iceburgh&quot;</span>),</span><br><span class="line">            content: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(</span><br><span class="line">                <span class="string">&quot;The Pittsburgh Penguins once again are the best \</span></span><br><span class="line"><span class="string">                 hockey team in the NHL.&quot;</span>,</span><br><span class="line">            ),</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="type">Box</span>::<span class="title function_ invoke__">new</span>(Weibo &#123;</span><br><span class="line">            username: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;horse_ebooks&quot;</span>),</span><br><span class="line">            content: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(</span><br><span class="line">                <span class="string">&quot;of course, as you probably already know, people&quot;</span>,</span><br><span class="line">            ),</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="通过dereive派生特征"><a href="#通过dereive派生特征" class="headerlink" title="通过dereive派生特征"></a>通过<code>dereive</code>派生特征</h2><p>在先前的Rust学习过程中，形如<code>#[derive(Debug)]</code>的代码已经出现了很多次，这种是一种特征派生语法，被<code>derive</code>标记的对象会自动实现对应的默认特征代码，继承相应的功能。</p>
-<p>例如<code>Debug</code>trait，它用于开启格式化字符串中的调试格式，其通过在<code>&#123;&#125;</code>占位符中增加<code>:?</code>表明。<code>Debug</code>trait允许以调试目的来打印一个类型的实例，所以使用该类型的程序员可以在程序执行的特定时间点观察其实力。例如，在使用<code>assert_eq!</code>宏的时候，<code>Debug</code>trait是必须的，如果等式断言失败，这个宏就需要把给定实例的值作为参数打印出来，如此程序员可以看到两个实例为什么不相等。</p>
-<p>还有<code>Default</code>trait，它可以使你创建一个类型的默认值。派生<code>Default</code>实现了<code>default</code>函数。<code>default</code>函数的派生实现调用了类型每部分的<code>default</code>函数，这意味着只有类型中所有的字段或值实现了<code>Dafault</code>时，才能够为该类型派生<code>Default</code>。<br><code>Default::default</code>函数通常结合结构体更新语法一起使用，可以自定义一个结构体的小部分字段而剩余字段则使用<code>..Default::default()</code>设置为默认值。</p>
-<p>再如<code>Copy</code>特征，它也有一套自动实现的默认代码，当标记到一个类型上时，可以让这个类型自动实现<code>Copy</code>特征，进而可以调用<code>copy</code>方法，进行自我复制。</p>
-<p>总之，<code>derive</code>派生出来的是Rust默认给我们提供的特征，在开发过程中极大的简化了自己手动实现相应特征的需求，当然，如果你有特殊的需求，还可以自己手动重载该实现。</p>
-<p>详细的<code>derive</code>列表参见附录-<a href="">派生特征</a>。</p>
-<h2 id="课后习题"><a href="#课后习题" class="headerlink" title="课后习题"></a>课后习题</h2><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::fmt::Display;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不要更改Item的定义</span></span><br><span class="line"><span class="keyword">trait</span> <span class="title class_">Item</span>&lt;T = <span class="type">String</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">type</span> <span class="title class_">Output</span>: Display;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">summarize</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="keyword">Self</span>::Output;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Apple结构的定义</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Apple</span> &#123;</span><br><span class="line">    name: <span class="type">String</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Item</span> <span class="keyword">for</span> <span class="title class_">Apple</span> &#123;</span><br><span class="line">    <span class="keyword">type</span> <span class="title class_">Output</span> = <span class="type">String</span>;   <span class="comment">// 需要指定Output为String类型，否则会报错</span></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">summarize</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">String</span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.name.<span class="title function_ invoke__">to_string</span>()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Weibo结构的定义</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Weibo</span> &#123;</span><br><span class="line">    author: <span class="type">String</span>,</span><br><span class="line">    content: <span class="type">String</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Item</span> <span class="keyword">for</span> <span class="title class_">Weibo</span> &#123;</span><br><span class="line">    <span class="keyword">type</span> <span class="title class_">Output</span> = <span class="type">String</span>;   <span class="comment">// 需要指定Output为String类型，否则会报错   </span></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">summarize</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">String</span> &#123;</span><br><span class="line">        <span class="built_in">format!</span>(<span class="string">&quot;@&#123;&#125;:&#123;&#125;&quot;</span>, <span class="keyword">self</span>.author, <span class="keyword">self</span>.content)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">struct</span> <span class="title class_">Container</span> &#123;</span><br><span class="line">    items: <span class="type">Vec</span>&lt;<span class="type">Box</span>&lt;<span class="keyword">dyn</span> Item&lt;Output = <span class="type">String</span>&gt;&gt;&gt;,  <span class="comment">// 将原先的Vec&lt;Item&gt;改为Vec&lt;Box&lt;dyn Item&lt;Output = String&gt;&gt;&gt;，因为Rust不支持直接在向量中存储动态大小的类型DST</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Container</span> &#123;</span><br><span class="line">    <span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">iterator</span>(&amp;<span class="keyword">self</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span> <span class="variable">item</span> <span class="keyword">in</span> <span class="keyword">self</span>.items.<span class="title function_ invoke__">iter</span>() &#123;</span><br><span class="line">            <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, item.<span class="title function_ invoke__">summarize</span>());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">apple</span> = Apple &#123;</span><br><span class="line">        name: <span class="string">&quot;Apple&quot;</span>.<span class="title function_ invoke__">to_string</span>(),</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">w</span> = Weibo &#123;</span><br><span class="line">        author: <span class="string">&quot;Weibo&quot;</span>.<span class="title function_ invoke__">to_string</span>(),</span><br><span class="line">        content: <span class="string">&quot;hello&quot;</span>.<span class="title function_ invoke__">to_string</span>(),</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">container</span> = Container &#123;</span><br><span class="line">        items: <span class="built_in">vec!</span>[<span class="type">Box</span>::<span class="title function_ invoke__">new</span>(apple), <span class="type">Box</span>::<span class="title function_ invoke__">new</span>(w)], <span class="comment">// 将原先的vec![apple, w]改为vec![Box::new(apple), Box::new(w)]，因为Rust不支持直接在向量中存储动态大小的类型DST</span></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    container.<span class="title function_ invoke__">iterator</span>();</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1608,12 +1415,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-count">30</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
@@ -1640,7 +1447,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -1697,6 +1504,61 @@
 
 
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

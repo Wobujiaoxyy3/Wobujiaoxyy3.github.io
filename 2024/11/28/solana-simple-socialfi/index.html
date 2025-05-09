@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="简易SocialFi在这里，我们需要完成一个简易的SocialFi项目，其中包含以下功能：  初始化用户 关注用户 取消关注 查询关注列表 发帖 查询帖子  将功能转化为需要实现的指令： 123456789#[derive(BorshDeserialize, BorshSerialize, Debug)]pub enum SocialInstruction &#123;    Initialize">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Solana小项目：简易SocialFi">
+<meta property="og:url" content="http://example.com/2024/11/28/solana-simple-socialfi/index.html">
+<meta property="og:site_name" content="Wobujiaoxyy3">
+<meta property="og:description" content="简易SocialFi在这里，我们需要完成一个简易的SocialFi项目，其中包含以下功能：  初始化用户 关注用户 取消关注 查询关注列表 发帖 查询帖子  将功能转化为需要实现的指令： 123456789#[derive(BorshDeserialize, BorshSerialize, Debug)]pub enum SocialInstruction &#123;    Initialize">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-11-27T22:36:50.000Z">
+<meta property="article:modified_time" content="2024-11-27T22:55:08.215Z">
+<meta property="article:tag" content="Rust Solana SocialFi">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2024/11/28/solana-simple-socialfi/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Solana小项目：简易SocialFi | Wobujiaoxyy3</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Wobujiaoxyy3</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/11/28/solana-simple-socialfi/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wobujiaoxyy3">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Solana小项目：简易SocialFi
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2024-11-28 06:36:50 / Modified: 06:55:08" itemprop="dateCreated datePublished" datetime="2024-11-28T06:36:50+08:00">2024-11-28</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="简易SocialFi"><a href="#简易SocialFi" class="headerlink" title="简易SocialFi"></a>简易SocialFi</h1><p>在这里，我们需要完成一个简易的SocialFi项目，其中包含以下功能：</p>
+<ul>
+<li>初始化用户</li>
+<li>关注用户</li>
+<li>取消关注</li>
+<li>查询关注列表</li>
+<li>发帖</li>
+<li>查询帖子</li>
+</ul>
+<p>将功能转化为需要实现的指令：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#[derive(BorshDeserialize, BorshSerialize, Debug)]</span></span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">enum</span> <span class="title class_">SocialInstruction</span> &#123;</span><br><span class="line">    InitializeUser&#123;seed_type: <span class="type">String</span>&#125;,</span><br><span class="line">    FollowUser&#123;user_to_follow: Pubkey&#125;,</span><br><span class="line">    UnfollowUser&#123;user_to_unfollow: Pubkey&#125;,</span><br><span class="line">    QueryFollows,</span><br><span class="line">    PostContent&#123;content: <span class="type">String</span>&#125;,</span><br><span class="line">    QueryPosts,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h2><p>接下来，让我们在<code>processor.rs</code>中具体实现每一个指令对应的操作，首先，导入相应的包并定义主函数：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> borsh::&#123;BorshDeserialize, BorshSerialize&#125;;</span><br><span class="line"><span class="keyword">use</span> solana_program::&#123;</span><br><span class="line">    account_info::&#123;next_account_info, AccountInfo&#125;, address_lookup_table::&#123;instruction, state::ProgramState&#125;, borsh1::try_from_slice_unchecked, entrypoint::ProgramResult, lamports, msg, program::&#123;invoke, invoke_signed&#125;, program_error::ProgramError, pubkey::Pubkey, system_instruction, system_program, sysvar::&#123;rent::Rent, Sysvar&#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">use</span> spl_associated_token_account::tools::account;</span><br><span class="line"><span class="keyword">use</span> crate::instruction::*;</span><br><span class="line"><span class="keyword">use</span> crate::state::*;</span><br><span class="line"></span><br><span class="line"><span class="comment">//设置一些常量</span></span><br><span class="line"><span class="keyword">const</span> PUBKEY_SIZE: <span class="type">usize</span> = <span class="number">32</span>;</span><br><span class="line"><span class="keyword">const</span> U16_SIZE: <span class="type">usize</span> = <span class="number">2</span>;</span><br><span class="line"><span class="keyword">const</span> USER_PROFILE_SIZE: <span class="type">usize</span> = <span class="number">6</span>;</span><br><span class="line"><span class="keyword">const</span> MAX_FOLLOWER_COUNT: <span class="type">usize</span> = <span class="number">200</span>;  <span class="comment">//最大关注者数量</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> USER_POST_SIZE: <span class="type">usize</span> = <span class="number">8</span>;    </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">struct</span> <span class="title class_">Processor</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Processor</span> &#123;</span><br><span class="line">    <span class="comment">//定义主函数</span></span><br><span class="line">    <span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">process_instruction</span>(</span><br><span class="line">        program_id: &amp;Pubkey,</span><br><span class="line">        accounts: &amp;[AccountInfo],</span><br><span class="line">        instruction_data: &amp;[<span class="type">u8</span>],</span><br><span class="line">    ) <span class="punctuation">-&gt;</span> ProgramResult &#123;</span><br><span class="line">        <span class="comment">//解序列化指令</span></span><br><span class="line">        <span class="keyword">let</span> <span class="variable">instruction</span> = SocialInstruction::<span class="title function_ invoke__">try_from_slice</span>(instruction_data)?;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//匹配传入的指令</span></span><br><span class="line">        <span class="keyword">match</span> instruction &#123;</span><br><span class="line">            SocialInstruction::InitializeUser &#123; seed_type &#125; =&gt; &#123;</span><br><span class="line">                <span class="keyword">Self</span>::<span class="title function_ invoke__">initialize_user</span>(program_id, accounts, seed_type)</span><br><span class="line">            &#125;</span><br><span class="line">            SocialInstruction::FollowUser &#123; user_to_follow &#125; =&gt; &#123;</span><br><span class="line">                <span class="keyword">Self</span>::<span class="title function_ invoke__">follow_user</span>(accounts, user_to_follow)</span><br><span class="line">            &#125;</span><br><span class="line">            SocialInstruction::QueryFollows =&gt; &#123;</span><br><span class="line">                <span class="keyword">Self</span>::<span class="title function_ invoke__">query_follows</span>(accounts)</span><br><span class="line">            &#125;</span><br><span class="line">            SocialInstruction::UnfollowUser &#123; user_to_unfollow &#125; =&gt; &#123;</span><br><span class="line">                <span class="keyword">Self</span>::<span class="title function_ invoke__">unfollow_user</span>(accounts, user_to_unfollow)</span><br><span class="line">            &#125;</span><br><span class="line">            SocialInstruction::PostContent &#123; content &#125; =&gt; &#123;</span><br><span class="line">                <span class="keyword">Self</span>::<span class="title function_ invoke__">post_content</span>(program_id, accounts, content)</span><br><span class="line">            &#125;</span><br><span class="line">            SocialInstruction::QueryPosts =&gt; &#123;</span><br><span class="line">                <span class="title function_ invoke__">Ok</span>(())</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>(下面写的比较随意，见谅)</p>
+<h3 id="state-rs和一些简单函数"><a href="#state-rs和一些简单函数" class="headerlink" title="state.rs和一些简单函数"></a>state.rs和一些简单函数</h3><p>在实现简易SocialFi的过程中，我们需要一些特定的账户来为我们存储一些数据：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> solana_program::pubkey::Pubkey;</span><br><span class="line"><span class="keyword">use</span> borsh::&#123;BorshDeserialize, BorshSerialize&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">#[derive(BorshDeserialize, BorshSerialize, Debug)]</span></span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">struct</span> <span class="title class_">UserProfile</span> &#123;</span><br><span class="line">    <span class="keyword">pub</span> data_len: <span class="type">u16</span>,</span><br><span class="line">    <span class="keyword">pub</span> follows: <span class="type">Vec</span>&lt;Pubkey&gt;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#[derive(BorshDeserialize, BorshSerialize, Debug)]</span></span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">struct</span> <span class="title class_">UserPost</span> &#123;</span><br><span class="line">    <span class="keyword">pub</span> post_count: <span class="type">u64</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#[derive(BorshDeserialize, BorshSerialize, Debug)]</span></span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">struct</span> <span class="title class_">Post</span> &#123;</span><br><span class="line">    <span class="keyword">pub</span> content: <span class="type">String</span>,</span><br><span class="line">    <span class="keyword">pub</span> timestamp: <span class="type">u64</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">UserProfile</span> &#123;</span><br><span class="line">    <span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">new</span>() <span class="punctuation">-&gt;</span> <span class="keyword">Self</span> &#123;</span><br><span class="line">        <span class="keyword">Self</span> &#123;</span><br><span class="line">            data_len: <span class="number">0</span>,</span><br><span class="line">            follows: <span class="type">Vec</span>::<span class="title function_ invoke__">new</span>(),</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">follow</span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>, user_to_follow: Pubkey) &#123;</span><br><span class="line">        <span class="keyword">self</span>.follows.<span class="title function_ invoke__">push</span>(user_to_follow);</span><br><span class="line">        <span class="keyword">self</span>.data_len = <span class="keyword">self</span>.follows.<span class="title function_ invoke__">len</span>() <span class="keyword">as</span> <span class="type">u16</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">unfollow</span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>, user_to_unfollow: Pubkey) &#123;</span><br><span class="line">        <span class="keyword">self</span>.follows.<span class="title function_ invoke__">retain</span>(|&amp;x| x != user_to_unfollow);</span><br><span class="line">        <span class="keyword">self</span>.data_len = <span class="keyword">self</span>.follows.<span class="title function_ invoke__">len</span>() <span class="keyword">as</span> <span class="type">u16</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">UserPost</span> &#123;</span><br><span class="line">    <span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">new</span>() <span class="punctuation">-&gt;</span> <span class="keyword">Self</span> &#123;</span><br><span class="line">        <span class="keyword">Self</span> &#123;</span><br><span class="line">            post_count: <span class="number">0</span>,</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">add_post</span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.post_count += <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">get_count</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">u64</span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.post_count</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Post</span> &#123;</span><br><span class="line">    <span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">new</span>(content: <span class="type">String</span>, timestamp: <span class="type">u64</span>) <span class="punctuation">-&gt;</span> <span class="keyword">Self</span> &#123;</span><br><span class="line">        <span class="keyword">Self</span> &#123;</span><br><span class="line">            content,</span><br><span class="line">            timestamp,</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>同时，我们还需要一些定义一些简单的函数：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//定义计算账户占用空间的函数</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">compute_profile_space</span>(pubkey_count: <span class="type">usize</span>) <span class="punctuation">-&gt;</span> <span class="type">usize</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> USER_PROFILE_SIZE + pubkey_count * PUBKEY_SIZE;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义将字节转化为u16的函数</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">bytes_to_u16</span>(bytes: &amp;[<span class="type">u8</span>]) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;<span class="type">u16</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> bytes.<span class="title function_ invoke__">len</span>() != <span class="number">2</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">None</span>; <span class="comment">//确保输入是2个字节</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">array</span> = [<span class="number">0u8</span>; <span class="number">2</span>];</span><br><span class="line">    array.<span class="title function_ invoke__">copy_from_slice</span>(bytes);</span><br><span class="line">    <span class="title function_ invoke__">Some</span>(<span class="type">u16</span>::<span class="title function_ invoke__">from_le_bytes</span>(array))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="InitializeUser"><a href="#InitializeUser" class="headerlink" title="InitializeUser"></a>InitializeUser</h3><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//定义initialize_user方法</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">initialize_user</span>(program_id: &amp;Pubkey, accounts: &amp;[AccountInfo], seed_type: <span class="type">String</span>) <span class="punctuation">-&gt;</span> ProgramResult &#123;</span><br><span class="line">    <span class="comment">//获取账户信息</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">account_into_iter</span> = &amp;<span class="keyword">mut</span> accounts.<span class="title function_ invoke__">iter</span>();</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">user_account</span> = <span class="title function_ invoke__">next_account_info</span>(account_into_iter)?;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">pda_account</span> = <span class="title function_ invoke__">next_account_info</span>(account_into_iter)?;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">system_program</span> = <span class="title function_ invoke__">next_account_info</span>(account_into_iter)?;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//匹配传入的seed以创建不同的账户</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">seed</span> = <span class="keyword">match</span> seed_type.<span class="title function_ invoke__">as_str</span>() &#123;</span><br><span class="line">        <span class="string">&quot;profile&quot;</span> =&gt; <span class="string">&quot;profile&quot;</span>, </span><br><span class="line">        <span class="string">&quot;post&quot;</span> =&gt; <span class="string">&quot;post&quot;</span>,</span><br><span class="line">        _ =&gt; <span class="keyword">return</span> <span class="title function_ invoke__">Err</span>(ProgramError::InvalidArgument),</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    msg!(<span class="string">&quot;seed: &#123;:?&#125;&quot;</span>, seed);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//调用find_program_address方法，生成PDA账户（bump_seed用于防止生成账户重复）</span></span><br><span class="line">    <span class="keyword">let</span> (pda, bump_seed) = Pubkey::<span class="title function_ invoke__">find_program_address</span>(&amp;[user_account.key.<span class="title function_ invoke__">as_ref</span>(), seed.<span class="title function_ invoke__">as_bytes</span>()], program_id);</span><br><span class="line"></span><br><span class="line">    msg!(<span class="string">&quot;pda: &#123;:?&#125;&quot;</span>, pda);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//验证传入的PDA账户是否与程序中生成的匹配，如果一致，则说明传入的PDA账户正确,否则报错</span></span><br><span class="line">    <span class="keyword">if</span> pda != pda_account.key.<span class="title function_ invoke__">clone</span>() &#123;</span><br><span class="line">        <span class="keyword">return</span>  <span class="title function_ invoke__">Err</span>(ProgramError::InvalidArgument);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//获取当前区块链的租金参数（rent是sysvar中的参数）</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">rent</span>= Rent::<span class="title function_ invoke__">get</span>()?;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//计算该账户所需的存储空间大小</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">space</span> = <span class="keyword">match</span> seed_type.<span class="title function_ invoke__">as_str</span>() &#123;</span><br><span class="line">        <span class="string">&quot;profile&quot;</span> =&gt; <span class="title function_ invoke__">compute_profile_space</span>(MAX_FOLLOWER_COUNT),</span><br><span class="line">        <span class="string">&quot;post&quot;</span> =&gt; USER_POST_SIZE, </span><br><span class="line">        _ =&gt; <span class="keyword">return</span> <span class="title function_ invoke__">Err</span>(ProgramError::InvalidArgument),</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//根据账户所需的存储空间，计算创建账户的最低租金金额</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">lamports</span> = rent.<span class="title function_ invoke__">minimum_balance</span>(space);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//创建create_account_ix指令</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">create_account_ix</span> = system_instruction::<span class="title function_ invoke__">create_account</span>(</span><br><span class="line">        user_account.key,</span><br><span class="line">        &amp;pda,</span><br><span class="line">        lamports,</span><br><span class="line">        space <span class="keyword">as</span> <span class="type">u64</span>,</span><br><span class="line">        program_id</span><br><span class="line">    );</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//使用invoke调用函数</span></span><br><span class="line">    <span class="title function_ invoke__">invoke_signed</span>(</span><br><span class="line">        &amp;create_account_ix,</span><br><span class="line">        &amp;[</span><br><span class="line">            user_account.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">            pda_account.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">            system_program.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">        ],</span><br><span class="line">        &amp;[&amp;[user_account.key.<span class="title function_ invoke__">as_ref</span>(), seed.<span class="title function_ invoke__">as_bytes</span>(), &amp;[bump_seed]]],     <span class="comment">//需要签名</span></span><br><span class="line">    )?;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//继续匹配传入的seed以决定对user_profile账户或user_post账户进行初始化</span></span><br><span class="line">     <span class="keyword">match</span> seed_type.<span class="title function_ invoke__">as_str</span>() &#123;</span><br><span class="line">        <span class="string">&quot;profile&quot;</span> =&gt; &#123;</span><br><span class="line">            <span class="keyword">let</span> <span class="variable">user_profile</span> = UserProfile::<span class="title function_ invoke__">new</span>();  <span class="comment">//初始化UserProfile</span></span><br><span class="line">            user_profile.<span class="title function_ invoke__">serialize</span>(&amp;<span class="keyword">mut</span> *pda_account.<span class="title function_ invoke__">try_borrow_mut_data</span>()?)?;  <span class="comment">//通过serialize方法将UserProfile传入PDA账户中</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="string">&quot;post&quot;</span> =&gt; &#123;</span><br><span class="line">            <span class="keyword">let</span> <span class="variable">user_post</span> = UserPost::<span class="title function_ invoke__">new</span>();    <span class="comment">//初始化UserPost</span></span><br><span class="line">            user_post.<span class="title function_ invoke__">serialize</span>(&amp;<span class="keyword">mut</span> *pda_account.<span class="title function_ invoke__">try_borrow_mut_data</span>()?)?; <span class="comment">//通过serialize方法将UserPost传入PDA账户中</span></span><br><span class="line">        &#125;</span><br><span class="line">        _ =&gt; <span class="keyword">return</span> <span class="title function_ invoke__">Err</span>(ProgramError::InvalidArgument),</span><br><span class="line">    &#125;;</span><br><span class="line">    msg!(<span class="string">&quot;User init success&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="title function_ invoke__">Ok</span>(())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="FollowUser"><a href="#FollowUser" class="headerlink" title="FollowUser"></a>FollowUser</h3><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//定义follow_user方法</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">follow_user</span>(accounts: &amp;[AccountInfo], user_to_follow: Pubkey) <span class="punctuation">-&gt;</span> ProgramResult &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">account_into_iter</span> = &amp;<span class="keyword">mut</span> accounts.<span class="title function_ invoke__">iter</span>();</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">pda_account</span> = <span class="title function_ invoke__">next_account_info</span>(account_into_iter)?;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//计算size</span></span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">size</span>: <span class="type">usize</span> = <span class="number">0</span>;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">data</span> = &amp;pda_account.data.<span class="title function_ invoke__">borrow</span>();  <span class="comment">//提取存储在PDA账户中data的内容</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> <span class="variable">len</span> = &amp;data[..U16_SIZE];    <span class="comment">//提取UserProfile结构体中的data_len字段（前两个字节）</span></span><br><span class="line">        <span class="keyword">let</span> <span class="variable">pubkey_count</span> = <span class="title function_ invoke__">bytes_to_u16</span>(len).<span class="title function_ invoke__">unwrap</span>();  <span class="comment">//将data_len字段从字节转换为u16类型，获取该PDA账户关注的数量</span></span><br><span class="line">        size = <span class="title function_ invoke__">compute_profile_space</span>(pubkey_count <span class="keyword">as</span> <span class="type">usize</span>);    <span class="comment">//通过关注的数量计算该PDA账户所需的存储字节数</span></span><br><span class="line">        msg!(<span class="string">&quot;size is &#123;:?&#125;&quot;</span>, size);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">user_profile</span> = UserProfile::<span class="title function_ invoke__">try_from_slice</span>(&amp;pda_account.data.<span class="title function_ invoke__">borrow</span>()[..size])?;    <span class="comment">//通过之前计算的存储字节数提取链上PDA账户的UserProfile（需要精确计算存储字节数，否则会报错）</span></span><br><span class="line"></span><br><span class="line">    msg!(<span class="string">&quot;user_profile is &#123;:?&#125;&quot;</span>, user_profile);</span><br><span class="line"></span><br><span class="line">    user_profile.<span class="title function_ invoke__">follow</span>(user_to_follow);    <span class="comment">//通过一个follow方法对UserProfile进行更新，添加关注者</span></span><br><span class="line"></span><br><span class="line">    user_profile.<span class="title function_ invoke__">serialize</span>(&amp;<span class="keyword">mut</span> *pda_account.<span class="title function_ invoke__">try_borrow_mut_data</span>()?)?;  <span class="comment">//将更新好的UserProfile重新导入到链上PDA账户的data中</span></span><br><span class="line"></span><br><span class="line">    <span class="title function_ invoke__">Ok</span>(())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="QueryFollow"><a href="#QueryFollow" class="headerlink" title="QueryFollow"></a>QueryFollow</h3><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//定义query_follows方法</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">query_follows</span>(accounts: &amp;[AccountInfo]) <span class="punctuation">-&gt;</span> ProgramResult&#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">account_into_iter</span> = &amp;<span class="keyword">mut</span> accounts.<span class="title function_ invoke__">iter</span>();</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">pda_account</span> = <span class="title function_ invoke__">next_account_info</span>(account_into_iter)?;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//另一种比较简便的方法，从PDA账户的data中读取UserProfile</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">user_profile</span> = try_from_slice_unchecked::&lt;UserProfile&gt;(&amp;pda_account.data.<span class="title function_ invoke__">borrow</span>()).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//读取好UserProfile并打印出来</span></span><br><span class="line">    msg!(<span class="string">&quot;user_profile is &#123;:?&#125;&quot;</span>, user_profile);</span><br><span class="line"></span><br><span class="line">    <span class="title function_ invoke__">Ok</span>(())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="UnfollowUser"><a href="#UnfollowUser" class="headerlink" title="UnfollowUser"></a>UnfollowUser</h3><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//定义unfollow_user方法</span></span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">unfollow_user</span>(accounts: &amp;[AccountInfo], user_to_unfollow: Pubkey) <span class="punctuation">-&gt;</span> ProgramResult &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">account_into_iter</span> = &amp;<span class="keyword">mut</span> accounts.<span class="title function_ invoke__">iter</span>();</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">pda_account</span> = <span class="title function_ invoke__">next_account_info</span>(account_into_iter)?;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 不计算size会报错</span></span><br><span class="line">    <span class="comment">//let mut user_profile = UserProfile::try_from_slice(&amp;pda_account.data.borrow())?;</span></span><br><span class="line"></span><br><span class="line">    user_profile.<span class="title function_ invoke__">unfollow</span>(user_to_unfollow);</span><br><span class="line"></span><br><span class="line">    user_profile.<span class="title function_ invoke__">serialize</span>(&amp;<span class="keyword">mut</span> *pda_account.<span class="title function_ invoke__">try_borrow_mut_data</span>()?)?;</span><br><span class="line"></span><br><span class="line">    <span class="title function_ invoke__">Ok</span>(())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="PostContent"><a href="#PostContent" class="headerlink" title="PostContent"></a>PostContent</h3><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//定义post_content方法</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">post_content</span>(program_id: &amp;Pubkey, accounts: &amp;[AccountInfo], content: <span class="type">String</span>) <span class="punctuation">-&gt;</span> ProgramResult &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">account_into_iter</span> = &amp;<span class="keyword">mut</span> accounts.<span class="title function_ invoke__">iter</span>();</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">user_account</span> = <span class="title function_ invoke__">next_account_info</span>(account_into_iter)?;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">pda_account</span> = <span class="title function_ invoke__">next_account_info</span>(account_into_iter)?;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">post_pda_account</span> = <span class="title function_ invoke__">next_account_info</span>(account_into_iter)?;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">system_program</span> = <span class="title function_ invoke__">next_account_info</span>(account_into_iter)?;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//获取当前时间戳</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">clock</span> = Clock::<span class="title function_ invoke__">get</span>()?;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">timestamp</span> = clock.unix_timestamp <span class="keyword">as</span> <span class="type">u64</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//读取链上账户中的UserPost数据</span></span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">user_post</span> = try_from_slice_unchecked::&lt;UserPost&gt;(&amp;pda_account.data.<span class="title function_ invoke__">borrow</span>())?;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//等同于id增长</span></span><br><span class="line">    user_post.<span class="title function_ invoke__">add_post</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//另一种将数据写到链上账户的方法</span></span><br><span class="line">    user_post.<span class="title function_ invoke__">serialize</span>(&amp;<span class="keyword">mut</span> &amp;<span class="keyword">mut</span> pda_account.data.<span class="title function_ invoke__">borrow_mut</span>())?;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//获取最新的post_count</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">count</span> = user_post.<span class="title function_ invoke__">get_count</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//生成一个新的pda账户，用于存放Post</span></span><br><span class="line">    <span class="keyword">let</span> (pda, bump_seed) = Pubkey::<span class="title function_ invoke__">find_program_address</span>(</span><br><span class="line">        &amp;[</span><br><span class="line">            user_account.key.<span class="title function_ invoke__">as_ref</span>(),</span><br><span class="line">            <span class="string">&quot;post&quot;</span>.<span class="title function_ invoke__">as_bytes</span>(),</span><br><span class="line">            &amp;[count <span class="keyword">as</span> <span class="type">u8</span>],</span><br><span class="line">        ],</span><br><span class="line">        program_id,</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="comment">//根据内容和时间戳创建新的post</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">post</span> = Post::<span class="title function_ invoke__">new</span>(content, timestamp);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">rent</span> = Rent::<span class="title function_ invoke__">get</span>()?;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">space</span> = borsh::<span class="title function_ invoke__">to_vec</span>(&amp;post).<span class="title function_ invoke__">unwrap</span>().<span class="title function_ invoke__">len</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">lamports</span> = rent.<span class="title function_ invoke__">minimum_balance</span>(space);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//生成新账户的指令</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">create_account_ix</span> = &amp;system_instruction::<span class="title function_ invoke__">create_account</span>(</span><br><span class="line">        user_account.key,</span><br><span class="line">        &amp;post_pda_account,</span><br><span class="line">        lamports, </span><br><span class="line">        space <span class="keyword">as</span> <span class="type">u64</span>,</span><br><span class="line">        program_id,</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="comment">//调用invoke执行命令</span></span><br><span class="line">    <span class="title function_ invoke__">invoke_signed</span>(</span><br><span class="line">        create_account_ix,</span><br><span class="line">        &amp;[</span><br><span class="line">            user_account.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">            post_pda_account.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">            system_program.<span class="title function_ invoke__">clone</span>()</span><br><span class="line">        ],</span><br><span class="line">        &amp;[&amp;[</span><br><span class="line">            user_account.key.<span class="title function_ invoke__">as_ref</span>(),</span><br><span class="line">            <span class="string">&quot;post&quot;</span>.<span class="title function_ invoke__">as_bytes</span>(),</span><br><span class="line">            &amp;[count <span class="keyword">as</span> <span class="type">u8</span>],</span><br><span class="line">            &amp;[bump_seed],</span><br><span class="line">        ]]</span><br><span class="line">    )?;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//将新的post内容写入新建的post_pda账户中</span></span><br><span class="line">    post.<span class="title function_ invoke__">serialize</span>(&amp;<span class="keyword">mut</span> *post_pda_account.<span class="title function_ invoke__">try_borrow_mut_data</span>()?)?;</span><br><span class="line"></span><br><span class="line">    <span class="title function_ invoke__">Ok</span>(())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="QueryPost"><a href="#QueryPost" class="headerlink" title="QueryPost"></a>QueryPost</h3><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//查询帖子</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">query_posts</span>(accounts: &amp;[AccountInfo]) <span class="punctuation">-&gt;</span> ProgramResult &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">accounts_into_iter</span> = &amp;<span class="keyword">mut</span> accounts.<span class="title function_ invoke__">iter</span>();</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">pda_account</span> = <span class="title function_ invoke__">next_account_info</span>(accounts_into_iter)?;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">post_pda_account</span> = <span class="title function_ invoke__">next_account_info</span>(accounts_into_iter)?;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">user_post</span> = try_from_slice_unchecked::&lt;UserPost&gt;(&amp;pda_account.data.<span class="title function_ invoke__">borrow</span>())?;</span><br><span class="line"></span><br><span class="line">    msg!(<span class="string">&quot;user_post: &#123;:?&#125;&quot;</span>, user_post);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">let</span> <span class="variable">post</span> = try_from_slice_unchecked::&lt;Post&gt;(&amp;post_pda_account.data.<span class="title function_ invoke__">borrow</span>())?;</span><br><span class="line"></span><br><span class="line">    msg!(<span class="string">&quot;post: &#123;:?&#125;, at &#123;:?&#125;&quot;</span>, post.content, post.timestamp); </span><br><span class="line"></span><br><span class="line">    <span class="title function_ invoke__">Ok</span>(())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Rust-Solana-SocialFi/" rel="tag"># Rust Solana SocialFi</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/11/23/solana-SPL-token/" rel="prev" title="Solana小项目：SPL-token合约创建">
+      <i class="fa fa-chevron-left"></i> Solana小项目：SPL-token合约创建
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2025/05/06/latex/" rel="next" title="latex">
+      latex <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%80%E6%98%93SocialFi"><span class="nav-number">1.</span> <span class="nav-text">简易SocialFi</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.1.</span> <span class="nav-text">具体实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#state-rs%E5%92%8C%E4%B8%80%E4%BA%9B%E7%AE%80%E5%8D%95%E5%87%BD%E6%95%B0"><span class="nav-number">1.1.1.</span> <span class="nav-text">state.rs和一些简单函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#InitializeUser"><span class="nav-number">1.1.2.</span> <span class="nav-text">InitializeUser</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FollowUser"><span class="nav-number">1.1.3.</span> <span class="nav-text">FollowUser</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#QueryFollow"><span class="nav-number">1.1.4.</span> <span class="nav-text">QueryFollow</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UnfollowUser"><span class="nav-number">1.1.5.</span> <span class="nav-text">UnfollowUser</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PostContent"><span class="nav-number">1.1.6.</span> <span class="nav-text">PostContent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#QueryPost"><span class="nav-number">1.1.7.</span> <span class="nav-text">QueryPost</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name"></p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
