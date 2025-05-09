@@ -20,18 +20,18 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="基础类型在Rust语言中每个值都有其确切的数据类型，总的来说可以分为两类：基本类型和复合类型。 基本类型意味着它们往往是一个最小化原子类型，无法解构为其它类型(一般意义上来说)，由以下组成：    · 数值类型：分为有符号整数（i8&#96;&#96;i16&#96;&#96;i32&#96;&#96;i64&#96;&#96;i128&#96;&#96;isize）、无符号整数（u8&#96;&#96;u16&#96;&#96;u32&#96;&#96;u64&#96;&#96;u128&#96;&#96;usize）、浮点数（f32&#96;&#96;f64）、有理">
+  <meta name="description" content="基础类型 在Rust语言中每个值都有其确切的数据类型，总的来说可以分为两类：基本类型和复合类型。 基本类型意味着它们往往是一个最小化原子类型，无法解构为其它类型(一般意义上来说)，由以下组成： · 数值类型：分为有符号整数（i8&#96;&#96;i16&#96;&#96;i32&#96;&#96;i64&#96;&#96;i128&#96;&#96;isize）、无符号整数（u8&#96;&#96;u16&#96;&#96;u32&#96;&#96;u64&#96;&#96;u128&#96;&#96;usize）、浮点数（f32&#96;&#96;f64）、有理数和">
 <meta property="og:type" content="article">
 <meta property="og:title" content="五、Rust基础-基础类型">
 <meta property="og:url" content="http://example.com/2024/10/08/rust-primitve-types/index.html">
 <meta property="og:site_name" content="Wobujiaoxyy3">
-<meta property="og:description" content="基础类型在Rust语言中每个值都有其确切的数据类型，总的来说可以分为两类：基本类型和复合类型。 基本类型意味着它们往往是一个最小化原子类型，无法解构为其它类型(一般意义上来说)，由以下组成：    · 数值类型：分为有符号整数（i8&#96;&#96;i16&#96;&#96;i32&#96;&#96;i64&#96;&#96;i128&#96;&#96;isize）、无符号整数（u8&#96;&#96;u16&#96;&#96;u32&#96;&#96;u64&#96;&#96;u128&#96;&#96;usize）、浮点数（f32&#96;&#96;f64）、有理">
+<meta property="og:description" content="基础类型 在Rust语言中每个值都有其确切的数据类型，总的来说可以分为两类：基本类型和复合类型。 基本类型意味着它们往往是一个最小化原子类型，无法解构为其它类型(一般意义上来说)，由以下组成： · 数值类型：分为有符号整数（i8&#96;&#96;i16&#96;&#96;i32&#96;&#96;i64&#96;&#96;i128&#96;&#96;isize）、无符号整数（u8&#96;&#96;u16&#96;&#96;u32&#96;&#96;u64&#96;&#96;u128&#96;&#96;usize）、浮点数（f32&#96;&#96;f64）、有理数和">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/images/5-1.png">
 <meta property="og:image" content="http://example.com/images/5-2.png">
 <meta property="og:image" content="http://example.com/images/5-3.png">
 <meta property="og:image" content="http://example.com/images/5-4.png">
-<meta property="article:published_time" content="2024-10-08T10:51:58.000Z">
+<meta property="article:published_time" content="2024-10-08T03:51:58.000Z">
 <meta property="article:modified_time" content="2024-10-08T22:14:39.181Z">
 <meta property="article:tag" content="Rust">
 <meta name="twitter:card" content="summary">
@@ -178,7 +178,7 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2024-10-08 18:51:58" itemprop="dateCreated datePublished" datetime="2024-10-08T18:51:58+08:00">2024-10-08</time>
+              <time title="Created: 2024-10-08 11:51:58" itemprop="dateCreated datePublished" datetime="2024-10-08T11:51:58+08:00">2024-10-08</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
@@ -199,127 +199,84 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="基础类型"><a href="#基础类型" class="headerlink" title="基础类型"></a>基础类型</h1><p>在Rust语言中每个值都有其确切的数据类型，总的来说可以分为两类：基本类型和复合类型。 基本类型意味着它们往往是一个最小化原子类型，无法解构为其它类型(一般意义上来说)，由以下组成：<br>    · <strong>数值类型</strong>：分为有符号整数（<code>i8``i16``i32``i64``i128``isize</code>）、无符号整数（<code>u8``u16``u32``u64``u128``usize</code>）、浮点数（<code>f32``f64</code>）、有理数和复数<br>    · <strong>字符串</strong>：字符串字面量和字符串切片<code>&amp;str</code><br>    · <strong>布尔类型</strong>：<code>true</code>和<code>false</code><br>    · <strong>字符类型</strong>：表示单个Unicode字符，存储为4个字节<br>    · <strong>单元类型</strong>：<code>()</code></p>
-<p><strong>Rust中除了基础类型还有复合类型，类型概览如下</strong><br><img src="/images/5-1.png" alt="" width="1000"></p>
-<img src="/images/5-2.png" alt="" width="1000">
-
-<img src="/images/5-3.png" alt="" width="1000">
-
-<img src="/images/5-4.png" alt="" width="1000">
-
-<h1 id="数值类型"><a href="#数值类型" class="headerlink" title="数值类型"></a>数值类型</h1><h2 id="整数类型"><a href="#整数类型" class="headerlink" title="整数类型"></a>整数类型</h2><p><strong>整数</strong>是没有小数部分的数字,Rust中内置的整数类型如下表所示：</p>
-<table>
-<thead>
-<tr>
-<th align="center">长度</th>
-<th align="center">有符号类型</th>
-<th align="center">无符号类型</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">8位</td>
-<td align="center"><code>i8</code></td>
-<td align="center"><code>u8</code></td>
-</tr>
-<tr>
-<td align="center">16位</td>
-<td align="center"><code>i16</code></td>
-<td align="center"><code>u16</code></td>
-</tr>
-<tr>
-<td align="center">32位</td>
-<td align="center"><code>i32</code></td>
-<td align="center"><code>u32</code></td>
-</tr>
-<tr>
-<td align="center">64位</td>
-<td align="center"><code>i64</code></td>
-<td align="center"><code>u64</code></td>
-</tr>
-<tr>
-<td align="center">128位</td>
-<td align="center"><code>i128</code></td>
-<td align="center"><code>u128</code></td>
-</tr>
-<tr>
-<td align="center">视架构而定</td>
-<td align="center"><code>isize</code></td>
-<td align="center"><code>usize</code></td>
-</tr>
-</tbody></table>
+        <h1 id="基础类型">基础类型</h1>
+<p>在Rust语言中每个值都有其确切的数据类型，总的来说可以分为两类：基本类型和复合类型。
+基本类型意味着它们往往是一个最小化原子类型，无法解构为其它类型(一般意义上来说)，由以下组成：
+·
+<strong>数值类型</strong>：分为有符号整数（<code>i8``i16``i32``i64``i128``isize</code>）、无符号整数（<code>u8``u16``u32``u64``u128``usize</code>）、浮点数（<code>f32``f64</code>）、有理数和复数
+· <strong>字符串</strong>：字符串字面量和字符串切片<code>&amp;str</code>
+· <strong>布尔类型</strong>：<code>true</code>和<code>false</code> ·
+<strong>字符类型</strong>：表示单个Unicode字符，存储为4个字节 ·
+<strong>单元类型</strong>：<code>()</code></p>
+<p><strong>Rust中除了基础类型还有复合类型，类型概览如下</strong>
+<img src="/images/5-1.png" alt="" width="1000"></p>
+<p><img src="/images/5-2.png" alt="" width="1000"></p>
+<p><img src="/images/5-3.png" alt="" width="1000"></p>
+<p><img src="/images/5-4.png" alt="" width="1000"></p>
+<h1 id="数值类型">数值类型</h1>
+<h2 id="整数类型">整数类型</h2>
+<p><strong>整数</strong>是没有小数部分的数字,Rust中内置的整数类型如下表所示：
+|长度|有符号类型 |无符号类型| |:—:|:—:|:—:|
+|8位|<code>i8</code>|<code>u8</code>|
+|16位|<code>i16</code>|<code>u16</code>|
+|32位|<code>i32</code>|<code>u32</code>|
+|64位|<code>i64</code>|<code>u64</code>|
+|128位|<code>i128</code>|<code>u128</code>|
+|视架构而定|<code>isize</code>|<code>usize</code>|</p>
 <p><code>i</code>是英文单词<code>integer</code>的首字母；而<code>u</code>则代表<code>unsigned</code></p>
-<p>每个有符号类型规定的数字范围是 $-2^{n-1} ～ 2^{n-1}+1$，有符号数字以<strong>补码</strong>的形式存储</p>
-<p>无符号类型规定的数字范围则是 $0 ～ 2^{n}$</p>
+<p>每个有符号类型规定的数字范围是 <span
+class="math inline"> − 2<sup><em>n</em> − 1</sup>～2<sup><em>n</em> − 1</sup> + 1</span>，有符号数字以<strong>补码</strong>的形式存储</p>
+<p>无符号类型规定的数字范围则是 <span
+class="math inline">0～2<sup><em>n</em></sup></span></p>
 <p><strong>在Rust中，整型默认使用<code>i32</code>，该类型往往性能最好</strong></p>
-<p>整形字面量可以用下表的形式书写：</p>
-<table>
-<thead>
-<tr>
-<th align="center">数字字面量</th>
-<th align="center">示例</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">十进制</td>
-<td align="center"><code>98_222</code></td>
-</tr>
-<tr>
-<td align="center">二进制</td>
-<td align="center"><code>0b1111_0000</code></td>
-</tr>
-<tr>
-<td align="center">八进制</td>
-<td align="center"><code>0o77</code></td>
-</tr>
-<tr>
-<td align="center">十六进制</td>
-<td align="center"><code>0xff</code></td>
-</tr>
-<tr>
-<td align="center">字节（仅限u8）</td>
-<td align="center"><code>b&#39;A&#39;</code></td>
-</tr>
-</tbody></table>
-<h3 id="整型溢出"><a href="#整型溢出" class="headerlink" title="整型溢出"></a>整型溢出</h3><p><strong>挖坑</strong></p>
-<h2 id="浮点类型"><a href="#浮点类型" class="headerlink" title="浮点类型"></a>浮点类型</h2><p><strong>浮点数</strong> 是带有小数点的数字，Rust中浮点类型数字也有两种基本类型：<code>f32</code>和<code>f64</code><br>Rust中默认浮点类型是<code>f64</code>，因为在现代CPU中<code>f64</code>与<code>f32</code>的运算速度基本相同，但其精度更高</p>
-<h3 id="浮点型精度问题"><a href="#浮点型精度问题" class="headerlink" title="浮点型精度问题"></a>浮点型精度问题</h3><p>在每一种编程语言中，我们都几乎不使用浮点类型，因为它存在精度问题：</p>
+<p>整形字面量可以用下表的形式书写： |数字字面量|示例| |:—:|:—:|
+|十进制|<code>98_222</code>| |二进制|<code>0b1111_0000</code>|
+|八进制|<code>0o77</code>| |十六进制|<code>0xff</code>|
+|字节（仅限u8）|<code>b'A'</code>|</p>
+<h3 id="整型溢出">整型溢出</h3>
+<p><strong>挖坑</strong></p>
+<h2 id="浮点类型">浮点类型</h2>
+<p><strong>浮点数</strong>
+是带有小数点的数字，Rust中浮点类型数字也有两种基本类型：<code>f32</code>和<code>f64</code>
+Rust中默认浮点类型是<code>f64</code>，因为在现代CPU中<code>f64</code>与<code>f32</code>的运算速度基本相同，但其精度更高</p>
+<h3 id="浮点型精度问题">浮点型精度问题</h3>
+<p>在每一种编程语言中，我们都几乎不使用浮点类型，因为它存在精度问题：
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">assert!</span>(<span class="number">0.1</span> + <span class="number">0.2</span> ==<span class="number">0.3</span>);</span><br></pre></td></tr></table></figure>
-<p>该断言不成立，因为浮点数类型是机遇二进制实现的，但我们想要计算的数字往往是基于十进制的，因而无法用二进制进行精确表示</p>
-<p>要想比较大小，可以采用如下形式：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">assert!</span>(((<span class="number">0.1_f64</span> + <span class="number">0.2</span>).<span class="title function_ invoke__">abs</span>() &lt; <span class="number">0.000_001</span>) == <span class="literal">true</span>);</span><br></pre></td></tr></table></figure>
-
-<p>接下来再来一段代码，直观展示浮点数的精度问题：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">abc</span>: (<span class="type">f32</span>, <span class="type">f32</span>, <span class="type">f32</span>) = (<span class="number">0.1</span>, <span class="number">0.2</span>, <span class="number">0.3</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">xyz</span>: (<span class="type">f64</span>, <span class="type">f64</span>, <span class="type">f64</span>) = (<span class="number">0.1</span>, <span class="number">0.2</span>, <span class="number">0.3</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;abc (f32)&quot;</span>);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;   0.1 + 0.2: &#123;:x&#125;&quot;</span>, (abc.<span class="number">0</span> + abc.<span class="number">1</span>).<span class="title function_ invoke__">to_bits</span>());</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;         0.3: &#123;:x&#125;&quot;</span>, (abc.<span class="number">2</span>).<span class="title function_ invoke__">to_bits</span>());</span><br><span class="line">    <span class="built_in">println!</span>();</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;xyz (f64)&quot;</span>);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;   0.1 + 0.2: &#123;:x&#125;&quot;</span>, (xyz.<span class="number">0</span> + xyz.<span class="number">1</span>).<span class="title function_ invoke__">to_bits</span>());</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;         0.3: &#123;:x&#125;&quot;</span>, (xyz.<span class="number">2</span>).<span class="title function_ invoke__">to_bits</span>());</span><br><span class="line">    <span class="built_in">println!</span>();</span><br><span class="line"></span><br><span class="line">    <span class="built_in">assert!</span>(abc.<span class="number">0</span> + abc.<span class="number">1</span> == abc.<span class="number">2</span>);</span><br><span class="line">    <span class="built_in">assert!</span>(xyz.<span class="number">0</span> + xyz.<span class="number">1</span> == xyz.<span class="number">2</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>该程序输出结果如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">abc (f32)</span><br><span class="line">   0.1 + 0.2: 3e99999a</span><br><span class="line">         0.3: 3e99999a</span><br><span class="line"></span><br><span class="line">xyz (f64)</span><br><span class="line">   0.1 + 0.2: 3fd3333333333334</span><br><span class="line">         0.3: 3fd3333333333333</span><br><span class="line"></span><br><span class="line">thread &#x27;main&#x27; panicked at &#x27;assertion failed: xyz.0 + xyz.1 == xyz.2&#x27;,</span><br><span class="line">➥ch2-add-floats.rs.rs:14:5</span><br><span class="line">note: run with `RUST_BACKTRACE=1` environment variable to display</span><br><span class="line">➥a backtrace</span><br></pre></td></tr></table></figure>
-
-<p>我们可以发现，对于<code>f32</code>类型，<code>0.1+0.2</code>和<code>0.3</code>的结果都是<code>3e99999a</code>，因此<code>f32</code>类型下的断言<code>0.1 + 0.2 == 0.3</code>通过；<br>而对于<code>f64</code>类型而言，加法<code>0.1+0.2</code>的结果是<code>3fd...4</code>，而<code>0.3</code>却是<code>3fd...3</code>，两者存在细微的不同，而正是这个不同导致断言失败</p>
-<h3 id="NaN"><a href="#NaN" class="headerlink" title="NaN"></a>NaN</h3><p>在Rust中，对于数学上未定义的结果，例如对负数取平方根<code>-1.sqrt()</code>,Rust的浮点数类型会使用<code>NaN</code>(Not a number)来处理这些情况</p>
-<p><strong>所有跟<code>NaN</code>交互的操作，都会返回一个<code>NaN</code>，而且<code>NaN</code>不能用来比较（如断言），下面的代码会崩溃：</strong></p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">x</span> = (-<span class="number">42.0_f32</span>).<span class="title function_ invoke__">sqrt</span>();</span><br><span class="line">    <span class="built_in">assert_eq!</span>(x, x);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>同时，我们可以通过<code>is_nan</code>等方法来判断一个数值是否为<code>NaN</code>:</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">x</span> = (-<span class="number">42.0_f32</span>).<span class="title function_ invoke__">sqrt</span>();</span><br><span class="line">    <span class="keyword">if</span> x.<span class="title function_ invoke__">is_nan</span>() &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;x is NaN!&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="序列（Range）"><a href="#序列（Range）" class="headerlink" title="序列（Range）"></a>序列（Range）</h2><p>Rust 提供了一个非常简洁的方式，用来生成连续的数值，例如<code>1..5</code>，生成从<code>1</code>到<code>4</code>的连续数字，不包含<code>5</code>；<code>1..=5</code>，生成从<code>1</code>到<code>5</code>的连续数字，包含<code>5</code>，它的用途很简单，常常用于循环中：</p>
+该断言不成立，因为浮点数类型是机遇二进制实现的，但我们想要计算的数字往往是基于十进制的，因而无法用二进制进行精确表示</p>
+<p>要想比较大小，可以采用如下形式： <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">assert!</span>(((<span class="number">0.1_f64</span> + <span class="number">0.2</span>).<span class="title function_ invoke__">abs</span>() &lt; <span class="number">0.000_001</span>) == <span class="literal">true</span>);</span><br></pre></td></tr></table></figure></p>
+<p>接下来再来一段代码，直观展示浮点数的精度问题： <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">abc</span>: (<span class="type">f32</span>, <span class="type">f32</span>, <span class="type">f32</span>) = (<span class="number">0.1</span>, <span class="number">0.2</span>, <span class="number">0.3</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">xyz</span>: (<span class="type">f64</span>, <span class="type">f64</span>, <span class="type">f64</span>) = (<span class="number">0.1</span>, <span class="number">0.2</span>, <span class="number">0.3</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;abc (f32)&quot;</span>);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;   0.1 + 0.2: &#123;:x&#125;&quot;</span>, (abc.<span class="number">0</span> + abc.<span class="number">1</span>).<span class="title function_ invoke__">to_bits</span>());</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;         0.3: &#123;:x&#125;&quot;</span>, (abc.<span class="number">2</span>).<span class="title function_ invoke__">to_bits</span>());</span><br><span class="line">    <span class="built_in">println!</span>();</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;xyz (f64)&quot;</span>);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;   0.1 + 0.2: &#123;:x&#125;&quot;</span>, (xyz.<span class="number">0</span> + xyz.<span class="number">1</span>).<span class="title function_ invoke__">to_bits</span>());</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;         0.3: &#123;:x&#125;&quot;</span>, (xyz.<span class="number">2</span>).<span class="title function_ invoke__">to_bits</span>());</span><br><span class="line">    <span class="built_in">println!</span>();</span><br><span class="line"></span><br><span class="line">    <span class="built_in">assert!</span>(abc.<span class="number">0</span> + abc.<span class="number">1</span> == abc.<span class="number">2</span>);</span><br><span class="line">    <span class="built_in">assert!</span>(xyz.<span class="number">0</span> + xyz.<span class="number">1</span> == xyz.<span class="number">2</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+该程序输出结果如下： <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">abc (f32)</span><br><span class="line">   0.1 + 0.2: 3e99999a</span><br><span class="line">         0.3: 3e99999a</span><br><span class="line"></span><br><span class="line">xyz (f64)</span><br><span class="line">   0.1 + 0.2: 3fd3333333333334</span><br><span class="line">         0.3: 3fd3333333333333</span><br><span class="line"></span><br><span class="line">thread &#x27;main&#x27; panicked at &#x27;assertion failed: xyz.0 + xyz.1 == xyz.2&#x27;,</span><br><span class="line">➥ch2-add-floats.rs.rs:14:5</span><br><span class="line">note: run with `RUST_BACKTRACE=1` environment variable to display</span><br><span class="line">➥a backtrace</span><br></pre></td></tr></table></figure></p>
+<p>我们可以发现，对于<code>f32</code>类型，<code>0.1+0.2</code>和<code>0.3</code>的结果都是<code>3e99999a</code>，因此<code>f32</code>类型下的断言<code>0.1 + 0.2 == 0.3</code>通过；
+而对于<code>f64</code>类型而言，加法<code>0.1+0.2</code>的结果是<code>3fd...4</code>，而<code>0.3</code>却是<code>3fd...3</code>，两者存在细微的不同，而正是这个不同导致断言失败</p>
+<h3 id="nan">NaN</h3>
+<p>在Rust中，对于数学上未定义的结果，例如对负数取平方根<code>-1.sqrt()</code>,Rust的浮点数类型会使用<code>NaN</code>(Not
+a number)来处理这些情况</p>
+<p><strong>所有跟<code>NaN</code>交互的操作，都会返回一个<code>NaN</code>，而且<code>NaN</code>不能用来比较（如断言），下面的代码会崩溃：</strong>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">x</span> = (-<span class="number">42.0_f32</span>).<span class="title function_ invoke__">sqrt</span>();</span><br><span class="line">    <span class="built_in">assert_eq!</span>(x, x);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>同时，我们可以通过<code>is_nan</code>等方法来判断一个数值是否为<code>NaN</code>:
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">x</span> = (-<span class="number">42.0_f32</span>).<span class="title function_ invoke__">sqrt</span>();</span><br><span class="line">    <span class="keyword">if</span> x.<span class="title function_ invoke__">is_nan</span>() &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;x is NaN!&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="序列range">序列（Range）</h2>
+<p>Rust
+提供了一个非常简洁的方式，用来生成连续的数值，例如<code>1..5</code>，生成从<code>1</code>到<code>4</code>的连续数字，不包含<code>5</code>；<code>1..=5</code>，生成从<code>1</code>到<code>5</code>的连续数字，包含<code>5</code>，它的用途很简单，常常用于循环中：
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> <span class="number">1</span>..<span class="number">5</span> &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;&#123;i&#125;&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>序列只允许用于数字类型或者是字符类型，原因是：它们可以连续，同时编译器在编译期可以检查该序列是否为空，字符和数字值是 Rust 中仅有的可以用于判断是否为空的类型：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> <span class="string">&#x27;a&#x27;</span>..=<span class="string">&#x27;z&#x27;</span> &#123;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>,i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="布尔类型"><a href="#布尔类型" class="headerlink" title="布尔类型"></a>布尔类型</h1><p>Rust中的布尔类型共有两个值：<code>true</code>和<code>false</code>,布尔值占用内存的大小为<code>1</code>个字节:</p>
+序列只允许用于数字类型或者是字符类型，原因是：它们可以连续，同时编译器在编译期可以检查该序列是否为空，字符和数字值是
+Rust 中仅有的可以用于判断是否为空的类型： <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> <span class="string">&#x27;a&#x27;</span>..=<span class="string">&#x27;z&#x27;</span> &#123;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>,i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="布尔类型">布尔类型</h1>
+<p>Rust中的布尔类型共有两个值：<code>true</code>和<code>false</code>,布尔值占用内存的大小为<code>1</code>个字节:
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">t</span> = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">f</span>: <span class="type">bool</span> = <span class="literal">false</span>; <span class="comment">// 使用类型标注,显式指定f的类型</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> f &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;这是段毫无意义的代码&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>布尔类型主要应用于Rust代码中的<strong>流程控制</strong></p>
-<h1 id="字符类型"><a href="#字符类型" class="headerlink" title="字符类型"></a>字符类型</h1><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">c</span> = <span class="string">&#x27;z&#x27;</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">z</span> = <span class="string">&#x27;ℤ&#x27;</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">g</span> = <span class="string">&#x27;国&#x27;</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">heart_eyed_cat</span> = &#x27;😻&#x27;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+布尔类型主要应用于Rust代码中的<strong>流程控制</strong></p>
+<h1 id="字符类型">字符类型</h1>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">c</span> = <span class="string">&#x27;z&#x27;</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">z</span> = <span class="string">&#x27;ℤ&#x27;</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">g</span> = <span class="string">&#x27;国&#x27;</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">heart_eyed_cat</span> = &#x27;😻&#x27;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>如上示例，在Rust中，字符不仅仅是<code>ASCII</code>,而是所有的<code>Unicode</code>值，包括<strong>单个</strong>的中文、日文、韩文、emoji表情等等，都是合法的字符类型。</p>
-<p>由于<code>Unicode</code>都是四个字节编码，因而字符类型占用4个字节的内存:</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">x</span> = <span class="string">&#x27;中&#x27;</span>;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;字符&#x27;中&#x27;占用了&#123;&#125;字节的内存大小&quot;</span>,std::mem::<span class="title function_ invoke__">size_of_val</span>(&amp;x));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>终端输出如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">字符&#x27;中&#x27;占用了4字节的内存大小</span><br></pre></td></tr></table></figure>
+<p>由于<code>Unicode</code>都是四个字节编码，因而字符类型占用4个字节的内存:
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">x</span> = <span class="string">&#x27;中&#x27;</span>;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;字符&#x27;中&#x27;占用了&#123;&#125;字节的内存大小&quot;</span>,std::mem::<span class="title function_ invoke__">size_of_val</span>(&amp;x));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure> 终端输出如下： <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">字符&#x27;中&#x27;占用了4字节的内存大小</span><br></pre></td></tr></table></figure></p>
+<h1 id="单元类型">单元类型</h1>
+<p>单元类型就是<code>()</code>，唯一的值也是()</p>
+<h1 id="使用as进行类型强制转换">使用As进行类型强制转换</h1>
+<p>Rust
+中可以使用<code>As</code>关键字来完成原始类型（如<code>i64``u64``char</code>等）之间的类型转换，但其并不适用于符合类型之间的转换：
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">convert</span>() &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">i</span>: <span class="type">i32</span> = <span class="number">5</span>;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">f</span> = i <span class="keyword">as</span> <span class="type">f32</span>; <span class="comment">//完成从i32到f32的类型转换</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 
-<h1 id="单元类型"><a href="#单元类型" class="headerlink" title="单元类型"></a>单元类型</h1><p>单元类型就是<code>()</code>，唯一的值也是()</p>
-<h1 id="使用As进行类型强制转换"><a href="#使用As进行类型强制转换" class="headerlink" title="使用As进行类型强制转换"></a>使用As进行类型强制转换</h1><p>Rust 中可以使用<code>As</code>关键字来完成原始类型（如<code>i64``u64``char</code>等）之间的类型转换，但其并不适用于符合类型之间的转换：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">convert</span>() &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">i</span>: <span class="type">i32</span> = <span class="number">5</span>;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">f</span> = i <span class="keyword">as</span> <span class="type">f32</span>; <span class="comment">//完成从i32到f32的类型转换</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
     </div>
 
     
@@ -341,7 +298,7 @@
       <i class="fa fa-chevron-left"></i> 四、Rust基础 - 流程控制
     </a></div>
       <div class="post-nav-item">
-    <a href="/2024/10/09/rust-ownership/" rel="next" title="六、Rust基础-所有权">
+    <a href="/2024/10/08/rust-ownership/" rel="next" title="六、Rust基础-所有权">
       六、Rust基础-所有权 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
@@ -402,7 +359,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.</span> <span class="nav-text">基础类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E5%80%BC%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.</span> <span class="nav-text">数值类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B4%E6%95%B0%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.1.</span> <span class="nav-text">整数类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B4%E5%9E%8B%E6%BA%A2%E5%87%BA"><span class="nav-number">2.1.1.</span> <span class="nav-text">整型溢出</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%AE%E7%82%B9%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.2.</span> <span class="nav-text">浮点类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%AE%E7%82%B9%E5%9E%8B%E7%B2%BE%E5%BA%A6%E9%97%AE%E9%A2%98"><span class="nav-number">2.2.1.</span> <span class="nav-text">浮点型精度问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NaN"><span class="nav-number">2.2.2.</span> <span class="nav-text">NaN</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%8F%E5%88%97%EF%BC%88Range%EF%BC%89"><span class="nav-number">2.3.</span> <span class="nav-text">序列（Range）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%83%E5%B0%94%E7%B1%BB%E5%9E%8B"><span class="nav-number">3.</span> <span class="nav-text">布尔类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E7%B1%BB%E5%9E%8B"><span class="nav-number">4.</span> <span class="nav-text">字符类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%95%E5%85%83%E7%B1%BB%E5%9E%8B"><span class="nav-number">5.</span> <span class="nav-text">单元类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8As%E8%BF%9B%E8%A1%8C%E7%B1%BB%E5%9E%8B%E5%BC%BA%E5%88%B6%E8%BD%AC%E6%8D%A2"><span class="nav-number">6.</span> <span class="nav-text">使用As进行类型强制转换</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.</span> <span class="nav-text">基础类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E5%80%BC%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.</span> <span class="nav-text">数值类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B4%E6%95%B0%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.1.</span> <span class="nav-text">整数类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B4%E5%9E%8B%E6%BA%A2%E5%87%BA"><span class="nav-number">2.1.1.</span> <span class="nav-text">整型溢出</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%AE%E7%82%B9%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.2.</span> <span class="nav-text">浮点类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%AE%E7%82%B9%E5%9E%8B%E7%B2%BE%E5%BA%A6%E9%97%AE%E9%A2%98"><span class="nav-number">2.2.1.</span> <span class="nav-text">浮点型精度问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nan"><span class="nav-number">2.2.2.</span> <span class="nav-text">NaN</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%8F%E5%88%97range"><span class="nav-number">2.3.</span> <span class="nav-text">序列（Range）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%83%E5%B0%94%E7%B1%BB%E5%9E%8B"><span class="nav-number">3.</span> <span class="nav-text">布尔类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E7%B1%BB%E5%9E%8B"><span class="nav-number">4.</span> <span class="nav-text">字符类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%95%E5%85%83%E7%B1%BB%E5%9E%8B"><span class="nav-number">5.</span> <span class="nav-text">单元类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8as%E8%BF%9B%E8%A1%8C%E7%B1%BB%E5%9E%8B%E5%BC%BA%E5%88%B6%E8%BD%AC%E6%8D%A2"><span class="nav-number">6.</span> <span class="nav-text">使用As进行类型强制转换</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -416,7 +373,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-count">30</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

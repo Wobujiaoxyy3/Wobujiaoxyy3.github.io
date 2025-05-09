@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="结构体 结构体语法 定义结构体 一个结构体由以下几部分组成： · 通过关键字struct定义 ·一个清晰明确的结构体名称 ·几个有名字的结构体字段 示例代码如下： 12345678fn main() &#123;    struct User &#123;        active: bool,        username: String,        email: String,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="十一、Rust基础-结构体">
+<meta property="og:url" content="http://example.com/2024/10/16/rust-struct/index.html">
+<meta property="og:site_name" content="Wobujiaoxyy3">
+<meta property="og:description" content="结构体 结构体语法 定义结构体 一个结构体由以下几部分组成： · 通过关键字struct定义 ·一个清晰明确的结构体名称 ·几个有名字的结构体字段 示例代码如下： 12345678fn main() &#123;    struct User &#123;        active: bool,        username: String,        email: String,">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-10-16T15:47:15.000Z">
+<meta property="article:modified_time" content="2024-10-23T18:06:37.609Z">
+<meta property="article:tag" content="Rust">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2024/10/16/rust-struct/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>十一、Rust基础-结构体 | Wobujiaoxyy3</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Wobujiaoxyy3</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/10/16/rust-struct/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wobujiaoxyy3">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          十一、Rust基础-结构体
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2024-10-16 23:47:15" itemprop="dateCreated datePublished" datetime="2024-10-16T23:47:15+08:00">2024-10-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-10-24 02:06:37" itemprop="dateModified" datetime="2024-10-24T02:06:37+08:00">2024-10-24</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="结构体">结构体</h1>
+<h2 id="结构体语法">结构体语法</h2>
+<h3 id="定义结构体">定义结构体</h3>
+<p>一个结构体由以下几部分组成： · 通过关键字<code>struct</code>定义
+·一个清晰明确的结构体<code>名称</code>
+·几个有名字的结构体<code>字段</code></p>
+<p>示例代码如下： <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">User</span> &#123;</span><br><span class="line">        active: <span class="type">bool</span>,</span><br><span class="line">        username: <span class="type">String</span>,</span><br><span class="line">        email: <span class="type">String</span>,</span><br><span class="line">        sign_in_count: <span class="type">u64</span>,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+如上所示，该<code>User</code>结构体拥有四个字段。</p>
+<h3 id="创建结构体实例">创建结构体实例</h3>
+<p>在定义好结构体后，为了使用它，我们需要创建<code>User</code>结构体的<strong>实例</strong>：
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">user1</span> = User &#123;</span><br><span class="line">    email: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;someone@example.com&quot;</span>),</span><br><span class="line">    username: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;someusername123&quot;</span>),</span><br><span class="line">    active: <span class="literal">true</span>,</span><br><span class="line">    sign_in_count: <span class="number">1</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure> 在初始化结构体实例的时候，我们需要注意： 1.
+每个字段都要进行初始化； 2. 初始化时的字段顺序不需要与定义时的顺序一致
+3. 字段名需要用逗号分隔</p>
+<h3 id="访问结构体字段">访问结构体字段</h3>
+<p>通过<code>.</code>操作符即可访问结构体实例内部的字段值，如果我们需要修改结构体中的某个字段，首先我们需要保证该结构体实例是可变的，因为Rust并不允许我们只将其中的某个字段标记为可变：
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">user1</span> = User &#123;</span><br><span class="line">    email: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;someone@example.com&quot;</span>),</span><br><span class="line">    username: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;someusername123&quot;</span>),</span><br><span class="line">    active: <span class="literal">true</span>,</span><br><span class="line">    sign_in_count: <span class="number">1</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">user1.email = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;anotheremail@example.com&quot;</span>);</span><br></pre></td></tr></table></figure></p>
+<h3 id="简化结构体创建">简化结构体创建</h3>
+<p>下面我们构建一个函数来返回<code>User</code>结构体的实例：
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">build_user</span>(email: <span class="type">String</span>, username: <span class="type">String</span>) <span class="punctuation">-&gt;</span> User &#123;</span><br><span class="line">    User &#123;</span><br><span class="line">        email: email,</span><br><span class="line">        username: username,</span><br><span class="line">        active: <span class="literal">true</span>,</span><br><span class="line">        sign_in_count: <span class="number">1</span>,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+该函数接收两个字符串参数：<code>email</code>和<code>username</code>，然后使用它们来创建一个<code>User</code>结构体，并且返回。可以注意到这两行：<code>email: email</code>和<code>username: username</code>，有些啰嗦，但是好在我们可以对它进行简化：
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">build_user</span>(email: <span class="type">String</span>, username: <span class="type">String</span>) <span class="punctuation">-&gt;</span> User &#123;</span><br><span class="line">    User &#123;</span><br><span class="line">        email,</span><br><span class="line">        username,</span><br><span class="line">        active: <span class="literal">true</span>,</span><br><span class="line">        sign_in_count: <span class="number">1</span>,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="结构体更新语法">结构体更新语法</h3>
+<p>在实际场景中，有一种情况很常见：根据已有的结构体实例，创建新的结构体实例，例如根据已有的<code>user1</code>实例来构建<code>user2</code>：
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">user2</span> = User &#123;</span><br><span class="line">      active: user1.active,</span><br><span class="line">      username: user1.username,</span><br><span class="line">      email: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;another@example.com&quot;</span>),</span><br><span class="line">      sign_in_count: user1.sign_in_count,</span><br><span class="line">  &#125;;</span><br></pre></td></tr></table></figure>
+上面这段更新语法也有些繁琐，需要我们手动的<code>user1</code>的三个字段逐渐赋值给<code>user2</code>，但是我们有如下的语法：
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">user2</span> = User &#123;</span><br><span class="line">      email: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;another@example.com&quot;</span>),</span><br><span class="line">      ..user1</span><br><span class="line">  &#125;;</span><br></pre></td></tr></table></figure>
+我们可以使用<code>..user1</code>语法来表示凡是我们没有显式声明的字段，全部从<code>user1</code>中自动获取。</p>
+<h2 id="元组结构体tuple-struct">元组结构体（Tuple Struct）</h2>
+<p>结构体必须要有名称，但是结构体的字段可以没有名称。对于这些长的像元组的没有字段名称的结构体，我们称之为元组结构体：
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Color</span>(<span class="type">i32</span>, <span class="type">i32</span>, <span class="type">i32</span>);</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Point</span>(<span class="type">i32</span>, <span class="type">i32</span>, <span class="type">i32</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>()&#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">black</span> = <span class="title function_ invoke__">Color</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">origin</span> = <span class="title function_ invoke__">Point</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;, &#123;&#125;&quot;</span>, black.<span class="number">0</span>, origin.<span class="number">1</span>); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="单元结构体unit-like-struct">单元结构体（Unit-like Struct）</h2>
+<p>如果你定义一个类型，但是不关心该类型的内容，只关心它的行为时，就可以使用<code>单元结构体</code>：
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">AlwaysEqual</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="variable">subject</span> = AlwaysEqual;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 我们不关心 AlwaysEqual 的字段数据，只关心它的行为，因此将它声明为单元结构体，然后再为它实现某个特征</span></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">SomeTrait</span> <span class="keyword">for</span> <span class="title class_">AlwaysEqual</span> &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="结构体数据的所有权">结构体数据的所有权</h2>
+<p><strong>所有权</strong>是Rust中最为核心的概念。自然，结构体也有所有权。在结构体中，所有权的范围在字段范围内，也就是说，当一个结构体中的一个字段的所有权发生了转移时，该结构体中的其他字段仍然可以继续使用。但是，由于该结构体中的一个字段的所有权已经发生了转移，因此该结构体也不能再被继续使用：
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">user1</span> = User &#123;</span><br><span class="line">    email: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;someone@example.com&quot;</span>),</span><br><span class="line">    username: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;someusername123&quot;</span>),</span><br><span class="line">    active: <span class="literal">true</span>,</span><br><span class="line">    sign_in_count: <span class="number">1</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">user2</span> = User &#123;</span><br><span class="line">    active: user1.active,</span><br><span class="line">    username: user1.username,</span><br><span class="line">    email: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;another@example.com&quot;</span>),</span><br><span class="line">    sign_in_count: user1.sign_in_count,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, user1.active);   <span class="comment">//use1.active实现了copy特性，因此所有权没有转移</span></span><br><span class="line"><span class="comment">// 下面这行会报错</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;:?&#125;&quot;</span>, user1.username);   <span class="comment">//use1.username是String类型并没有实现copy特性，所有权在赋值时发生了转移</span></span><br><span class="line"><span class="comment">// 下面这行也会报错</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;:?&#125;&quot;</span>, user1);</span><br></pre></td></tr></table></figure></p>
+<p>在上面<code>User</code>结构体的定义中，对于<code>username</code>和<code>email</code>字段我们均使用了自身拥有所有权的<code>String</code>类型而非基于引用的<code>&amp;str</code>字符串切片类型。这是因为我们希望<code>User</code>结构体<strong>拥有它所有的数据，而不是从其他地方借用数据</strong>。如果我们想让<code>User</code>结构体从其他对象借用数据，我们就需要引入<strong>生命周期</strong>这个概念，否则就会报错：
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">User</span> &#123;</span><br><span class="line">    username: &amp;<span class="type">str</span>,</span><br><span class="line">    email: &amp;<span class="type">str</span>,</span><br><span class="line">    sign_in_count: <span class="type">u64</span>,</span><br><span class="line">    active: <span class="type">bool</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">user1</span> = User &#123;</span><br><span class="line">        email: <span class="string">&quot;someone@example.com&quot;</span>,</span><br><span class="line">        username: <span class="string">&quot;someusername123&quot;</span>,</span><br><span class="line">        active: <span class="literal">true</span>,</span><br><span class="line">        sign_in_count: <span class="number">1</span>,</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure> 此时编译器会抱怨它需要生命周期标识符： <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">error[E0106]: missing lifetime specifier</span><br><span class="line"> --&gt; src/main.rs:2:15</span><br><span class="line">  |</span><br><span class="line">2 |     username: &amp;str,</span><br><span class="line">  |               ^ expected named lifetime parameter // 需要一个生命周期</span><br><span class="line">  |</span><br><span class="line">help: consider introducing a named lifetime parameter // 考虑像下面的代码这样引入一个生命周期</span><br><span class="line">  |</span><br><span class="line">1 ~ struct User&lt;&#x27;a&gt; &#123;</span><br><span class="line">2 ~     username: &amp;&#x27;a str,</span><br><span class="line">  |</span><br><span class="line"></span><br><span class="line">error[E0106]: missing lifetime specifier</span><br><span class="line"> --&gt; src/main.rs:3:12</span><br><span class="line">  |</span><br><span class="line">3 |     email: &amp;str,</span><br><span class="line">  |            ^ expected named lifetime parameter</span><br><span class="line">  |</span><br><span class="line">help: consider introducing a named lifetime parameter</span><br><span class="line">  |</span><br><span class="line">1 ~ struct User&lt;&#x27;a&gt; &#123;</span><br><span class="line">2 |     username: &amp;str,</span><br><span class="line">3 ~     email: &amp;&#x27;a str,</span><br><span class="line">  |</span><br></pre></td></tr></table></figure>
+我们只需要在对应的地方添加生命周期标识符，就可以通过编译：
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">User</span>&lt;<span class="symbol">&#x27;a</span>&gt; &#123;</span><br><span class="line">    username: &amp;<span class="symbol">&#x27;a</span> <span class="type">str</span>,</span><br><span class="line">    email: &amp;<span class="symbol">&#x27;a</span> <span class="type">str</span>,</span><br><span class="line">    sign_in_count: <span class="type">u64</span>,</span><br><span class="line">    active: <span class="type">bool</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">user1</span> = User &#123;</span><br><span class="line">        email: <span class="string">&quot;someone@example.com&quot;</span>,</span><br><span class="line">        username: <span class="string">&quot;someusername123&quot;</span>,</span><br><span class="line">        active: <span class="literal">true</span>,</span><br><span class="line">        sign_in_count: <span class="number">1</span>,</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="方法">方法</h2>
+<p>Rust中的结构体<code>struct</code>是一个符合数据结构，它是拥有数据的集合。同时对于结构体来说，它也可以具有一些行为，这些行为在Rust中叫做方法。</p>
+<h3 id="定义方法">定义方法</h3>
+<p>·
+使用<code>impl</code>关键字包裹结构体上下文，随后使用<code>fn</code>关键字和名称声明。它可以拥有参数和返回值，同时包含在某处调用该方法时会执行的代码。
+·
+方法与函数是不同的，因为方法在结构体的上下文中被定义，它们的第一个参数总是<code>self</code>，代表着<strong>调用该方法的结构体实例</strong>。</p>
+<p>我们来看如下代码示例： <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Rectangle</span> &#123;</span><br><span class="line">    width: <span class="type">u32</span>,</span><br><span class="line">    height: <span class="type">u32</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Rectangle</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">area</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">u32</span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.width * <span class="keyword">self</span>.height</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">rect1</span> = Rectangle &#123; width:<span class="number">30</span>, height:<span class="number">50</span>&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;the area of rectangle is &#123;&#125;&quot;</span>, rect1.<span class="title function_ invoke__">area</span>());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+在上面的代码示例中，我们使用<code>&amp;self</code>作为传入方法的参数，它实际上是<code>self: &amp;Self</code>和<code>rectangle: &amp;Rectangle</code>的简写，上面三种写法效果一致。</p>
+<p>同时我们需要注意<code>self</code>依然有着所有权的概念： ·
+<code>self</code>表示<code>Rectangle</code>的所有权需要转移到该方法中，这种形式使用较少
+· <code>&amp;self</code>表示该方法对<code>Rectangle</code>的不可变借用 ·
+<code>&amp;mut self</code>表示可变借用</p>
+<h3 id="方法名与结构体字段名相同">方法名与结构体字段名相同</h3>
+<p>在Rust中，我们允许方法名跟结构体的字段名相同： <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">impl</span> <span class="title class_">Rectangle</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">width</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">bool</span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.width &gt; <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">rect1</span> = Rectangle &#123; width:<span class="number">30</span>, height:<span class="number">50</span>&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> rect1.<span class="title function_ invoke__">width</span>() &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;the rectangle has  a non-zero width: &#123;&#125;&quot;</span>, rect1.width);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+在上述的代码示例中，当我们使用方法<code>rect1.width()</code>时，Rust知道我们在调用它的方法；而在使用<code>rect1.width</code>时，则是访问它的字段。</p>
+<h3 id="getter访问器"><code>getter</code>访问器</h3>
+<p>在许多场景下，我们需要将结构体设置为私有，而定义一些公开的方法来让用户可以访问结构体的字段：
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">struct</span> <span class="title class_">Rectangle</span> &#123;</span><br><span class="line">    width: <span class="type">u32</span>,</span><br><span class="line">    height: <span class="type">u32</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Rectangle</span> &#123;</span><br><span class="line">    <span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">width</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">u32</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">self</span>.width;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">rect1</span> = Rectangle &#123; width:<span class="number">30</span>, height:<span class="number">50</span>&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, rect1.<span class="title function_ invoke__">width</span>());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+在上述示例中，我们只能通过访问器<code>rect1.width()</code>来获取举行的宽度。而<code>width</code>字段时私有的，当用户在其他模块访问<code>rect1.width</code>字段时，就会报错</p>
+<h2 id="关联函数">关联函数</h2>
+<p>所有在<code>impl</code>块中定义的函数被称为<strong>关联函数</strong>（associated
+functions），因为它们与<code>impl</code>后面命名的类型相关。</p>
+<p>关联函数并没有<code>self</code>，也不能使用<code>f.read()</code>的形式调用，因此它是一个函数而不是方法，<code>String::from</code>就是一个关联函数。</p>
+<p>让我们来看如下的代码示例： <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Rectangle</span> &#123;</span><br><span class="line">    width: <span class="type">u32</span>,</span><br><span class="line">    height: <span class="type">u32</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Rectangle</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">new</span>(width: <span class="type">u32</span>, height: <span class="type">u32</span>) <span class="punctuation">-&gt;</span> Rectangle &#123;</span><br><span class="line">        Rectangle &#123; width, height &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">rect1</span> = Rectangle::<span class="title function_ invoke__">new</span>(<span class="number">30</span>, <span class="number">50</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+在上面的代码示例中，我们为结构体<code>Rectangle</code>创建了关联函数<code>new</code>。在调用关联函数时，我们需要使用<code>::</code>来进行调用。</p>
+<p>值得注意的是，Rust有一个约定俗成的规则，就是使用<code>new</code>来作为构造器的名称。</p>
+<h3 id="多个impl定义">多个impl定义</h3>
+<p>Rust允许我们为一个结构体定义多个<code>impl</code>块，其目的是为了提供更多的灵活性和代码组织性。当方法较多时，我们可以将相关的方法组织在一个<code>impl</code>块中。</p>
+<h2 id="实现trait">实现trait</h2>
+<h3 id="为类型实现特征">为类型实现特征</h3>
+<p>如果不同的类型具有相同的行为，那么我们就可以定义一个特征，然后为这些类型实现该特征。</p>
+<p><strong>定义特征</strong>是把一些方法组合在一起，目的是定义一个实现某些目标所必需的行为的集合。我们需要使用<code>trait</code>关键词来定义一个特征；
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">tarit Shape &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">area</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">f64</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#[derive(Debug)]</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Rectangle</span> &#123;</span><br><span class="line">    width: <span class="type">u32</span>,</span><br><span class="line">    height: <span class="type">u32</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Circle</span> &#123;</span><br><span class="line">    radius: <span class="type">u32</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Shape</span> <span class="keyword">for</span> <span class="title class_">Rectangle</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">area</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">f64</span> &#123;</span><br><span class="line">        (<span class="keyword">self</span>.width * <span class="keyword">self</span>.height) <span class="keyword">as</span> <span class="type">f64</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Shape</span> <span class="keyword">for</span> <span class="title class_">Circle</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">area</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">f64</span> &#123;</span><br><span class="line">        (radius * radius) <span class="keyword">as</span> <span class="type">f64</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">print_area</span>(shape: &amp;<span class="keyword">impl</span> <span class="title class_">Shape</span>) &#123;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, shape.<span class="title function_ invoke__">area</span>());</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">rect</span> = Rectangle &#123; width: <span class="number">30</span>, height: <span class="number">50</span>&#125;;</span><br><span class="line">    <span class="title function_ invoke__">print_area</span>(&amp;rect);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="debug特征">Debug特征</h3>
+<p>与上一节<code>enum</code>相同，我们需要使用<code>#[derive(Dbug)]</code>对结构体进行标记，才能使用<code>println!("&#123;&#125;", struct)</code>对结构体进行打印，原因也相同，因为结构体并没有实现<code>Display</code>特征。</p>
+<h2 id="课后作业">课后作业</h2>
+<p>对于以下的结构体，实现<code>Debug</code>特征： <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Rectangle</span> &#123;</span><br><span class="line">    height: <span class="type">i32</span>,</span><br><span class="line">    width: <span class="type">i32</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>解： <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">use::std::fmt;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Rectangle</span> &#123;</span><br><span class="line">    height: <span class="type">i32</span>,</span><br><span class="line">    width: <span class="type">i32</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">fmt</span>::<span class="built_in">Debug</span> <span class="keyword">for</span> <span class="title class_">Rectangle</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">fmt</span>(&amp;<span class="keyword">self</span>, f: &amp;<span class="keyword">mut</span> fmt::Formatter) <span class="punctuation">-&gt;</span> fmt::<span class="type">Result</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">write!</span>(f, <span class="string">&quot;Rectangle &#123;&#123; height: &#123;&#125;, width: &#123;&#125; &#125;&#125;&quot;</span>, <span class="keyword">self</span>.height, <span class="keyword">self</span>.width)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">rec</span> = Rectangle&#123; height: <span class="number">10</span>, width: <span class="number">8</span>&#125;;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;:?&#125;&quot;</span>, rec);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Rust/" rel="tag"># Rust</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/10/12/rust-enum/" rel="prev" title="十、Rust-枚举Enum">
+      <i class="fa fa-chevron-left"></i> 十、Rust-枚举Enum
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/10/22/rust-pattern-matching/" rel="next" title="十二、Rust-模式匹配">
+      十二、Rust-模式匹配 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93"><span class="nav-number">1.</span> <span class="nav-text">结构体</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93%E8%AF%AD%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text">结构体语法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E7%BB%93%E6%9E%84%E4%BD%93"><span class="nav-number">1.1.1.</span> <span class="nav-text">定义结构体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E7%BB%93%E6%9E%84%E4%BD%93%E5%AE%9E%E4%BE%8B"><span class="nav-number">1.1.2.</span> <span class="nav-text">创建结构体实例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BF%E9%97%AE%E7%BB%93%E6%9E%84%E4%BD%93%E5%AD%97%E6%AE%B5"><span class="nav-number">1.1.3.</span> <span class="nav-text">访问结构体字段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E5%8C%96%E7%BB%93%E6%9E%84%E4%BD%93%E5%88%9B%E5%BB%BA"><span class="nav-number">1.1.4.</span> <span class="nav-text">简化结构体创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93%E6%9B%B4%E6%96%B0%E8%AF%AD%E6%B3%95"><span class="nav-number">1.1.5.</span> <span class="nav-text">结构体更新语法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%83%E7%BB%84%E7%BB%93%E6%9E%84%E4%BD%93tuple-struct"><span class="nav-number">1.2.</span> <span class="nav-text">元组结构体（Tuple Struct）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%95%E5%85%83%E7%BB%93%E6%9E%84%E4%BD%93unit-like-struct"><span class="nav-number">1.3.</span> <span class="nav-text">单元结构体（Unit-like Struct）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93%E6%95%B0%E6%8D%AE%E7%9A%84%E6%89%80%E6%9C%89%E6%9D%83"><span class="nav-number">1.4.</span> <span class="nav-text">结构体数据的所有权</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E6%B3%95"><span class="nav-number">1.5.</span> <span class="nav-text">方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E6%96%B9%E6%B3%95"><span class="nav-number">1.5.1.</span> <span class="nav-text">定义方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E5%90%8D%E4%B8%8E%E7%BB%93%E6%9E%84%E4%BD%93%E5%AD%97%E6%AE%B5%E5%90%8D%E7%9B%B8%E5%90%8C"><span class="nav-number">1.5.2.</span> <span class="nav-text">方法名与结构体字段名相同</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#getter%E8%AE%BF%E9%97%AE%E5%99%A8"><span class="nav-number">1.5.3.</span> <span class="nav-text">getter访问器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E8%81%94%E5%87%BD%E6%95%B0"><span class="nav-number">1.6.</span> <span class="nav-text">关联函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E4%B8%AAimpl%E5%AE%9A%E4%B9%89"><span class="nav-number">1.6.1.</span> <span class="nav-text">多个impl定义</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0trait"><span class="nav-number">1.7.</span> <span class="nav-text">实现trait</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E7%B1%BB%E5%9E%8B%E5%AE%9E%E7%8E%B0%E7%89%B9%E5%BE%81"><span class="nav-number">1.7.1.</span> <span class="nav-text">为类型实现特征</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#debug%E7%89%B9%E5%BE%81"><span class="nav-number">1.7.2.</span> <span class="nav-text">Debug特征</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%BE%E5%90%8E%E4%BD%9C%E4%B8%9A"><span class="nav-number">1.8.</span> <span class="nav-text">课后作业</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name"></p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
