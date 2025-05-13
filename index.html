@@ -158,7 +158,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2025/04/23/recblog-3/" class="post-title-link" itemprop="url">recblog-3</a>
+            <a href="/2025/04/23/recblog-3/" class="post-title-link" itemprop="url">How Recommendations Found Us - Part 3</a>
         </h2>
 
         <div class="post-meta">
@@ -175,7 +175,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2025-04-28 23:10:21" itemprop="dateModified" datetime="2025-04-28T23:10:21+08:00">2025-04-28</time>
+                <time title="Modified: 2025-04-28 17:23:09" itemprop="dateModified" datetime="2025-04-28T17:23:09+08:00">2025-04-28</time>
               </span>
 
           
@@ -189,7 +189,39 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>to be updated</p>
+          <h1 id="Recommender-Systems-in-the-AI-ML-Era-Ethical-Moral-and-Privacy-Challenges"><a href="#Recommender-Systems-in-the-AI-ML-Era-Ethical-Moral-and-Privacy-Challenges" class="headerlink" title="Recommender Systems in the AI&#x2F;ML Era: Ethical, Moral, and Privacy Challenges"></a>Recommender Systems in the AI&#x2F;ML Era: Ethical, Moral, and Privacy Challenges</h1><h2 id="The-Cambridge-Analytica-Scandal-Exposed-Risks-and-Controversies"><a href="#The-Cambridge-Analytica-Scandal-Exposed-Risks-and-Controversies" class="headerlink" title="The Cambridge Analytica Scandal: Exposed Risks and Controversies"></a>The Cambridge Analytica Scandal: Exposed Risks and Controversies</h2><p>In 2018, the Cambridge Analytica scandal emerged as a wake-up call for the ethical risks of recommender systems in the AI&#x2F;ML era. This British political consulting firm leveraged a personality quiz app developed by a Cambridge University researcher to collect the personal data of up to 87 million Facebook users, without their fully informed consent. Using this vast trove of behavioral data, the company built detailed psychographic profiles and launched microtargeted political ads aimed at influencing events such as the 2016 U.S. presidential election.</p>
+<p>In essence, Cambridge Analytica gained capabilities similar to those of a modern recommender system: delivering highly personalized content based on user characteristics—except in this case, the goal was not to enhance user experience, but to manipulate public opinion.</p>
+<p>The scandal quickly attracted global attention. In March 2018, whistleblower Christopher Wylie revealed to the media how Cambridge Analytica had improperly harvested and exploited user data. Facebook subsequently admitted to platform vulnerabilities and issued a public apology. CEO Mark Zuckerberg testified before the U.S. Congress amid mounting criticism. Regulatory agencies launched investigations: the U.S. Federal Trade Commission fined Facebook $5 billion, and the UK Information Commissioner’s Office imposed additional penalties. Just months later, Cambridge Analytica declared bankruptcy in May 2018.</p>
+<p>What connects this scandal to recommender systems is the nature of content delivery on social media, which is inherently a form of personalized recommendation. Facebook’s news feed algorithm decides what content users see based on their data—a mechanism that malicious actors can exploit. The microtargeting carried out by Cambridge Analytica closely resembles how recommender systems personalize content, but with the intent of shaping political outcomes rather than improving engagement.</p>
+<p>This incident laid bare the privacy vulnerabilities at the heart of data-driven recommendation technologies, and the broader ethical implications of opaque algorithmic systems on democratic processes. It raised a sobering question: <em>while enjoying the convenience of personalized recommendations, are we unknowingly trading away our privacy—and even our freedom of thought?</em></p>
+<hr>
+<h2 id="Common-Ethical-and-Privacy-Challenges-in-Recommender-Systems"><a href="#Common-Ethical-and-Privacy-Challenges-in-Recommender-Systems" class="headerlink" title="Common Ethical and Privacy Challenges in Recommender Systems"></a>Common Ethical and Privacy Challenges in Recommender Systems</h2><p>Modern AI&#x2F;ML-based recommender systems offer personalized content, but they also introduce serious ethical, moral, and privacy risks—especially in the era of large-scale models.</p>
+<ul>
+<li><p><strong>Privacy and Data Misuse:</strong> These systems rely on user behavior data (e.g., clicks, likes, viewing history). Once leaked or misused, this sensitive data can violate privacy rights. Platforms may share or sell user data without clear consent. The Cambridge Analytica case exemplifies how such data can be repurposed for political manipulation. This raises questions: <em>How much data should algorithms access? Is informed consent truly ensured?</em></p>
+</li>
+<li><p><strong>Black-Box Algorithms:</strong> Many deep learning models are opaque. Users see recommendations but don’t understand why. This lack of transparency reduces trust and may hide bias or errors. Calls for explainable AI are growing, urging systems to provide understandable reasoning behind recommendations.</p>
+</li>
+<li><p><strong>Algorithmic Bias:</strong> Recommender systems often inherit societal biases from training data. For example, job ads may favor men for technical roles or prioritize products for wealthier users. Without correction, these systems amplify inequality. Fairness-aware algorithms are being explored to balance outcomes.</p>
+</li>
+<li><p><strong>Echo Chambers:</strong> Over-personalization can trap users in filter bubbles, showing only content aligned with past preferences. This limits exposure to diverse viewpoints, worsens polarization, and can even promote harmful content. Platforms have been criticized for feeding users extreme material within minutes, especially impacting younger audiences.</p>
+</li>
+</ul>
+<p>In short, the same data-driven personalization that powers modern recommendation comes with escalating responsibility. As models become more powerful, these challenges only grow. Ethical AI design is no longer optional—it’s essential.</p>
+<hr>
+<h2 id="Building-Responsible-Recommender-Systems"><a href="#Building-Responsible-Recommender-Systems" class="headerlink" title="Building Responsible Recommender Systems"></a>Building Responsible Recommender Systems</h2><p>In response to the ethical and privacy challenges outlined above, both academia and industry have taken significant steps toward building more responsible recommender systems. Key research directions and engineering practices are listed below</p>
+<h3 id="Federated-Learning"><a href="#Federated-Learning" class="headerlink" title="Federated Learning"></a>Federated Learning</h3><img src="./images/recblog/FL_image.png" alt="Federated Learning Workflow Between IoT Devices and Cloud Server" width="600"/>
+<div style="color:gray; text-align:center;">Fig.7 Federated Learning Workflow Between IoT Devices and Cloud Server</div>
+
+<p>&nbsp;</p>
+<blockquote>
+<p>Illustration: In a federated learning setup, user devices (right) update models locally and send encrypted parameters to a central server (left) for aggregation. The global model is then redistributed to devices. Raw user data never leaves the device, preserving privacy.</p>
+</blockquote>
+<p>Federated learning is a distributed machine learning technique introduced by Google around 2017. It allows model training to occur on edge devices like smartphones. Only the model updates, not the raw data, are sent to the server. In the context of recommendation, this approach is known as federated recommendation, enabling collaborative learning without centralized data storage. For example, Gboard, Google’s mobile keyboard, uses federated learning to improve next-word prediction without accessing users’ actual keystrokes.</p>
+<h3 id="Differential-Privacy"><a href="#Differential-Privacy" class="headerlink" title="Differential Privacy"></a>Differential Privacy</h3><p>Differential privacy protects individual data by introducing calibrated random noise into datasets or model outputs. The key idea is that whether or not an individual’s data is included in a dataset, the resulting output should be nearly indistinguishable—making it mathematically hard to identify any single user’s contribution.<br>In recommender systems, differential privacy can be applied to behavioral logs, such as movie ratings. Netflix, for instance, could add noise to its data before public release to ensure no user’s viewing history can be reverse-engineered. Tech companies like Apple and Google already use differential privacy in production, such as in iOS usage analytics. </p>
+<h3 id="Explainable-Recommendation"><a href="#Explainable-Recommendation" class="headerlink" title="Explainable Recommendation"></a>Explainable Recommendation</h3><p>To address black-box concerns, researchers are building explainability into recommender systems—so users understand why something was recommended. Common methods include content-based explanations (e.g., “We recommend B because you liked A”) or social explanations (e.g., “People with similar interests liked this item”). These explanations increase transparency and trust. They also allow developers and regulators to identify issues such as bias. For example, if a system consistently recommends jobs by gender, the explanation layer can help surface this discriminatory pattern. In the era of large language models (LLMs), explainability is evolving further: some systems now use LLMs to generate natural language rationales for recommendations, improving accessibility for end users. Explainability is thus not just a feature, but a pillar of ethical algorithm design.</p>
+<h3 id="Ethical-Guidelines-and-Regulatory-Frameworks"><a href="#Ethical-Guidelines-and-Regulatory-Frameworks" class="headerlink" title="Ethical Guidelines and Regulatory Frameworks"></a>Ethical Guidelines and Regulatory Frameworks</h3><p>In addition to technical solutions, a growing body of ethical guidelines and legal frameworks is shaping the future of recommender systems. Governments, academic institutions, and companies worldwide have released AI ethics principles. As of 2020, at least 84 such frameworks existed, covering values like transparency, fairness, accountability, and privacy. These principles are now being applied to recommendation algorithms.<br>The European Union’s 2019 AI Ethics Guidelines emphasize human autonomy, anti-discrimination, and explainability—pressuring companies to align with ethical norms. GDPR (General Data Protection Regulation) has set strict limits on data use, while the newer Digital Services Act (DSA) mandates large platforms to assess and disclose algorithmic risks.</p>
+<p>Looking ahead, creating ethical recommender systems isn’t about compromising innovation—it’s about ensuring that innovation aligns with human values. Combining federated learning, differential privacy, explainability, and regulatory frameworks forms a powerful foundation for systems that are not just smart, but also trustworthy.</p>
+<p>By embedding ethics into the very fabric of recommendation design, we can move toward platforms that respect user autonomy, safeguard personal data, and promote fairness—without sacrificing the user experience that makes recommendations so effective in the first place.</p>
 
       
     </div>
@@ -223,7 +255,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2025/04/23/recblog-2/" class="post-title-link" itemprop="url">recblog-2</a>
+            <a href="/2025/04/23/recblog-2/" class="post-title-link" itemprop="url">How Recommendations Found Us - Part 2</a>
         </h2>
 
         <div class="post-meta">
@@ -254,7 +286,333 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>to be updated</p>
+          <h1 id="dlrm-deep-learning-powered-recommendation-model">DLRM: Deep
+learning-powered recommendation model</h1>
+<h2 id="youtubednn">YoutubeDNN</h2>
+<p>With the rise of deep learning, the industry began turning to neural
+networks to enhance recommendation systems. A landmark in this
+transformation was Google’s 2016 paper outlining YouTube’s
+recommendation architecture. As the world’s largest video platform with
+an enormous volume of users and content, YouTube faced unique
+scalability challenges that traditional collaborative filtering simply
+couldn’t handle. To address this, the YouTube team designed a two-stage
+deep neural network architecture—splitting the recommendation process
+into candidate generation and ranking, each handled by a separate neural
+network. This architecture forms an effective “funnel”: starting from
+millions of videos, narrowing down to a few hundred candidates, and
+finally surfacing the most relevant few to the user.</p>
+<img src="./images/recblog/youtubednn.png" alt="YoutubeDNN Network Architecture" width="600"/>
+<div style="color:gray; text-align:center;">
+Fig.2 YoutubeDNN Network Architecture
+</div>
+<p> </p>
+<h3 id="stage-1-candidate-generation">Stage 1: Candidate Generation</h3>
+<p>In the candidate generation stage, the system must quickly identify a
+few hundred potentially relevant videos from millions of possibilities.
+This is framed as an extreme multi-class classification problem: given a
+user and their context, predict which videos they are likely to watch
+from a massive pool of candidates.</p>
+<p>To solve this, YouTube trained a large-scale neural network that maps
+a user’s historical behavior into a low-dimensional embedding vector—the
+“user embedding.” This vector is then used to retrieve the most similar
+video embeddings from the video corpus. Specifically, the user’s watch
+history (video IDs) is embedded and averaged into a “watch vector”;
+likewise, search queries are tokenized, embedded, and averaged into a
+“search vector.” These vectors, along with contextual features (e.g.,
+location, device type) and demographic attributes (e.g., age, gender),
+are input into the network.</p>
+<p>After passing through multiple non-linear layers, the network outputs
+a fixed-length user vector. Training optimizes the similarity (typically
+dot product) between this user vector and the embedding of videos the
+user actually watched. Since computing the softmax over millions of
+classes is computationally intensive, YouTube employed techniques like
+negative sampling to speed up training. Ultimately, the candidate
+generation model learns to embed users in a latent interest space, where
+proximity to a video indicates relevance.</p>
+<p>A notable strength of this approach is the use of demographic
+features to provide reasonable priors for cold-start users. Even with
+little or no history, the model can infer initial preferences based on
+attributes like age and gender. This offers a clear advantage over
+traditional collaborative filtering, which struggles with cold-start
+scenarios. Deep learning models can incorporate such side information,
+improving the quality of early-stage recommendations.</p>
+<h3 id="stage-2-ranking">Stage 2: Ranking</h3>
+<p>After narrowing down the candidate set, the system enters the ranking
+stage, where each candidate video is scored more precisely to determine
+the final top-N recommendations. The ranking model is also a deep neural
+network but takes in a much richer set of features, including user
+attributes, video-specific metadata (e.g., category, duration, content
+embeddings), and interaction context (e.g., whether the user has engaged
+with the creator before).</p>
+<p>These features include both continuous values (like the number of
+times a user has watched videos from a specific channel) and categorical
+inputs (like video ID or channel ID). All features are embedded,
+normalized, and passed through several hidden layers to model complex
+user-video interactions.</p>
+<img src="./images/recblog/dr.png" alt="Deep Ranking Network Architecture" width="600"/>
+<div style="color:gray; text-align:center;">
+Fig.3 Deep Ranking Network Architecture
+</div>
+<p> </p>
+<p>Crucially, the model captures nonlinear combinations of hundreds of
+features, significantly boosting expressive power compared to earlier
+linear models. The output can be a predicted watch probability or
+expected watch time. YouTube chose to weight positive samples by watch
+time, encouraging the model to prioritize content that users are likely
+to engage with for longer durations. This modification aligns better
+with YouTube’s long-term engagement goals, and live A/B tests confirmed
+improvements in total watch time and user satisfaction.</p>
+<h3 id="summary">Summary</h3>
+<p>YouTube’s two-stage architecture—deep neural networks for both
+candidate generation and ranking—effectively overcame many limitations
+of traditional methods. The model integrates massive volumes of implicit
+feedback (e.g., watches, searches), and through deep neural
+architectures, captures complex nonlinear relationships among features.
+Empirical results showed it significantly outperformed earlier matrix
+factorization approaches.</p>
+<p>In addition, the architecture’s ability to fuse multimodal and
+multisource features—including user profiles, video content, and
+contextual signals—enables better handling of cold start and sparsity
+issues. For example, demographic information allows the system to
+provide reasonable recommendations to new users without any interaction
+history.</p>
+<p>From a scalability perspective, the two-stage funnel design ensures
+that recommendations can be made in real-time, even with millions of
+items in the corpus. This architecture has since become the industry
+standard, inspiring countless modern systems that adopt similar
+two-tower designs (e.g., Matching &amp; Reranking) to balance
+scalability and recommendation quality.</p>
+<hr />
+<h2 id="metas-hstu">Meta’s HSTU</h2>
+<p>Although two-tower DNN architectures have dominated industrial
+recommendation systems in recent years, there is growing evidence that
+these models hit a scalability ceiling. Industry practitioners have
+observed that traditional deep recommendation models—such as Facebook’s
+DLRM—often plateau in performance even as model complexity and training
+data are increased. In other words, simply scaling up the model size
+does not necessarily lead to meaningful performance gains.</p>
+<p>In contrast, the Transformer architecture has demonstrated remarkable
+scalability in the field of natural language processing: models grow
+from hundreds of millions to hundreds of billions of parameters while
+continuing to improve. Inspired by this trend, Meta researchers proposed
+a bold question: What if user behavior sequences were treated like
+language? Could a ChatGPT-style generative model predict what users will
+do next?</p>
+<p>This leads to the idea of <strong>Generative Recommendation</strong>:
+reframing the recommendation problem as a sequence generation task. The
+model observes a user’s interaction history— <em>“watched A, liked B,
+browsed C…”</em> —and, just like a language model predicts the next
+word, it predicts which item the user is likely to engage with next.
+This paradigm shift could redefine how recommender systems operate.</p>
+<h3 id="key-challenges-in-generative-recommendation">Key Challenges in
+Generative Recommendation</h3>
+<p>However, modeling user behavior as natural language poses major
+challenges:</p>
+<ul>
+<li><p><strong>Highly Heterogeneous Features:</strong> Unlike words in a
+sentence, each user interaction includes a wide variety of signals—user
+ID, item ID, action type (e.g., view, like), timestamps, numerical
+values (e.g., dwell time, rating), and more. How can we represent such
+multi-modal, multi-scale features uniformly as input to a
+model?</p></li>
+<li><p><strong>Massive and Dynamic Vocabulary:</strong> In
+recommendation, the “vocabulary” can include hundreds of millions of
+item IDs, with new items and users constantly appearing. This
+non-stationary, ultra-large vocabulary makes traditional language model
+techniques like fixed softmax layers impractical—inefficient and hard to
+generalize.</p></li>
+<li><p><strong>Computational Cost:</strong> Treating every user action
+as a token inflates the training data to astronomical scale. With 100
+million users generating interactions daily, the number of tokens can
+reach trillions per day—hundreds of times larger than what GPT-3 was
+trained on.</p></li>
+</ul>
+<h3
+id="the-hstu-architecture-hierarchical-sequential-transduction-unit">The
+HSTU Architecture: Hierarchical Sequential Transduction Unit</h3>
+<p>To tackle these issues, Meta proposed a novel architecture in 2024
+called <strong>HSTU</strong> (Hierarchical Sequential Transduction
+Unit)—a Transformer-inspired framework purpose-built for recommendation.
+HSTU introduces several key innovations that make generative modeling
+practical at industry scale:</p>
+<img src="./images/recblog/hstu.png" alt="Comparison of Key Model Components:DLRMs vs simplified HSTU" width="400"/>
+<div style="color:gray; text-align:center;">
+Fig.4 Comparison of Key Model Components:DLRMs vs simplified HSTU
+</div>
+<p> </p>
+<ul>
+<li><p><strong>Feature Serialization &amp; Unified Input Space:</strong>
+HSTU adopts the “feature-as-token” philosophy, where heterogeneous
+user/item/context features are encoded as a single unified sequence—just
+like words in a sentence. For example, a viewing event becomes a
+structured sequence: [item ID], [item category], [device type], etc.
+This allows all features to be processed by a shared Transformer
+encoder. Unlike traditional DLRMs that separately handle feature
+extraction, interaction, and representation, HSTU fuses these stages
+into one stackable module with sub-layers for projection, cross-feature
+aggregation, and non-linear transformation. As a result, feature
+interaction is learned end-to-end by the model without the need for
+handcrafted preprocessing pipelines.</p></li>
+<li><p><strong>Pointwise Attention for Dynamic Vocabularies:</strong>
+Instead of relying on traditional softmax attention—which assumes a
+fixed vocabulary—HSTU uses pointwise aggregated attention, where each
+query is normalized independently. This makes the model more robust to
+streaming data and evolving vocabularies. Combined with layered soft
+attention and stochastic length truncation, HSTU improves long-sequence
+processing efficiency. In practice, it delivers over 5× speedup compared
+to standard Transformers (thanks to optimized GPU kernels), and scales
+gracefully to sequences of up to 8192 tokens.</p></li>
+<li><p><strong>Scalability and Performance Gains:</strong> Thanks to its
+modular design, HSTU supports deeper and wider architectures. Meta
+scaled the model from billions to over a trillion parameters, observing
+consistent improvements following a power-law trend. The final
+1.5-trillion-parameter generative recommendation model was successfully
+deployed across multiple products on Meta’s platform, serving billions
+of users. Online A/B testing showed a 12.4% lift in key engagement
+metrics—an unprecedented leap in industrial recommendation systems.
+Furthermore, inference optimizations enabled HSTU to match production
+latency targets despite being hundreds of times more complex than legacy
+models. On public datasets, HSTU outperformed prior sequence-based
+models by a wide margin (e.g., up to 65.8% gain in NDCG).</p></li>
+</ul>
+<h3 id="foundation-models-for-recommendations">Foundation Models for
+Recommendations</h3>
+<p>Through HSTU, Meta has successfully introduced the power of large
+generative models into recommendation systems. Compared to traditional
+DLRM pipelines, HSTU offers a more unified, sequence-native, and
+extensible architecture capable of capturing rich user behavior at
+massive scale. This approach signals the arrival of foundation models in
+recommender systems—general-purpose, pre-trained models that can be
+fine-tuned for specific applications with minimal additional data or
+compute.</p>
+<p>In the future, companies may train a single, universal recommendation
+model that internalizes the behavior patterns of billions of users and
+serves as the backbone for multiple recommendation tasks. This paradigm
+could drastically reduce the cost and complexity of building custom
+models for every product surface, marking a new era of scalable,
+intelligent personalization.</p>
+<hr />
+<h2 id="kuaishous-hllm">Kuaishou’s HLLM</h2>
+<p>The exploration of large models in recommendation systems is not
+limited to Meta. Chinese short video platform Kuaishou has also proposed
+its own large-model-based recommendation architecture:
+<strong>HLLM</strong> (Hierarchical Large Language Model). Unlike HSTU,
+which was built from the ground up with a custom architecture, HLLM
+takes advantage of existing pre-trained large language models (LLMs) and
+integrates them seamlessly into the recommendation pipeline.</p>
+<img src="./images/recblog/hllm.png" alt="Architecture of Hierarchical Large Language
+Model" width="400"/>
+<div style="color:gray; text-align:center;">
+Fig.5 Architecture of Hierarchical Large Language Model
+</div>
+<p> </p>
+<p>At its core, HLLM splits the recommendation task into two distinct
+steps: item content understanding and user interest modeling, each
+handled by a different LLM. This dual-layer LLM architecture leverages
+the natural language understanding strength of pre-trained models to
+solve challenges like cold start and efficient sequence modeling.</p>
+<h3 id="step-1-understanding-item-content-with-the-item-llm">Step 1:
+Understanding Item Content with the Item LLM</h3>
+<p>The Item LLM is responsible for generating rich semantic
+representations for each item based on its textual content—titles,
+descriptions, transcripts, etc. It reads the item’s text similarly to
+how an LLM processes natural language and outputs a semantic embedding
+that captures the item’s core themes, style, and attributes. For
+instance, a video described as “funny, cat, voice-over” will be embedded
+into a vector space that places it near other similar videos. Unlike
+traditional ID-based encodings, these vectors contain world knowledge
+and nuanced semantics learned from massive pre-training corpora.</p>
+<p>This allows the system to handle <strong>cold-start items</strong>
+effectively. Even if a new video has no interaction history, the Item
+LLM can infer its likely category or audience based on its content,
+enabling it to be recommended right away—an important improvement over
+traditional models that require interaction data to make accurate
+predictions.</p>
+<h3 id="step-2-modeling-user-interests-with-the-user-llm">Step 2:
+Modeling User Interests with the User LLM</h3>
+<p>The User LLM takes as input the sequence of item embeddings produced
+by the Item LLM, representing a user’s past interactions. Instead of
+processing raw content, the User LLM works with these compact semantic
+vectors. For example, if a user previously watched videos A, B, and C,
+their embeddings (Va, Vb, Vc) are fed into the User LLM to predict the
+next item vector or directly generate the next likely item ID.</p>
+<p>Since the User LLM handles short, dense embeddings rather than
+lengthy text, sequence modeling becomes significantly more efficient.
+Conceptually, the User LLM behaves like a fine-tuned GPT model, but
+instead of generating words, it “writes” the next user behavior. After
+fine-tuning on massive behavioral logs, the model learns to predict
+future interests based on the semantic patterns in the user’s
+history.</p>
+<h3 id="key-benefits-of-the-hllm-architecture">Key Benefits of the HLLM
+Architecture</h3>
+<p>One major benefit of HLLM is how effectively it mitigates the cold
+start problem. As long as an item has a textual description, it won’t be
+treated as a complete unknown. Even without any interactions, the Item
+LLM can produce a meaningful representation, allowing the User LLM to
+match it to the right users. Similarly, for new users, early
+interactions or self-declared interests can be converted into embeddings
+by the Item LLM, giving the system a head start on modeling their
+preferences.</p>
+<p>The dual-layer design also improves both modeling accuracy and
+computational efficiency. Since content has already been compressed into
+embeddings, the User LLM deals with much shorter sequences. Kuaishou
+reports excellent scalability and deployment feasibility: their largest
+configuration uses two 7-billion-parameter LLMs—one for items and one
+for users—while still achieving efficient training and serving in
+production. Semantic embeddings can be precomputed and cached, so that
+the User LLM only processes user-side data in real time, reducing
+latency and compute overhead. This separation of roles allows large
+models to be practically deployed in recommendation systems, unlike
+monolithic architectures that demand huge online resources.</p>
+<h3 id="leveraging-pretrained-knowledge-effectively">Leveraging
+Pretrained Knowledge Effectively</h3>
+<p>Another strength of HLLM is its effective use of knowledge from
+open-source pretrained LLMs. These models encode commonsense and domain
+knowledge from the web. For example, the model might “know” that fans of
+a sci-fi movie are likely to enjoy related merchandise, or that viewers
+of a travel vlog might also be interested in flight deals. By
+fine-tuning the pre-trained model on domain-specific recommendation
+data, HLLM enhances this general knowledge with task-specific
+reasoning.</p>
+<p>Kuaishou’s experiments show that using open-source models (e.g.,
+ChatGPT-style LLMs) with minimal modification already yields strong
+performance. However, fine-tuning for recommendation-specific tasks
+leads to significant performance gains, confirming the value of both
+pretrained weights and targeted adaptation. This answers a key open
+question in the field: yes, pretrained weights are valuable for
+recommendation—but fine-tuning is essential to unlock their full
+potential.</p>
+<h3 id="real-world-validation-at-scale">Real-World Validation at
+Scale</h3>
+<p>What’s most compelling is HLLM’s performance in real-world,
+large-scale scenarios. Kuaishou evaluated HLLM on two massive
+datasets—PixelRec and Amazon Reviews—and found that it outperformed
+traditional ID-based models by a wide margin, reaching state-of-the-art
+results. Even more impressively, online A/B tests confirmed meaningful
+gains in engagement and user satisfaction. After deployment, core
+business metrics improved, proving that large language models in
+recommendation are not just an academic curiosity, but a viable,
+effective solution for production systems.</p>
+<img src="./images/recblog/dd.png" alt="An Overview of the Depolyed HLLM System" width="600"/>
+<div style="color:gray; text-align:center;">
+Fig.6 An Overview of the Depolyed HLLM System
+</div>
+<p> </p>
+<h3 id="a-glimpse-into-the-future-of-recommendation">A Glimpse into the
+Future of Recommendation</h3>
+<p>HLLM represents a new path for recommendation systems—one that deeply
+integrates content understanding and user modeling via large language
+models. Its layered structure divides responsibility across models,
+allowing them to specialize and collaborate. By addressing cold start,
+long-sequence modeling, and scaling challenges, while also leveraging
+pretrained knowledge, HLLM shows how recommendation systems can evolve
+in the large-model era.</p>
+<p>From early collaborative filtering to YouTube’s deep two-tower
+systems, and now to cutting-edge generative and pretrained architectures
+led by Meta and Kuaishou, we are witnessing a paradigm shift. For
+beginners and professionals alike, this evolution reflects how AI is
+reshaping personalization—from “people who liked this also liked…” to
+LLMs that can truly understand what users want and why.</p>
 
       
     </div>
@@ -288,7 +646,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2025/04/23/recblog-1/" class="post-title-link" itemprop="url">recblog-1</a>
+            <a href="/2025/04/23/recblog-1/" class="post-title-link" itemprop="url">How Recommendations Found Us - Part 1</a>
         </h2>
 
         <div class="post-meta">
@@ -319,7 +677,90 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>to be updated</p>
+          <h1 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h1><p>Once upon a time, as a child standing before rows of bookshelves in the library, you would scan the labels, wander over to the comic book section you loved most, and carefully pick out the titles that caught your eye. But now, when you open YouTube or TikTok, an endless stream of videos rushes toward your eyes. Without you even realizing it, change has quietly taken place. The shift from the active process of selecting your favorite books to the passive experience of having content automatically recommended to you marks a fundamental transformation in how we interact with information.</p>
+<p>In this age of information overload, your relationship with content is no longer the same—and recommendation systems lie at the very heart of this transformation. In this blog series, we’ll explore how deep learning has revolutionized recommendation systems through three key chapters:</p>
+<ol>
+<li><p>An overview of recommender systems and a look at traditional algorithms before the deep learning era</p>
+</li>
+<li><p>Deep learning-powered recommendation models: from YouTubeDNN to ByteDance’s HLLM and Meta’s HSTU</p>
+</li>
+<li><p>Ethical, moral, and privacy challenges faced by modern recommender systems — and how we’re addressing them</p>
+</li>
+</ol>
+<hr>
+<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>From personalized content feeds on content platforms, to search engine result rankings, product suggestions on e-commerce sites, and even friend and post recommendations on social network platforms — recommender systems are everywhere in today’s “information overload” age.</p>
+<blockquote>
+<p>But how did we come this far?</p>
+</blockquote>
+<p>The first known recommender system, Grundy, was created back in 1979, designed to recommend books by classifying users into different stereotypes. Since then, due to their immense commercial value, recommender systems have evolved rapidly and relentlessly.</p>
+<p>From the classic recommender algorithms like collaborative filtering and matrix factorization, to the deep learning recommendation models(DLRM) of the past decade like YouTubeDNN, and now to the cutting-edge developments driven by LLMs and GenAI — such as HLLM and HSTU — the field has continuously adapted alongside advancements in computing, data availability, and model architectures.</p>
+<p>Before we dive deeper into the recent innovations, let’s first take a step back and look at the foundational algorithms from the pre-deep learning era — and the challenges they ran into along the way.</p>
+<hr>
+<h1 id="Before-Deep-Learning-Classic-Methods-and-Challenges"><a href="#Before-Deep-Learning-Classic-Methods-and-Challenges" class="headerlink" title="Before Deep Learning: Classic Methods and Challenges"></a>Before Deep Learning: Classic Methods and Challenges</h1><h2 id="Early-Development-and-Collaborative-Filtering"><a href="#Early-Development-and-Collaborative-Filtering" class="headerlink" title="Early Development and Collaborative Filtering"></a>Early Development and Collaborative Filtering</h2><p>As mentioned above, the story of recommender systems can be traced back to 1979 with the introduction of <strong>Grundy</strong>, one of the earliest attempts at personalized recommendations, developed by Daniel R. Carbonell and colleagues. Grundy was a dialogue-based book recommendation program. It built a user profile by asking personality-related questions and then used expert rules to match users with suitable books. While primitive, this system already reflected two fundamental concepts later central to content recommendation: user modeling and content-based filtering. Grundy didn’t rely on data from other users but rather functioned more like a rule-based expert system.</p>
+<p>In the 1980s, with the rise of expert systems, recommendation-related research started to emerge, mainly focusing on content modeling and information retrieval. For example, some researchers explored keyword matching or topic classification to recommend academic papers or news articles. These early systems were typically rule-driven and static, lacking the ability to learn and adapt to user preferences over time.</p>
+<p>A turning point came in the early 1990s, as the internet became more widely used and user behavior data started accumulating. In 1992, Goldberg et al. at Xerox PARC introduced the <em>Tapestry</em> system, which marked the formal birth of <strong>collaborative filtering</strong> (CF). Unlike Grundy’s content-and-rule approach, <em>Tapestry</em> leveraged the behaviors of other users as signals for recommendations—introducing the power of “collective intelligence” into the field. The key idea was: “birds of a feather flock together”—i.e., <em>if user A and user B have rated many items similarly, then user B’s preferences can help predict what user A might like. This social insight paved the way for data-driven recommendation systems.</em></p>
+<p>Collaborative filtering algorithms are typically divided into two types: <strong>User-based CF</strong> and <strong>Item-based CF</strong>. While the underlying principle is the same, the focus of similarity computation differs:</p>
+<ol>
+<li><p><strong>User-based CF</strong>: Finds a group of users with preferences similar to the target user by analyzing past behavior, and predicts the target user’s preferences based on those of their <em>“neighbors”</em>.</p>
+</li>
+<li><p><strong>Item-based CF</strong>: Identifies items that are similar based on common user preferences, then recommends to the user new items that are similar to those they’ve liked in the past.</p>
+</li>
+</ol>
+<img src="./images/recblog/CL_image.png" alt="Matrix Factorization in Collaborative Filtering for Movie Recommendation" width="600"/>
+<div style="color:gray; text-align:center;">Fig.1 Matrix Factorization in Collaborative Filtering for Movie Recommendation</div>
+
+<p>&nbsp;</p>
+<p>A typical user-based collaborative filtering pipeline includes the following steps:</p>
+<ol>
+<li><strong>Compute Similarity:</strong> Given a user–item rating matrix, compute the similarity between the target user $u$ and other users $v$. Common metrics include <em>cosine similarity</em> and <em>Pearson correlation coefficient</em>. For example:</li>
+</ol>
+<img src="./images/recblog/equation_1.png" width="300"/>
+
+<p style="text-indent: 2em;">where $I_{uv}$ is the set of items rated by both users $u$ and $v$.</p>
+
+<ol start="2">
+<li><p><strong>Find Neighbor Users:</strong> Select the top-$N$ most similar users to $u$ as neighbors $N(u)$ based on the similarity scores.</p>
+</li>
+<li><p><strong>Predict Ratings:</strong> Use the neighbors’ ratings to estimate how $u$ might rate an item $i$ (that they haven’t rated yet), often using a weighted average:</p>
+</li>
+</ol>
+<img src="./images/recblog/equation_2.png" width="200"/>
+
+<p style="text-indent: 2em;">where $r_{v,i}$ is the rating given by neighbor $v$ to item $i$.</p>
+
+
+<ol start="4">
+<li><strong>Generate Recommendations:</strong> Rank items not yet seen by $u$ based on predicted scores, and recommend the top items.</li>
+</ol>
+<p>In real-world applications, collaborative filtering quickly proved powerful. In 1994, the GroupLens project at the University of Minnesota launched an open news recommendation system, marking one of the first successful deployments of CF in an online community. Their approach was built on a simple yet effective heuristic: “those who agreed in the past are likely to agree in the future.” Later, the GroupLens team released the now-famous MovieLens dataset (first published in 1998), which contains thousands of users’ ratings on thousands of movies. It remains a standard benchmark for evaluating recommender algorithms.</p>
+<p>Item-based CF also saw enormous success in industry. In 1998, Amazon was among the first to deploy an item-based collaborative filtering system for personalized product recommendations. Unlike UserCF, Amazon’s method precomputes similarity between items, making the recommendation process independent of the number of users—greatly improving scalability. As their engineers pointed out, ItemCF can deliver real-time recommendations with computation costs independent of user and product counts, making it feasible to handle tens of millions of users and millions of items. The basic process: for each product a user has purchased or liked, find a list of similar products, then merge and rank these lists to produce the final recommendations. Amazon’s success established real-time, high-quality personalized recommendations as a cornerstone of modern e-commerce.</p>
+<h2 id="Matrix-Factorization-From-Neighborhood-Methods-to-Latent-Factor-Models"><a href="#Matrix-Factorization-From-Neighborhood-Methods-to-Latent-Factor-Models" class="headerlink" title="Matrix Factorization: From Neighborhood Methods to Latent Factor Models"></a>Matrix Factorization: From Neighborhood Methods to Latent Factor Models</h2><p>As the number of users and items continued to grow, traditional neighborhood-based collaborative filtering methods began to face significant challenges—most notably <strong>data sparsity</strong> and <strong>scalability</strong>. To address these issues, researchers turned to <strong>matrix factorization</strong> (MF), a model-based approach that maps high-dimensional user–item interactions into a low-dimensional <em>latent factor space</em>. At its core, matrix factorization is a form of <em>dimensionality reduction</em>, assuming that both users and items can be described by a small number of latent features that capture their underlying preferences or characteristics.</p>
+<p>Formally, given a set of users $U$ and items $I$, we define two matrices: $P \in \mathbb{R}^{|U| \times k}$ representing latent vectors for all users, and $Q \in \mathbb{R}^{|I| \times k}$ for all items, where $k$ is the number of latent dimensions (much smaller than the number of users or items). The goal is to approximate the original rating matrix $R$ by the product of $P$ and $Q$. For any user $u$ and item $i$, the predicted rating is computed as:</p>
+<img src="./images/recblog/equation_3.png" width="200"/>
+
+<p>—that is, the dot product of the user and item vectors. The matrices $P$ and $Q$ are learned from observed ratings by minimizing the squared error between predicted and actual values, with a regularization term to prevent overfitting:</p>
+<img src="./images/recblog/equation_4.png" width="400"/>
+
+<p>Here, $K$ is the set of observed user–item pairs in the training data, and $\lambda$ is a regularization coefficient. Optimization techniques such as <strong>stochastic gradient descent (SGD)</strong> or <strong>alternating least squares (ALS)</strong> are typically used to train the model.</p>
+<p>Intuitively, matrix factorization embeds users and items into a shared <strong>latent semantic space</strong>, such that users are close to items they’re likely to prefer. For example, if <code>User Dave</code> ends up with a latent vector positioned close to those of <em>Ocean’s 11</em> and <em>The Lion King</em>, the model will likely predict that Dave enjoys these movies.</p>
+<p>The major breakthrough for matrix factorization came with the launch of the <strong>Netflix Prize</strong> in 2006. Netflix released a dataset containing 100 million user ratings and challenged the world to improve its recommendation algorithm by at least 10% in terms of RMSE over its existing neighborhood-based method. The competition drew massive attention—never before had such a large-scale recommendation dataset been made public. Researchers and engineers worldwide participated, openly sharing techniques and innovations.</p>
+<p>One particularly influential contribution came from <strong>Simon Funk</strong>, who posted on his blog a simple yet powerful matrix factorization algorithm (now known as <em>Funk-SVD</em>). His method demonstrated the effectiveness of MF for collaborative filtering and inspired many teams. Over time, enhanced versions of matrix factorization—incorporating bias terms, temporal dynamics, and more—dominated the leaderboard. In 2009, the BellKor team ultimately won the competition with a model ensemble containing hundreds of algorithms, but matrix factorization remained the core component of their solution.</p>
+<p>After competition, it became clear that the MF methods could <strong>capture the hidden structure</strong> of the user preferences much better than the traditional neighborhood methods, leading to significantly higher precision. The Netflix Prize brought matrix factorization into the spotlight across both academia and industry.</p>
+<p>Since then, <strong>latent factor models</strong> have become a dominant paradigm in recommender systems. Extensions such as <em>SVD++</em> (which incorporates implicit feedback) and <em>Factorization Machines (FM)</em> (which integrate regression-like modeling) were developed to further improve recommendation quality and incorporate richer information. Despite these variations, the core philosophy remains: use low-dimensional vectors to represent users and items, and frame the recommendation task as a problem of matching these vectors in space.</p>
+<p>In addition to the classic collaborative filtering and matrix factorization algorithms, the field of recommender systems saw an explosion of new methods after the Netflix Prize. One notable line of development was latent semantic models. Unlike collaborative filtering and matrix factorization, which rely solely on user behavior data, latent semantic models leverage content information about items or user attribute preferences. Through topic modeling, they uncover the hidden semantic relationships between users and items.</p>
+<p>Another important direction that emerged was to reframe recommendation as a graph problem. In graph-based models, we construct a user-item bipartite graph where nodes represent users and items, and edges represent interactions (e.g., ratings, clicks). We then apply graph-theoretic methods to extract recommendation insights.</p>
+<p>For instance, user-based collaborative filtering can be viewed as measuring proximity between users via shared items in the bipartite graph, while item-based CF focuses on item-item connections through common users. Graph-based models offer a unified view of similarity and propagation, giving rise to a range of novel algorithms.</p>
+<p>A representative example is <strong>ItemRank</strong>, which builds on the idea of random walks. The core concept is to simulate a user navigating through the user-item graph. Items that are reached more frequently during this walk are more likely to match the user’s interests. For example, if user U is connected to item A, and A is connected to many other users who also like item B, then there’s a likely path from <em>U → A → (other users) → B</em>. This implies that user U may also be interested in item B. By iteratively computing these transition probabilities, random walk-based algorithms assign a relevance score to each item for a given user, which can then be used to generate Top-N recommendations.</p>
+<h2 id="Limitations-of-Traditional-Recommendation-Methods"><a href="#Limitations-of-Traditional-Recommendation-Methods" class="headerlink" title="Limitations of Traditional Recommendation Methods"></a>Limitations of Traditional Recommendation Methods</h2><p>Before the rise of deep learning, recommendation systems primarily relied on traditional algorithms such as Collaborative Filtering. As previously discussed, these methods recommend items based on user behavior similarity. While the logic behind them is intuitive and easy to understand, they gradually revealed several shortcomings in real-world applications. One classical model-based improvement of collaborative filtering is Matrix Factorization, which enables the system to automatically learn the “latent factors” of users and items. By projecting the high-dimensional user-item interactions into a lower-dimensional latent space, matrix factorization helps alleviate the problem of data sparsity to some extent. However, traditional recommendation methods still face several inherent limitations when applied at industrial scale:</p>
+<ul>
+<li><p><strong>Cold Start Problem:</strong> When new users or new items appear, the system lacks historical interaction data to compute similarity or preference, making it difficult to generate recommendations. For example, a newly registered user with no watch or click history poses a challenge for interest prediction; likewise, newly added items without any user interactions are hard to recommend effectively. Traditional collaborative filtering relies heavily on past interactions, making it poorly equipped to handle cold start scenarios—especially for new users, although content-based filtering may help somewhat for new items.</p>
+</li>
+<li><p><strong>Data Sparsity:</strong> In real-world settings, user feedback (e.g., ratings or clicks) accounts for only a tiny fraction of all possible user-item pairs—often less than 1%. This leads to extremely sparse user-item matrices, where many users and items share no common interactions. As a result, computing user or item similarities becomes unreliable, which degrades recommendation performance. Researchers have proposed various solutions to mitigate sparsity, such as predicting missing entries or applying dimensionality reduction. Matrix factorization methods like SVD and latent semantic models are widely used because they reduce feature space dimensionality, thus helping to combat sparsity. However, these methods may also lose important information in the process, and cannot completely overcome the accuracy drop caused by extreme sparsity.</p>
+</li>
+<li><p><strong>Poor Scalability:</strong> As the number of users and items grows explosively, traditional algorithms struggle with computation and memory demands. Collaborative filtering requires calculating pairwise similarities or maintaining large similarity matrices, which becomes infeasible when users and items reach millions or billions. Matrix factorization also becomes computationally expensive on large-scale data and is difficult to update quickly to reflect dynamic user interests. This scalability issue limits the applicability of traditional methods in internet-scale recommendation scenarios that demand real-time performance and high precision.</p>
+</li>
+</ul>
+<p>In summary, while traditional recommendation methods laid the foundation for the field, their limitations in cold start handling, data sparsity, and scalability significantly restrict their effectiveness in industrial applications. These challenges motivated researchers to seek more advanced techniques, ultimately paving the way for deep learning to enter and transform the recommendation landscape.</p>
 
       
     </div>

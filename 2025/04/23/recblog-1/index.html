@@ -20,17 +20,23 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="to be updated">
+  <meta name="description" content="IntroOnce upon a time, as a child standing before rows of bookshelves in the library, you would scan the labels, wander over to the comic book section you loved most, and carefully pick out the titles">
 <meta property="og:type" content="article">
-<meta property="og:title" content="recblog-1">
+<meta property="og:title" content="How Recommendations Found Us - Part 1">
 <meta property="og:url" content="http://example.com/2025/04/23/recblog-1/index.html">
 <meta property="og:site_name" content="Wobujiaoxyy3">
-<meta property="og:description" content="to be updated">
+<meta property="og:description" content="IntroOnce upon a time, as a child standing before rows of bookshelves in the library, you would scan the labels, wander over to the comic book section you loved most, and carefully pick out the titles">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2025/04/23/recblog-1/images/recblog/CL_image.png">
+<meta property="og:image" content="http://example.com/2025/04/23/recblog-1/images/recblog/equation_1.png">
+<meta property="og:image" content="http://example.com/2025/04/23/recblog-1/images/recblog/equation_2.png">
+<meta property="og:image" content="http://example.com/2025/04/23/recblog-1/images/recblog/equation_3.png">
+<meta property="og:image" content="http://example.com/2025/04/23/recblog-1/images/recblog/equation_4.png">
 <meta property="article:published_time" content="2025-04-23T15:09:54.000Z">
 <meta property="article:modified_time" content="2025-04-25T11:43:22.000Z">
 <meta property="article:tag" content="RecBlog">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2025/04/23/recblog-1/images/recblog/CL_image.png">
 
 <link rel="canonical" href="http://example.com/2025/04/23/recblog-1/">
 
@@ -45,7 +51,7 @@
   };
 </script>
 
-  <title>recblog-1 | Wobujiaoxyy3</title>
+  <title>How Recommendations Found Us - Part 1 | Wobujiaoxyy3</title>
   
 
 
@@ -163,7 +169,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          recblog-1
+          How Recommendations Found Us - Part 1
         </h1>
 
         <div class="post-meta">
@@ -194,7 +200,90 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>to be updated</p>
+        <h1 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h1><p>Once upon a time, as a child standing before rows of bookshelves in the library, you would scan the labels, wander over to the comic book section you loved most, and carefully pick out the titles that caught your eye. But now, when you open YouTube or TikTok, an endless stream of videos rushes toward your eyes. Without you even realizing it, change has quietly taken place. The shift from the active process of selecting your favorite books to the passive experience of having content automatically recommended to you marks a fundamental transformation in how we interact with information.</p>
+<p>In this age of information overload, your relationship with content is no longer the same—and recommendation systems lie at the very heart of this transformation. In this blog series, we’ll explore how deep learning has revolutionized recommendation systems through three key chapters:</p>
+<ol>
+<li><p>An overview of recommender systems and a look at traditional algorithms before the deep learning era</p>
+</li>
+<li><p>Deep learning-powered recommendation models: from YouTubeDNN to ByteDance’s HLLM and Meta’s HSTU</p>
+</li>
+<li><p>Ethical, moral, and privacy challenges faced by modern recommender systems — and how we’re addressing them</p>
+</li>
+</ol>
+<hr>
+<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>From personalized content feeds on content platforms, to search engine result rankings, product suggestions on e-commerce sites, and even friend and post recommendations on social network platforms — recommender systems are everywhere in today’s “information overload” age.</p>
+<blockquote>
+<p>But how did we come this far?</p>
+</blockquote>
+<p>The first known recommender system, Grundy, was created back in 1979, designed to recommend books by classifying users into different stereotypes. Since then, due to their immense commercial value, recommender systems have evolved rapidly and relentlessly.</p>
+<p>From the classic recommender algorithms like collaborative filtering and matrix factorization, to the deep learning recommendation models(DLRM) of the past decade like YouTubeDNN, and now to the cutting-edge developments driven by LLMs and GenAI — such as HLLM and HSTU — the field has continuously adapted alongside advancements in computing, data availability, and model architectures.</p>
+<p>Before we dive deeper into the recent innovations, let’s first take a step back and look at the foundational algorithms from the pre-deep learning era — and the challenges they ran into along the way.</p>
+<hr>
+<h1 id="Before-Deep-Learning-Classic-Methods-and-Challenges"><a href="#Before-Deep-Learning-Classic-Methods-and-Challenges" class="headerlink" title="Before Deep Learning: Classic Methods and Challenges"></a>Before Deep Learning: Classic Methods and Challenges</h1><h2 id="Early-Development-and-Collaborative-Filtering"><a href="#Early-Development-and-Collaborative-Filtering" class="headerlink" title="Early Development and Collaborative Filtering"></a>Early Development and Collaborative Filtering</h2><p>As mentioned above, the story of recommender systems can be traced back to 1979 with the introduction of <strong>Grundy</strong>, one of the earliest attempts at personalized recommendations, developed by Daniel R. Carbonell and colleagues. Grundy was a dialogue-based book recommendation program. It built a user profile by asking personality-related questions and then used expert rules to match users with suitable books. While primitive, this system already reflected two fundamental concepts later central to content recommendation: user modeling and content-based filtering. Grundy didn’t rely on data from other users but rather functioned more like a rule-based expert system.</p>
+<p>In the 1980s, with the rise of expert systems, recommendation-related research started to emerge, mainly focusing on content modeling and information retrieval. For example, some researchers explored keyword matching or topic classification to recommend academic papers or news articles. These early systems were typically rule-driven and static, lacking the ability to learn and adapt to user preferences over time.</p>
+<p>A turning point came in the early 1990s, as the internet became more widely used and user behavior data started accumulating. In 1992, Goldberg et al. at Xerox PARC introduced the <em>Tapestry</em> system, which marked the formal birth of <strong>collaborative filtering</strong> (CF). Unlike Grundy’s content-and-rule approach, <em>Tapestry</em> leveraged the behaviors of other users as signals for recommendations—introducing the power of “collective intelligence” into the field. The key idea was: “birds of a feather flock together”—i.e., <em>if user A and user B have rated many items similarly, then user B’s preferences can help predict what user A might like. This social insight paved the way for data-driven recommendation systems.</em></p>
+<p>Collaborative filtering algorithms are typically divided into two types: <strong>User-based CF</strong> and <strong>Item-based CF</strong>. While the underlying principle is the same, the focus of similarity computation differs:</p>
+<ol>
+<li><p><strong>User-based CF</strong>: Finds a group of users with preferences similar to the target user by analyzing past behavior, and predicts the target user’s preferences based on those of their <em>“neighbors”</em>.</p>
+</li>
+<li><p><strong>Item-based CF</strong>: Identifies items that are similar based on common user preferences, then recommends to the user new items that are similar to those they’ve liked in the past.</p>
+</li>
+</ol>
+<img src="./images/recblog/CL_image.png" alt="Matrix Factorization in Collaborative Filtering for Movie Recommendation" width="600"/>
+<div style="color:gray; text-align:center;">Fig.1 Matrix Factorization in Collaborative Filtering for Movie Recommendation</div>
+
+<p>&nbsp;</p>
+<p>A typical user-based collaborative filtering pipeline includes the following steps:</p>
+<ol>
+<li><strong>Compute Similarity:</strong> Given a user–item rating matrix, compute the similarity between the target user $u$ and other users $v$. Common metrics include <em>cosine similarity</em> and <em>Pearson correlation coefficient</em>. For example:</li>
+</ol>
+<img src="./images/recblog/equation_1.png" width="300"/>
+
+<p style="text-indent: 2em;">where $I_{uv}$ is the set of items rated by both users $u$ and $v$.</p>
+
+<ol start="2">
+<li><p><strong>Find Neighbor Users:</strong> Select the top-$N$ most similar users to $u$ as neighbors $N(u)$ based on the similarity scores.</p>
+</li>
+<li><p><strong>Predict Ratings:</strong> Use the neighbors’ ratings to estimate how $u$ might rate an item $i$ (that they haven’t rated yet), often using a weighted average:</p>
+</li>
+</ol>
+<img src="./images/recblog/equation_2.png" width="200"/>
+
+<p style="text-indent: 2em;">where $r_{v,i}$ is the rating given by neighbor $v$ to item $i$.</p>
+
+
+<ol start="4">
+<li><strong>Generate Recommendations:</strong> Rank items not yet seen by $u$ based on predicted scores, and recommend the top items.</li>
+</ol>
+<p>In real-world applications, collaborative filtering quickly proved powerful. In 1994, the GroupLens project at the University of Minnesota launched an open news recommendation system, marking one of the first successful deployments of CF in an online community. Their approach was built on a simple yet effective heuristic: “those who agreed in the past are likely to agree in the future.” Later, the GroupLens team released the now-famous MovieLens dataset (first published in 1998), which contains thousands of users’ ratings on thousands of movies. It remains a standard benchmark for evaluating recommender algorithms.</p>
+<p>Item-based CF also saw enormous success in industry. In 1998, Amazon was among the first to deploy an item-based collaborative filtering system for personalized product recommendations. Unlike UserCF, Amazon’s method precomputes similarity between items, making the recommendation process independent of the number of users—greatly improving scalability. As their engineers pointed out, ItemCF can deliver real-time recommendations with computation costs independent of user and product counts, making it feasible to handle tens of millions of users and millions of items. The basic process: for each product a user has purchased or liked, find a list of similar products, then merge and rank these lists to produce the final recommendations. Amazon’s success established real-time, high-quality personalized recommendations as a cornerstone of modern e-commerce.</p>
+<h2 id="Matrix-Factorization-From-Neighborhood-Methods-to-Latent-Factor-Models"><a href="#Matrix-Factorization-From-Neighborhood-Methods-to-Latent-Factor-Models" class="headerlink" title="Matrix Factorization: From Neighborhood Methods to Latent Factor Models"></a>Matrix Factorization: From Neighborhood Methods to Latent Factor Models</h2><p>As the number of users and items continued to grow, traditional neighborhood-based collaborative filtering methods began to face significant challenges—most notably <strong>data sparsity</strong> and <strong>scalability</strong>. To address these issues, researchers turned to <strong>matrix factorization</strong> (MF), a model-based approach that maps high-dimensional user–item interactions into a low-dimensional <em>latent factor space</em>. At its core, matrix factorization is a form of <em>dimensionality reduction</em>, assuming that both users and items can be described by a small number of latent features that capture their underlying preferences or characteristics.</p>
+<p>Formally, given a set of users $U$ and items $I$, we define two matrices: $P \in \mathbb{R}^{|U| \times k}$ representing latent vectors for all users, and $Q \in \mathbb{R}^{|I| \times k}$ for all items, where $k$ is the number of latent dimensions (much smaller than the number of users or items). The goal is to approximate the original rating matrix $R$ by the product of $P$ and $Q$. For any user $u$ and item $i$, the predicted rating is computed as:</p>
+<img src="./images/recblog/equation_3.png" width="200"/>
+
+<p>—that is, the dot product of the user and item vectors. The matrices $P$ and $Q$ are learned from observed ratings by minimizing the squared error between predicted and actual values, with a regularization term to prevent overfitting:</p>
+<img src="./images/recblog/equation_4.png" width="400"/>
+
+<p>Here, $K$ is the set of observed user–item pairs in the training data, and $\lambda$ is a regularization coefficient. Optimization techniques such as <strong>stochastic gradient descent (SGD)</strong> or <strong>alternating least squares (ALS)</strong> are typically used to train the model.</p>
+<p>Intuitively, matrix factorization embeds users and items into a shared <strong>latent semantic space</strong>, such that users are close to items they’re likely to prefer. For example, if <code>User Dave</code> ends up with a latent vector positioned close to those of <em>Ocean’s 11</em> and <em>The Lion King</em>, the model will likely predict that Dave enjoys these movies.</p>
+<p>The major breakthrough for matrix factorization came with the launch of the <strong>Netflix Prize</strong> in 2006. Netflix released a dataset containing 100 million user ratings and challenged the world to improve its recommendation algorithm by at least 10% in terms of RMSE over its existing neighborhood-based method. The competition drew massive attention—never before had such a large-scale recommendation dataset been made public. Researchers and engineers worldwide participated, openly sharing techniques and innovations.</p>
+<p>One particularly influential contribution came from <strong>Simon Funk</strong>, who posted on his blog a simple yet powerful matrix factorization algorithm (now known as <em>Funk-SVD</em>). His method demonstrated the effectiveness of MF for collaborative filtering and inspired many teams. Over time, enhanced versions of matrix factorization—incorporating bias terms, temporal dynamics, and more—dominated the leaderboard. In 2009, the BellKor team ultimately won the competition with a model ensemble containing hundreds of algorithms, but matrix factorization remained the core component of their solution.</p>
+<p>After competition, it became clear that the MF methods could <strong>capture the hidden structure</strong> of the user preferences much better than the traditional neighborhood methods, leading to significantly higher precision. The Netflix Prize brought matrix factorization into the spotlight across both academia and industry.</p>
+<p>Since then, <strong>latent factor models</strong> have become a dominant paradigm in recommender systems. Extensions such as <em>SVD++</em> (which incorporates implicit feedback) and <em>Factorization Machines (FM)</em> (which integrate regression-like modeling) were developed to further improve recommendation quality and incorporate richer information. Despite these variations, the core philosophy remains: use low-dimensional vectors to represent users and items, and frame the recommendation task as a problem of matching these vectors in space.</p>
+<p>In addition to the classic collaborative filtering and matrix factorization algorithms, the field of recommender systems saw an explosion of new methods after the Netflix Prize. One notable line of development was latent semantic models. Unlike collaborative filtering and matrix factorization, which rely solely on user behavior data, latent semantic models leverage content information about items or user attribute preferences. Through topic modeling, they uncover the hidden semantic relationships between users and items.</p>
+<p>Another important direction that emerged was to reframe recommendation as a graph problem. In graph-based models, we construct a user-item bipartite graph where nodes represent users and items, and edges represent interactions (e.g., ratings, clicks). We then apply graph-theoretic methods to extract recommendation insights.</p>
+<p>For instance, user-based collaborative filtering can be viewed as measuring proximity between users via shared items in the bipartite graph, while item-based CF focuses on item-item connections through common users. Graph-based models offer a unified view of similarity and propagation, giving rise to a range of novel algorithms.</p>
+<p>A representative example is <strong>ItemRank</strong>, which builds on the idea of random walks. The core concept is to simulate a user navigating through the user-item graph. Items that are reached more frequently during this walk are more likely to match the user’s interests. For example, if user U is connected to item A, and A is connected to many other users who also like item B, then there’s a likely path from <em>U → A → (other users) → B</em>. This implies that user U may also be interested in item B. By iteratively computing these transition probabilities, random walk-based algorithms assign a relevance score to each item for a given user, which can then be used to generate Top-N recommendations.</p>
+<h2 id="Limitations-of-Traditional-Recommendation-Methods"><a href="#Limitations-of-Traditional-Recommendation-Methods" class="headerlink" title="Limitations of Traditional Recommendation Methods"></a>Limitations of Traditional Recommendation Methods</h2><p>Before the rise of deep learning, recommendation systems primarily relied on traditional algorithms such as Collaborative Filtering. As previously discussed, these methods recommend items based on user behavior similarity. While the logic behind them is intuitive and easy to understand, they gradually revealed several shortcomings in real-world applications. One classical model-based improvement of collaborative filtering is Matrix Factorization, which enables the system to automatically learn the “latent factors” of users and items. By projecting the high-dimensional user-item interactions into a lower-dimensional latent space, matrix factorization helps alleviate the problem of data sparsity to some extent. However, traditional recommendation methods still face several inherent limitations when applied at industrial scale:</p>
+<ul>
+<li><p><strong>Cold Start Problem:</strong> When new users or new items appear, the system lacks historical interaction data to compute similarity or preference, making it difficult to generate recommendations. For example, a newly registered user with no watch or click history poses a challenge for interest prediction; likewise, newly added items without any user interactions are hard to recommend effectively. Traditional collaborative filtering relies heavily on past interactions, making it poorly equipped to handle cold start scenarios—especially for new users, although content-based filtering may help somewhat for new items.</p>
+</li>
+<li><p><strong>Data Sparsity:</strong> In real-world settings, user feedback (e.g., ratings or clicks) accounts for only a tiny fraction of all possible user-item pairs—often less than 1%. This leads to extremely sparse user-item matrices, where many users and items share no common interactions. As a result, computing user or item similarities becomes unreliable, which degrades recommendation performance. Researchers have proposed various solutions to mitigate sparsity, such as predicting missing entries or applying dimensionality reduction. Matrix factorization methods like SVD and latent semantic models are widely used because they reduce feature space dimensionality, thus helping to combat sparsity. However, these methods may also lose important information in the process, and cannot completely overcome the accuracy drop caused by extreme sparsity.</p>
+</li>
+<li><p><strong>Poor Scalability:</strong> As the number of users and items grows explosively, traditional algorithms struggle with computation and memory demands. Collaborative filtering requires calculating pairwise similarities or maintaining large similarity matrices, which becomes infeasible when users and items reach millions or billions. Matrix factorization also becomes computationally expensive on large-scale data and is difficult to update quickly to reflect dynamic user interests. This scalability issue limits the applicability of traditional methods in internet-scale recommendation scenarios that demand real-time performance and high precision.</p>
+</li>
+</ul>
+<p>In summary, while traditional recommendation methods laid the foundation for the field, their limitations in cold start handling, data sparsity, and scalability significantly restrict their effectiveness in industrial applications. These challenges motivated researchers to seek more advanced techniques, ultimately paving the way for deep learning to enter and transform the recommendation landscape.</p>
 
     </div>
 
@@ -217,8 +306,8 @@
       <i class="fa fa-chevron-left"></i> Solana小项目：简易SocialFi
     </a></div>
       <div class="post-nav-item">
-    <a href="/2025/04/23/recblog-2/" rel="next" title="recblog-2">
-      recblog-2 <i class="fa fa-chevron-right"></i>
+    <a href="/2025/04/23/recblog-2/" rel="next" title="How Recommendations Found Us - Part 2">
+      How Recommendations Found Us - Part 2 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -278,6 +367,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Intro"><span class="nav-number">1.</span> <span class="nav-text">Intro</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Overview"><span class="nav-number">2.</span> <span class="nav-text">Overview</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Before-Deep-Learning-Classic-Methods-and-Challenges"><span class="nav-number">3.</span> <span class="nav-text">Before Deep Learning: Classic Methods and Challenges</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Early-Development-and-Collaborative-Filtering"><span class="nav-number">3.1.</span> <span class="nav-text">Early Development and Collaborative Filtering</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Matrix-Factorization-From-Neighborhood-Methods-to-Latent-Factor-Models"><span class="nav-number">3.2.</span> <span class="nav-text">Matrix Factorization: From Neighborhood Methods to Latent Factor Models</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Limitations-of-Traditional-Recommendation-Methods"><span class="nav-number">3.3.</span> <span class="nav-text">Limitations of Traditional Recommendation Methods</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

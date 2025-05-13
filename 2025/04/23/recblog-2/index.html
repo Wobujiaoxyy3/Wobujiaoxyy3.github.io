@@ -20,17 +20,23 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="to be updated">
+  <meta name="description" content="DLRM: Deep learning-powered recommendation model YoutubeDNN With the rise of deep learning, the industry began turning to neural networks to enhance recommendation systems. A landmark in this transfor">
 <meta property="og:type" content="article">
-<meta property="og:title" content="recblog-2">
+<meta property="og:title" content="How Recommendations Found Us - Part 2">
 <meta property="og:url" content="http://example.com/2025/04/23/recblog-2/index.html">
 <meta property="og:site_name" content="Wobujiaoxyy3">
-<meta property="og:description" content="to be updated">
+<meta property="og:description" content="DLRM: Deep learning-powered recommendation model YoutubeDNN With the rise of deep learning, the industry began turning to neural networks to enhance recommendation systems. A landmark in this transfor">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2025/04/23/recblog-2/images/recblog/youtubednn.png">
+<meta property="og:image" content="http://example.com/2025/04/23/recblog-2/images/recblog/dr.png">
+<meta property="og:image" content="http://example.com/2025/04/23/recblog-2/images/recblog/hstu.png">
+<meta property="og:image" content="http://example.com/2025/04/23/recblog-2/images/recblog/hllm.png">
+<meta property="og:image" content="http://example.com/2025/04/23/recblog-2/images/recblog/dd.png">
 <meta property="article:published_time" content="2025-04-23T15:10:00.000Z">
 <meta property="article:modified_time" content="2025-04-30T12:55:38.000Z">
 <meta property="article:tag" content="RecBlog">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2025/04/23/recblog-2/images/recblog/youtubednn.png">
 
 <link rel="canonical" href="http://example.com/2025/04/23/recblog-2/">
 
@@ -45,7 +51,7 @@
   };
 </script>
 
-  <title>recblog-2 | Wobujiaoxyy3</title>
+  <title>How Recommendations Found Us - Part 2 | Wobujiaoxyy3</title>
   
 
 
@@ -163,7 +169,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          recblog-2
+          How Recommendations Found Us - Part 2
         </h1>
 
         <div class="post-meta">
@@ -194,7 +200,333 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>to be updated</p>
+        <h1 id="dlrm-deep-learning-powered-recommendation-model">DLRM: Deep
+learning-powered recommendation model</h1>
+<h2 id="youtubednn">YoutubeDNN</h2>
+<p>With the rise of deep learning, the industry began turning to neural
+networks to enhance recommendation systems. A landmark in this
+transformation was Google’s 2016 paper outlining YouTube’s
+recommendation architecture. As the world’s largest video platform with
+an enormous volume of users and content, YouTube faced unique
+scalability challenges that traditional collaborative filtering simply
+couldn’t handle. To address this, the YouTube team designed a two-stage
+deep neural network architecture—splitting the recommendation process
+into candidate generation and ranking, each handled by a separate neural
+network. This architecture forms an effective “funnel”: starting from
+millions of videos, narrowing down to a few hundred candidates, and
+finally surfacing the most relevant few to the user.</p>
+<img src="./images/recblog/youtubednn.png" alt="YoutubeDNN Network Architecture" width="600"/>
+<div style="color:gray; text-align:center;">
+Fig.2 YoutubeDNN Network Architecture
+</div>
+<p> </p>
+<h3 id="stage-1-candidate-generation">Stage 1: Candidate Generation</h3>
+<p>In the candidate generation stage, the system must quickly identify a
+few hundred potentially relevant videos from millions of possibilities.
+This is framed as an extreme multi-class classification problem: given a
+user and their context, predict which videos they are likely to watch
+from a massive pool of candidates.</p>
+<p>To solve this, YouTube trained a large-scale neural network that maps
+a user’s historical behavior into a low-dimensional embedding vector—the
+“user embedding.” This vector is then used to retrieve the most similar
+video embeddings from the video corpus. Specifically, the user’s watch
+history (video IDs) is embedded and averaged into a “watch vector”;
+likewise, search queries are tokenized, embedded, and averaged into a
+“search vector.” These vectors, along with contextual features (e.g.,
+location, device type) and demographic attributes (e.g., age, gender),
+are input into the network.</p>
+<p>After passing through multiple non-linear layers, the network outputs
+a fixed-length user vector. Training optimizes the similarity (typically
+dot product) between this user vector and the embedding of videos the
+user actually watched. Since computing the softmax over millions of
+classes is computationally intensive, YouTube employed techniques like
+negative sampling to speed up training. Ultimately, the candidate
+generation model learns to embed users in a latent interest space, where
+proximity to a video indicates relevance.</p>
+<p>A notable strength of this approach is the use of demographic
+features to provide reasonable priors for cold-start users. Even with
+little or no history, the model can infer initial preferences based on
+attributes like age and gender. This offers a clear advantage over
+traditional collaborative filtering, which struggles with cold-start
+scenarios. Deep learning models can incorporate such side information,
+improving the quality of early-stage recommendations.</p>
+<h3 id="stage-2-ranking">Stage 2: Ranking</h3>
+<p>After narrowing down the candidate set, the system enters the ranking
+stage, where each candidate video is scored more precisely to determine
+the final top-N recommendations. The ranking model is also a deep neural
+network but takes in a much richer set of features, including user
+attributes, video-specific metadata (e.g., category, duration, content
+embeddings), and interaction context (e.g., whether the user has engaged
+with the creator before).</p>
+<p>These features include both continuous values (like the number of
+times a user has watched videos from a specific channel) and categorical
+inputs (like video ID or channel ID). All features are embedded,
+normalized, and passed through several hidden layers to model complex
+user-video interactions.</p>
+<img src="./images/recblog/dr.png" alt="Deep Ranking Network Architecture" width="600"/>
+<div style="color:gray; text-align:center;">
+Fig.3 Deep Ranking Network Architecture
+</div>
+<p> </p>
+<p>Crucially, the model captures nonlinear combinations of hundreds of
+features, significantly boosting expressive power compared to earlier
+linear models. The output can be a predicted watch probability or
+expected watch time. YouTube chose to weight positive samples by watch
+time, encouraging the model to prioritize content that users are likely
+to engage with for longer durations. This modification aligns better
+with YouTube’s long-term engagement goals, and live A/B tests confirmed
+improvements in total watch time and user satisfaction.</p>
+<h3 id="summary">Summary</h3>
+<p>YouTube’s two-stage architecture—deep neural networks for both
+candidate generation and ranking—effectively overcame many limitations
+of traditional methods. The model integrates massive volumes of implicit
+feedback (e.g., watches, searches), and through deep neural
+architectures, captures complex nonlinear relationships among features.
+Empirical results showed it significantly outperformed earlier matrix
+factorization approaches.</p>
+<p>In addition, the architecture’s ability to fuse multimodal and
+multisource features—including user profiles, video content, and
+contextual signals—enables better handling of cold start and sparsity
+issues. For example, demographic information allows the system to
+provide reasonable recommendations to new users without any interaction
+history.</p>
+<p>From a scalability perspective, the two-stage funnel design ensures
+that recommendations can be made in real-time, even with millions of
+items in the corpus. This architecture has since become the industry
+standard, inspiring countless modern systems that adopt similar
+two-tower designs (e.g., Matching &amp; Reranking) to balance
+scalability and recommendation quality.</p>
+<hr />
+<h2 id="metas-hstu">Meta’s HSTU</h2>
+<p>Although two-tower DNN architectures have dominated industrial
+recommendation systems in recent years, there is growing evidence that
+these models hit a scalability ceiling. Industry practitioners have
+observed that traditional deep recommendation models—such as Facebook’s
+DLRM—often plateau in performance even as model complexity and training
+data are increased. In other words, simply scaling up the model size
+does not necessarily lead to meaningful performance gains.</p>
+<p>In contrast, the Transformer architecture has demonstrated remarkable
+scalability in the field of natural language processing: models grow
+from hundreds of millions to hundreds of billions of parameters while
+continuing to improve. Inspired by this trend, Meta researchers proposed
+a bold question: What if user behavior sequences were treated like
+language? Could a ChatGPT-style generative model predict what users will
+do next?</p>
+<p>This leads to the idea of <strong>Generative Recommendation</strong>:
+reframing the recommendation problem as a sequence generation task. The
+model observes a user’s interaction history— <em>“watched A, liked B,
+browsed C…”</em> —and, just like a language model predicts the next
+word, it predicts which item the user is likely to engage with next.
+This paradigm shift could redefine how recommender systems operate.</p>
+<h3 id="key-challenges-in-generative-recommendation">Key Challenges in
+Generative Recommendation</h3>
+<p>However, modeling user behavior as natural language poses major
+challenges:</p>
+<ul>
+<li><p><strong>Highly Heterogeneous Features:</strong> Unlike words in a
+sentence, each user interaction includes a wide variety of signals—user
+ID, item ID, action type (e.g., view, like), timestamps, numerical
+values (e.g., dwell time, rating), and more. How can we represent such
+multi-modal, multi-scale features uniformly as input to a
+model?</p></li>
+<li><p><strong>Massive and Dynamic Vocabulary:</strong> In
+recommendation, the “vocabulary” can include hundreds of millions of
+item IDs, with new items and users constantly appearing. This
+non-stationary, ultra-large vocabulary makes traditional language model
+techniques like fixed softmax layers impractical—inefficient and hard to
+generalize.</p></li>
+<li><p><strong>Computational Cost:</strong> Treating every user action
+as a token inflates the training data to astronomical scale. With 100
+million users generating interactions daily, the number of tokens can
+reach trillions per day—hundreds of times larger than what GPT-3 was
+trained on.</p></li>
+</ul>
+<h3
+id="the-hstu-architecture-hierarchical-sequential-transduction-unit">The
+HSTU Architecture: Hierarchical Sequential Transduction Unit</h3>
+<p>To tackle these issues, Meta proposed a novel architecture in 2024
+called <strong>HSTU</strong> (Hierarchical Sequential Transduction
+Unit)—a Transformer-inspired framework purpose-built for recommendation.
+HSTU introduces several key innovations that make generative modeling
+practical at industry scale:</p>
+<img src="./images/recblog/hstu.png" alt="Comparison of Key Model Components:DLRMs vs simplified HSTU" width="400"/>
+<div style="color:gray; text-align:center;">
+Fig.4 Comparison of Key Model Components:DLRMs vs simplified HSTU
+</div>
+<p> </p>
+<ul>
+<li><p><strong>Feature Serialization &amp; Unified Input Space:</strong>
+HSTU adopts the “feature-as-token” philosophy, where heterogeneous
+user/item/context features are encoded as a single unified sequence—just
+like words in a sentence. For example, a viewing event becomes a
+structured sequence: [item ID], [item category], [device type], etc.
+This allows all features to be processed by a shared Transformer
+encoder. Unlike traditional DLRMs that separately handle feature
+extraction, interaction, and representation, HSTU fuses these stages
+into one stackable module with sub-layers for projection, cross-feature
+aggregation, and non-linear transformation. As a result, feature
+interaction is learned end-to-end by the model without the need for
+handcrafted preprocessing pipelines.</p></li>
+<li><p><strong>Pointwise Attention for Dynamic Vocabularies:</strong>
+Instead of relying on traditional softmax attention—which assumes a
+fixed vocabulary—HSTU uses pointwise aggregated attention, where each
+query is normalized independently. This makes the model more robust to
+streaming data and evolving vocabularies. Combined with layered soft
+attention and stochastic length truncation, HSTU improves long-sequence
+processing efficiency. In practice, it delivers over 5× speedup compared
+to standard Transformers (thanks to optimized GPU kernels), and scales
+gracefully to sequences of up to 8192 tokens.</p></li>
+<li><p><strong>Scalability and Performance Gains:</strong> Thanks to its
+modular design, HSTU supports deeper and wider architectures. Meta
+scaled the model from billions to over a trillion parameters, observing
+consistent improvements following a power-law trend. The final
+1.5-trillion-parameter generative recommendation model was successfully
+deployed across multiple products on Meta’s platform, serving billions
+of users. Online A/B testing showed a 12.4% lift in key engagement
+metrics—an unprecedented leap in industrial recommendation systems.
+Furthermore, inference optimizations enabled HSTU to match production
+latency targets despite being hundreds of times more complex than legacy
+models. On public datasets, HSTU outperformed prior sequence-based
+models by a wide margin (e.g., up to 65.8% gain in NDCG).</p></li>
+</ul>
+<h3 id="foundation-models-for-recommendations">Foundation Models for
+Recommendations</h3>
+<p>Through HSTU, Meta has successfully introduced the power of large
+generative models into recommendation systems. Compared to traditional
+DLRM pipelines, HSTU offers a more unified, sequence-native, and
+extensible architecture capable of capturing rich user behavior at
+massive scale. This approach signals the arrival of foundation models in
+recommender systems—general-purpose, pre-trained models that can be
+fine-tuned for specific applications with minimal additional data or
+compute.</p>
+<p>In the future, companies may train a single, universal recommendation
+model that internalizes the behavior patterns of billions of users and
+serves as the backbone for multiple recommendation tasks. This paradigm
+could drastically reduce the cost and complexity of building custom
+models for every product surface, marking a new era of scalable,
+intelligent personalization.</p>
+<hr />
+<h2 id="kuaishous-hllm">Kuaishou’s HLLM</h2>
+<p>The exploration of large models in recommendation systems is not
+limited to Meta. Chinese short video platform Kuaishou has also proposed
+its own large-model-based recommendation architecture:
+<strong>HLLM</strong> (Hierarchical Large Language Model). Unlike HSTU,
+which was built from the ground up with a custom architecture, HLLM
+takes advantage of existing pre-trained large language models (LLMs) and
+integrates them seamlessly into the recommendation pipeline.</p>
+<img src="./images/recblog/hllm.png" alt="Architecture of Hierarchical Large Language
+Model" width="400"/>
+<div style="color:gray; text-align:center;">
+Fig.5 Architecture of Hierarchical Large Language Model
+</div>
+<p> </p>
+<p>At its core, HLLM splits the recommendation task into two distinct
+steps: item content understanding and user interest modeling, each
+handled by a different LLM. This dual-layer LLM architecture leverages
+the natural language understanding strength of pre-trained models to
+solve challenges like cold start and efficient sequence modeling.</p>
+<h3 id="step-1-understanding-item-content-with-the-item-llm">Step 1:
+Understanding Item Content with the Item LLM</h3>
+<p>The Item LLM is responsible for generating rich semantic
+representations for each item based on its textual content—titles,
+descriptions, transcripts, etc. It reads the item’s text similarly to
+how an LLM processes natural language and outputs a semantic embedding
+that captures the item’s core themes, style, and attributes. For
+instance, a video described as “funny, cat, voice-over” will be embedded
+into a vector space that places it near other similar videos. Unlike
+traditional ID-based encodings, these vectors contain world knowledge
+and nuanced semantics learned from massive pre-training corpora.</p>
+<p>This allows the system to handle <strong>cold-start items</strong>
+effectively. Even if a new video has no interaction history, the Item
+LLM can infer its likely category or audience based on its content,
+enabling it to be recommended right away—an important improvement over
+traditional models that require interaction data to make accurate
+predictions.</p>
+<h3 id="step-2-modeling-user-interests-with-the-user-llm">Step 2:
+Modeling User Interests with the User LLM</h3>
+<p>The User LLM takes as input the sequence of item embeddings produced
+by the Item LLM, representing a user’s past interactions. Instead of
+processing raw content, the User LLM works with these compact semantic
+vectors. For example, if a user previously watched videos A, B, and C,
+their embeddings (Va, Vb, Vc) are fed into the User LLM to predict the
+next item vector or directly generate the next likely item ID.</p>
+<p>Since the User LLM handles short, dense embeddings rather than
+lengthy text, sequence modeling becomes significantly more efficient.
+Conceptually, the User LLM behaves like a fine-tuned GPT model, but
+instead of generating words, it “writes” the next user behavior. After
+fine-tuning on massive behavioral logs, the model learns to predict
+future interests based on the semantic patterns in the user’s
+history.</p>
+<h3 id="key-benefits-of-the-hllm-architecture">Key Benefits of the HLLM
+Architecture</h3>
+<p>One major benefit of HLLM is how effectively it mitigates the cold
+start problem. As long as an item has a textual description, it won’t be
+treated as a complete unknown. Even without any interactions, the Item
+LLM can produce a meaningful representation, allowing the User LLM to
+match it to the right users. Similarly, for new users, early
+interactions or self-declared interests can be converted into embeddings
+by the Item LLM, giving the system a head start on modeling their
+preferences.</p>
+<p>The dual-layer design also improves both modeling accuracy and
+computational efficiency. Since content has already been compressed into
+embeddings, the User LLM deals with much shorter sequences. Kuaishou
+reports excellent scalability and deployment feasibility: their largest
+configuration uses two 7-billion-parameter LLMs—one for items and one
+for users—while still achieving efficient training and serving in
+production. Semantic embeddings can be precomputed and cached, so that
+the User LLM only processes user-side data in real time, reducing
+latency and compute overhead. This separation of roles allows large
+models to be practically deployed in recommendation systems, unlike
+monolithic architectures that demand huge online resources.</p>
+<h3 id="leveraging-pretrained-knowledge-effectively">Leveraging
+Pretrained Knowledge Effectively</h3>
+<p>Another strength of HLLM is its effective use of knowledge from
+open-source pretrained LLMs. These models encode commonsense and domain
+knowledge from the web. For example, the model might “know” that fans of
+a sci-fi movie are likely to enjoy related merchandise, or that viewers
+of a travel vlog might also be interested in flight deals. By
+fine-tuning the pre-trained model on domain-specific recommendation
+data, HLLM enhances this general knowledge with task-specific
+reasoning.</p>
+<p>Kuaishou’s experiments show that using open-source models (e.g.,
+ChatGPT-style LLMs) with minimal modification already yields strong
+performance. However, fine-tuning for recommendation-specific tasks
+leads to significant performance gains, confirming the value of both
+pretrained weights and targeted adaptation. This answers a key open
+question in the field: yes, pretrained weights are valuable for
+recommendation—but fine-tuning is essential to unlock their full
+potential.</p>
+<h3 id="real-world-validation-at-scale">Real-World Validation at
+Scale</h3>
+<p>What’s most compelling is HLLM’s performance in real-world,
+large-scale scenarios. Kuaishou evaluated HLLM on two massive
+datasets—PixelRec and Amazon Reviews—and found that it outperformed
+traditional ID-based models by a wide margin, reaching state-of-the-art
+results. Even more impressively, online A/B tests confirmed meaningful
+gains in engagement and user satisfaction. After deployment, core
+business metrics improved, proving that large language models in
+recommendation are not just an academic curiosity, but a viable,
+effective solution for production systems.</p>
+<img src="./images/recblog/dd.png" alt="An Overview of the Depolyed HLLM System" width="600"/>
+<div style="color:gray; text-align:center;">
+Fig.6 An Overview of the Depolyed HLLM System
+</div>
+<p> </p>
+<h3 id="a-glimpse-into-the-future-of-recommendation">A Glimpse into the
+Future of Recommendation</h3>
+<p>HLLM represents a new path for recommendation systems—one that deeply
+integrates content understanding and user modeling via large language
+models. Its layered structure divides responsibility across models,
+allowing them to specialize and collaborate. By addressing cold start,
+long-sequence modeling, and scaling challenges, while also leveraging
+pretrained knowledge, HLLM shows how recommendation systems can evolve
+in the large-model era.</p>
+<p>From early collaborative filtering to YouTube’s deep two-tower
+systems, and now to cutting-edge generative and pretrained architectures
+led by Meta and Kuaishou, we are witnessing a paradigm shift. For
+beginners and professionals alike, this evolution reflects how AI is
+reshaping personalization—from “people who liked this also liked…” to
+LLMs that can truly understand what users want and why.</p>
 
     </div>
 
@@ -213,12 +545,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2025/04/23/recblog-1/" rel="prev" title="recblog-1">
-      <i class="fa fa-chevron-left"></i> recblog-1
+    <a href="/2025/04/23/recblog-1/" rel="prev" title="How Recommendations Found Us - Part 1">
+      <i class="fa fa-chevron-left"></i> How Recommendations Found Us - Part 1
     </a></div>
       <div class="post-nav-item">
-    <a href="/2025/04/23/recblog-3/" rel="next" title="recblog-3">
-      recblog-3 <i class="fa fa-chevron-right"></i>
+    <a href="/2025/04/23/recblog-3/" rel="next" title="How Recommendations Found Us - Part 3">
+      How Recommendations Found Us - Part 3 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -278,6 +610,17 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#dlrm-deep-learning-powered-recommendation-model"><span class="nav-number">1.</span> <span class="nav-text">DLRM: Deep
+learning-powered recommendation model</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#youtubednn"><span class="nav-number">1.1.</span> <span class="nav-text">YoutubeDNN</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#stage-1-candidate-generation"><span class="nav-number">1.1.1.</span> <span class="nav-text">Stage 1: Candidate Generation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#stage-2-ranking"><span class="nav-number">1.1.2.</span> <span class="nav-text">Stage 2: Ranking</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#summary"><span class="nav-number">1.1.3.</span> <span class="nav-text">Summary</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#metas-hstu"><span class="nav-number">1.2.</span> <span class="nav-text">Meta’s HSTU</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#key-challenges-in-generative-recommendation"><span class="nav-number">1.2.1.</span> <span class="nav-text">Key Challenges in
+Generative Recommendation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#the-hstu-architecture-hierarchical-sequential-transduction-unit"><span class="nav-number">1.2.2.</span> <span class="nav-text">The
+HSTU Architecture: Hierarchical Sequential Transduction Unit</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#foundation-models-for-recommendations"><span class="nav-number">1.2.3.</span> <span class="nav-text">Foundation Models for
+Recommendations</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#kuaishous-hllm"><span class="nav-number">1.3.</span> <span class="nav-text">Kuaishou’s HLLM</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#step-1-understanding-item-content-with-the-item-llm"><span class="nav-number">1.3.1.</span> <span class="nav-text">Step 1:
+Understanding Item Content with the Item LLM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#step-2-modeling-user-interests-with-the-user-llm"><span class="nav-number">1.3.2.</span> <span class="nav-text">Step 2:
+Modeling User Interests with the User LLM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-benefits-of-the-hllm-architecture"><span class="nav-number">1.3.3.</span> <span class="nav-text">Key Benefits of the HLLM
+Architecture</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#leveraging-pretrained-knowledge-effectively"><span class="nav-number">1.3.4.</span> <span class="nav-text">Leveraging
+Pretrained Knowledge Effectively</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#real-world-validation-at-scale"><span class="nav-number">1.3.5.</span> <span class="nav-text">Real-World Validation at
+Scale</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#a-glimpse-into-the-future-of-recommendation"><span class="nav-number">1.3.6.</span> <span class="nav-text">A Glimpse into the
+Future of Recommendation</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
